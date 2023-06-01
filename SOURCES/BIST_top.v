@@ -10,8 +10,7 @@
 `timescale 1 ps / 1 ps
 
 module BIST_top
-   (Trash,
-    SYS_CLK3_P,
+   (SYS_CLK3_P,
     SYS_CLK3_N,
     resetn,
     USB_UART_RX,
@@ -19,7 +18,6 @@ module BIST_top
     );
     
     
-  output Trash;
   input SYS_CLK3_P;
   input SYS_CLK3_N;
   input resetn;
@@ -27,7 +25,6 @@ module BIST_top
   output USB_UART_TX;
   
 
-  wire Trash;
   wire resetn;
   wire clk_out;
   reg temp_rst;
@@ -63,8 +60,7 @@ module BIST_top
 //    end
 
   top top_i
-       (.Trash(Trash),
-        .clk(clk_out),
+       (.clk(clk_out),
         .resetn(resetn),
         .USB_UART_RX(USB_UART_RX),
         .USB_UART_TX(USB_UART_TX));

@@ -28,8 +28,6 @@ set_property PACKAGE_PIN G31 [get_ports SYS_CLK3_P]
 set_property PACKAGE_PIN F31 [get_ports SYS_CLK3_N]
 set_property IOSTANDARD LVDS [get_ports SYS_CLK3_P]
 
-set_property PACKAGE_PIN B28 [get_ports Trash]
-set_property IOSTANDARD LVCMOS18 [get_ports Trash]
 create_clock -period 10.000 -name sysclk3 [get_ports SYS_CLK3_P]
 
 

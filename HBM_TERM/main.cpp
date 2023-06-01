@@ -8,6 +8,8 @@
 #include <chrono>
 #include <thread>
 
+// Yes, I did have chatGPT make the basic UART interface for me
+
 // Function to open the serial port
 int openSerialPort(const char *port)
 {
@@ -59,50 +61,31 @@ void writeSerialPort(int fd, const std::string &data)
     write(fd, data.c_str(), data.length());
 }
 
-// // Function to read data from the serial port
-// std::string readSerialPort(int fd, std::string &data)
-// {
-//     const int bufferSize = 128;
-//     char buffer[bufferSize];
+// Function to read data from the serial port
+std::string readSerialPort(int fd, std::string &data)
+{
+    const int bufferSize = 128;
+    char buffer[bufferSize];
 
-//     int i = 0;
-//     bool status = true;
-//     while (status)
-//     {
+    int i = 0;
+    bool status = true;
+    while (status)
+    {
 
-//         int bytesRead = read(fd, buffer, bufferSize - 1);
-//         if (bytesRead == 1)
-//         {
-//             buffer[bytesRead] = '\0';
-//             data = buffer;
-//             status = false;
-//         }
-//         else if (bytesRead > 1)
-//         {
-//             std::cout << "[ERR]: received abnormal byte. Read [" << bytesRead << "] bytes. Rerequesting..." << std::endl;
-//             writeSerialPort(fd, data + "\n");
-//             i = 0;
-//         }
-//         else
-//         {
-//             ++i;
-//         }
-
-//         if (i >= 100000)
-//         {
-//             std::cout << "[ERR]: no byte received. Rerequesting..." << std::endl;
-//             writeSerialPort(fd, data + "\n");
-//             i = 0;
-//         }
-//     }
-//     if (data != "A" && data != "B" && data != "C" && data != "D")
-//     {
-//         std::cout << data;
-//     }
-//     std::cout << std::endl
-//               << data << std::endl;
-//     return data;
-// }
+        int bytesRead = read(fd, buffer, bufferSize - 1);
+        if (bytesRead > 0)
+        {
+            buffer[bytesRead] = '\0';
+            data = buffer;
+            status = false;
+        }
+    }
+    if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E")
+    {
+        std::cout << "Received unknown bytes: [" << data << "]" << std::endl;
+    }
+    return data;
+}
 
 std::string encodeInstruction(std::string input)
 {
@@ -121,6 +104,10 @@ std::string encodeInstruction(std::string input)
     else if (input == "read_set")
     {
         return "3";
+    }
+    else if (input == "rw_set")
+    {
+        return "4";
     }
     else
     {
@@ -158,6 +145,10 @@ std::string decodeResponse(std::string response)
     {
         return "set mode to \"read\"";
     }
+    else if (response == "E")
+    {
+        return "set mode to \"concurrent reads and writes\"";
+    }
     else if (response == "?")
         return "[ERR] : ?";
     else
@@ -165,41 +156,6 @@ std::string decodeResponse(std::string response)
         return "[ERR]";
     }
 }
-
-// void autoLoop(int fd)
-// {
-//     // FIXME
-//     std::string userInput;
-//     int count = 0;
-//     while (true)
-//     {
-//         ++count;
-//         std::this_thread::sleep_for(std::chrono::milliseconds(50));
-//         // Read user input
-//         std::cout << count << " HBM > ";
-//         userInput = "start";
-
-//         // Check for exit condition
-//         if (userInput == "exit")
-//         {
-//             break;
-//         }
-
-//         std::string encodedInstruction = encodeInstruction(userInput);
-
-//         if (!encodedInstruction.empty())
-//         {
-//             // Send command to the device
-//             writeSerialPort(fd, encodedInstruction + "\n");
-
-//             // Read and display response
-//             // std::string response = readSerialPort(fd, encodedInstruction);
-//             std::cout << std::endl
-//                       << decodeResponse(response) << std::endl
-//                       << std::endl;
-//         }
-//     }
-// }
 
 int main()
 {
@@ -213,13 +169,29 @@ int main()
     configureSerialPort(fd, baudRate);
     std::string userInput;
 
+    // Initialize
+    std::cout << "Initializing" << std::flush;
+    // Do some interesting toggleing of start and stop.For some reason this makes the reads ramp up to their max speed.
+    // for (int i = 0; i < 12; ++i)
+    // {
+    //     writeSerialPort(fd, "0\n");
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    //     writeSerialPort(fd, "1\n");
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    //     std::cout << "." << std::flush;
+    // }
+    // std::cout << std::endl
+    //           << "Initialization Complete." << std::endl
+    //           << std::endl;
+
     // Main loop
 
     while (true)
     {
 
         // Read user input
-        std::cout << "HBM > ";
+        std::cout << "\033[33mHBM "
+                  << "\033[39m> ";
         std::getline(std::cin, userInput);
 
         // Check for exit condition
@@ -227,10 +199,6 @@ int main()
         {
             break;
         }
-        // if (userInput == "auto")
-        // {
-        //     autoLoop(fd);
-        // }
 
         std::string encodedInstruction = encodeInstruction(userInput);
 
@@ -239,11 +207,10 @@ int main()
             // Send command to the device
             writeSerialPort(fd, encodedInstruction + "\n");
 
-            // // Read and display response
-            // std::string response = readSerialPort(fd, encodedInstruction);
-            // std::cout << std::endl
-            //           << decodeResponse(response) << std::endl
-            //           << std::endl;
+            // Read and display response
+            std::string response = readSerialPort(fd, encodedInstruction);
+            std::cout << " - " << decodeResponse(response) << std::endl
+                      << std::endl;
         }
     }
 

@@ -1,15 +1,15 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
+// Company: Brigham Young University
+// Engineer: Collin Lambert
 // 
 // Create Date: 05/16/2023 11:05:09 AM
 // Design Name: 
 // Module Name: BIST
-// Project Name: 
+// Project Name: HBM_HEATING
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: This is a state machine that allows for reading and writing to an HBM chip
 // 
 // Dependencies: 
 // 
@@ -27,17 +27,15 @@ module BIST #(parameter bist_num = 0) (
         //input wire [31:0] csr_port_mask,        //Defines which ports are set to read/write
         input wire csr_start,                   //Tells the BIST when to begin/end
         //input wire [31:0] csr_data_pattern,     //The pattern of data to be written     
-        input wire read_or_write,               //0 for read, 1 for write     
+        input wire [2:0] read_or_write,               //0 for read, 1 for write, 2 for read and write    
         
         
         //INDIVIDUAL CSRs
-        output logic csr_exec_done_status,      //Signal indicating if the port is in the wait state
         output logic [31:0] csr_total_reads,    //Total number of reads
         output logic [31:0] csr_total_writes,   //Total number of writes
-        output logic [31:0] csr_ticks,          //Number of clock cycles taken per transaction
+        output logic [31:0] csr_read_ticks,          //Number of clock cycles taken per transaction
+        output logic [31:0] csr_write_ticks,
         //input wire [31:0] address_readwrite,    //Address to read and write to
-        //input wire [31:0] delay_ctr_max,        //32 bit signal to set the number of clock cycles to delay after every transaction of reading/writing
-        output logic delay_stat_fsm,            //Signal indicating if the port is in the pause state
                
                
         //AXI
@@ -83,7 +81,7 @@ module BIST #(parameter bist_num = 0) (
         
     );
     
-    //NUM_BYTES = fff = 4095
+    //NUM_BYTES = fff = 4096
     //BEATS_PER_BURST = 16
     //BYTES_PER_BEAT = 32
     
@@ -110,42 +108,50 @@ module BIST #(parameter bist_num = 0) (
     wire [3:0] last_burst_len;  //The number of bursts in the last transaction   32 bytes
     assign last_burst_len = 0; 
     
-    wire [31:0] burst_quantity; //The number of transactions per reading or writing command.
-    assign burst_quantity = 15; 
-    assign axi_arlen = burst_quantity;
-    assign axi_awlen = burst_quantity;
+    wire [31:0] read_burst_quantity; //The number of transactions per reading or writing command.
+    wire [31:0] write_burst_quantity;
+    assign read_burst_quantity = 15;
+    assign write_burst_quantity = 15; 
+    assign axi_arlen = read_burst_quantity;
+    assign axi_awlen = write_burst_quantity;
     
     assign axi_arsize = 5; //log2 (axi_port.data_width / 8)
     assign axi_awsize = 5;
    
+   
     
-    logic [31:0] burst_counter;
-    logic [31:0] beat_counter;
-    logic [31:0] delay_counter;
-    
+    logic [31:0] read_burst_counter, write_burst_counter, read_beat_counter, write_beat_counter;
     
     
     
-    typedef enum logic [7:0] {WAIT_, READ_VALID, READ_BEAT, READ_PAUSE, WRITE_VALID, WRITE_BEAT, WRITE_LAST, WRITE_PAUSE, ERR} State;
-    State cs, ns;
     
-    
-    logic ticks_incr; //Used to increment the ticks counter
-    logic burst_incr;
+    typedef enum logic [3:0] {READ_WAIT, READ_VALID, READ_BEAT, READ_ERR} ReadState;
+    typedef enum logic [3:0] {WRITE_WAIT, WRITE_VALID, WRITE_BEAT, WRITE_LAST, WRITE_ERR} WriteState;
+    ReadState rcs, rns;
+    WriteState wcs, wns;
+   
     logic reads_incr;
     logic writes_incr;
-    logic beat_incr;
-    logic delay_incr;
     
-    logic beat_counter_rst;
-    logic burst_counter_rst;
-    logic delay_counter_rst;
+    logic read_ticks_incr;
+    logic read_burst_incr;
+    logic read_beat_incr;
+    
+    logic write_ticks_incr;
+    logic write_burst_incr;
+    logic write_beat_incr;
+    
     logic reads_rst;
     logic writes_rst;
-    logic ticks_rst;
     
-    logic [31:0] delay_ctr_max;        //32 bit signal to set the number of clock cycles to delay after every transaction of reading/writing
-    assign delay_ctr_max = 0;
+    logic read_beat_counter_rst;
+    logic read_burst_counter_rst;
+    logic read_ticks_rst;
+    
+    logic write_beat_counter_rst;
+    logic write_burst_counter_rst;
+    logic write_ticks_rst;
+    
     
     logic [31:0] csr_data_pattern;     //The pattern of data to be written  
     assign csr_data_pattern = 32'ha5a5a5a5;
@@ -154,10 +160,12 @@ module BIST #(parameter bist_num = 0) (
     assign axi_arburst = 'b01;  //Set burst type to INCR
     assign axi_awburst = 'b01;
     
-    logic [32:0] address_readwrite;    //Address to read and write to
+    logic [32:0] address_read;    //Address to read from
+    logic [32:0] address_write;        //Addres to write to
     
     //Increment to the next start address
-    assign address_readwrite = 33'h0 + (bist_num * 33'h10000000); 
+    assign address_read = 33'h0 + (bist_num * 33'h10000000);
+    assign address_write = address_read + 100; 
     
     //Bottom 5 bits of the address are unused as per the HBM IP specification
     
@@ -165,8 +173,8 @@ module BIST #(parameter bist_num = 0) (
     
     
     
-    assign axi_awaddr = address_readwrite;
-    assign axi_araddr = address_readwrite;
+    assign axi_awaddr = address_write;
+    assign axi_araddr = address_read;
     
     assign csr_port_setting = read_or_write;
     
@@ -174,113 +182,176 @@ module BIST #(parameter bist_num = 0) (
     assign axi_awid = 0;
     assign axi_rid = 0;
     
-    logic reset_dbg;
-    logic wait_dbg;
-    
-    
+    //read state machine and write state machine
     always_comb
     begin
-    csr_exec_done_status = 0;
     axi_arvalid = 0;
     axi_rready = 0;
-    ticks_incr = 0;
-    burst_incr = 0;
+    read_ticks_incr = 0;
+    read_burst_incr = 0;
     reads_incr = 0;
+    read_beat_incr = 0;
+    read_beat_counter_rst = 0;
+    read_burst_counter_rst = 0;
+    reads_rst = 0;
+    read_ticks_rst = 0;
+    rns = READ_WAIT;
+    
+    write_ticks_incr = 0;
+    write_burst_incr = 0;
     writes_incr = 0;
     axi_awvalid = 0;
     axi_wvalid = 0;
     axi_wlast = 0;
     axi_bready = 0;
-    beat_incr = 0;
-    delay_incr = 0;
-    beat_counter_rst = 0;
-    burst_counter_rst = 0;
-    delay_counter_rst = 0;
-    reads_rst = 0;
+    write_beat_incr = 0;
+    write_beat_counter_rst = 0;
+    write_burst_counter_rst = 0;
     writes_rst = 0;
-    ticks_rst = 0;
-    ns = WAIT_;
-    
-    //for debugging
-    reset_dbg = 0;
-    wait_dbg = 0;
-    
-    //--------------
+    write_ticks_rst = 0;
+    wns = WRITE_WAIT;
     
     if (!axi_aresetn)
         begin
-            ns = WAIT_;
-            reset_dbg = 1;
+            rns = READ_WAIT;
+            wns = WRITE_WAIT;
         end
     else
         begin
-            case(cs)
-                WAIT_:
+            //Read portion
+            case(rcs)
+                READ_WAIT:
                     begin
-                        wait_dbg = 1;
-                        csr_exec_done_status = 1;
-                        if (csr_start && (csr_port_setting == 0)) //READ
+                        if (csr_start && ((csr_port_setting == 0) || (csr_port_setting == 2))) //READ
                             begin
-                                ns = READ_VALID;
+                                rns = READ_VALID;
                             end
-                        else if (csr_start && (csr_port_setting == 1)) //WRITE
+                        else
+                            rns = rcs;
+                    end
+                READ_VALID:
+                    begin
+                        axi_arvalid = 1;
+                        read_ticks_incr = 1;
+                        if (!csr_start)
                             begin
-                                ns = WRITE_VALID;
+                                rns = READ_WAIT;
+                            end
+                        else if (axi_arready)
+                            begin
+                                rns = READ_BEAT;
                             end
                         else
                             begin
-                                ns = cs;
+                                rns = READ_VALID;
                             end
+                    end
+                READ_BEAT:
+                    begin
+                        axi_rready = 1;
+                        read_ticks_incr = 1;
+                        if (!csr_start)
+                            begin
+                                rns = READ_WAIT;
+                            end
+                        else if (axi_rvalid && axi_rlast)
+                            begin
+                                read_burst_incr = 1;
+                                if ((read_burst_counter + 1) >= read_burst_quantity)
+                                    begin
+                                        if (!csr_start)
+                                            begin
+                                                reads_incr = 1;
+                                                rns = READ_WAIT;
+                                            end
+                                        else
+                                            begin
+                                                read_beat_counter_rst = 1;
+                                                read_burst_counter_rst = 1;
+                                                read_ticks_rst = 1;
+                                                reads_rst = 1;
+                                                rns = READ_VALID;
+                                            end
+                                    end
+                                else
+                                    begin
+                                        reads_incr = 1;
+                                        read_beat_counter_rst = 1;
+                                        rns = READ_VALID;
+                                    end
+                            end
+                        else if (axi_rvalid)
+                            begin
+                                reads_incr = 1;
+                                rns = READ_BEAT;
+                            end
+                        else
+                            begin
+                                rns = rcs;
+                            end
+                    end
+            endcase
+            
+            //Write portion
+            case(wcs)
+                WRITE_WAIT:
+                    begin
+                        if (csr_start && ((csr_port_setting == 1) || (csr_port_setting == 2))) //WRITE
+                            begin
+                                wns = WRITE_VALID;
+                            end
+                        else
+                            wns = wcs;
                     end
                 WRITE_VALID:
                     begin
                         axi_awvalid = 1;
                         axi_wvalid = 1;
-                        ticks_incr = 1;
+                        write_ticks_incr = 1;
                         if (!csr_start)
                             begin
-                                ns = WAIT_;
+                                wns = WRITE_WAIT;
                             end
                         else if (axi_awready && axi_wready && (axi_awlen > 0))
                             begin
                                 writes_incr = 1;
-                                beat_incr = 1;
-                                ns = WRITE_BEAT;
+                                write_beat_incr = 1;
+                                wns = WRITE_BEAT;
                             end
                         else if (axi_awready && axi_wready)
                             begin
                                 axi_wlast = 1;
                                 writes_incr = 1;
-                                burst_incr = 1;
-                                ns = WRITE_LAST;
+                                write_burst_incr = 1;
+                                wns = WRITE_LAST;
                             end
                         else
                             begin
-                                ns = WRITE_VALID;
+                                wns = WRITE_VALID;
                             end
                     end
                     
                 WRITE_BEAT:
                     begin
                         axi_wvalid = 1;
-                        ticks_incr = 1;
-                        if (axi_wready && (beat_counter < axi_awlen))
+                        write_ticks_incr = 1;
+                        if (axi_wready && (write_beat_counter < axi_awlen))
                             begin
                                 writes_incr = 1;
-                                beat_incr = 1;
-                                ns = WRITE_BEAT;
+                                write_beat_incr = 1;
+                                wns = WRITE_BEAT;
                             end
-                        else if (axi_wready && (beat_counter == axi_awlen))
+                        else if (axi_wready && (write_beat_counter == axi_awlen))
                             begin
                                 axi_wlast = 1;
                                 writes_incr = 1;
-                                beat_counter_rst = 1;
-                                burst_incr = 1;
-                                ns = WRITE_LAST;
+                                write_beat_counter_rst = 1;
+                                write_burst_incr = 1;
+                                wns = WRITE_LAST;
                             end
                         else
                             begin
-                                ns = WRITE_BEAT;
+                                wns = WRITE_BEAT;
                             end
                     end
                 
@@ -288,199 +359,89 @@ module BIST #(parameter bist_num = 0) (
                     begin
                         axi_wvalid = 1;
                         axi_bready = 1;
-                        ticks_incr = 1;
-                        if (axi_bvalid && (burst_counter >= burst_quantity))
+                        write_ticks_incr = 1;
+                        if (axi_bvalid && (write_burst_counter >= write_burst_quantity))
                             begin
                                 if (!csr_start)
                                     begin
-                                        ns = WAIT_;
-                                    end
-                                else if (delay_ctr_max > 0)
-                                    begin
-                                        beat_counter_rst = 1;
-                                        burst_counter_rst = 1;
-                                        delay_counter_rst = 1;
-                                        ns = WRITE_VALID;
+                                        wns = WRITE_WAIT;
                                     end
                                 else
                                     begin
-                                        beat_counter_rst = 1;
-                                        burst_counter_rst = 1;
-                                        ticks_rst = 1;
+                                        write_beat_counter_rst = 1;
+                                        write_burst_counter_rst = 1;
+                                        write_ticks_rst = 1;
                                         writes_rst = 1;
-                                        ns = WRITE_VALID;
+                                        wns = WRITE_VALID;
                                     end
                             end
                         else if (axi_bvalid)
                             begin
-                                beat_counter_rst = 1;
-                                ns = WRITE_VALID;
+                                write_beat_counter_rst = 1;
+                                wns = WRITE_VALID;
                             end
                         else
                             begin
-                                ns = WRITE_LAST;
-                            end
-                    end
-                
-                WRITE_PAUSE:
-                    begin
-                        if (delay_ctr_max > 0)
-                            begin
-                                delay_incr = 1;
-                            end
-                        if (!csr_start)
-                            begin
-                                ns = WAIT_;
-                            end
-                        else if (delay_ctr_max == 0)
-                            begin
-                                ns = WRITE_VALID;
-                            end
-                        else if ((delay_counter + 1) >= delay_ctr_max)
-                            begin
-                                ticks_rst = 1;
-                                writes_rst = 1;
-                                ns = WRITE_VALID;
-                            end
-                    end
-    
-                READ_VALID:
-                    begin
-                        axi_arvalid = 1;
-                        ticks_incr = 1;
-                        if (!csr_start)
-                            begin
-                                ns = WAIT_;
-                            end
-                        else if (axi_arready)
-                            begin
-                                ns = READ_BEAT;
-                            end
-                        else
-                            begin
-                                ns = READ_VALID;
-                            end
-                    end
-                READ_BEAT:
-                    begin
-                        axi_rready = 1;
-                        ticks_incr = 1;
-                        if (!csr_start)
-                            begin
-                                ns = WAIT_;
-                            end
-                        else if (axi_rvalid && axi_rlast)
-                            begin
-                                burst_incr = 1;
-                                if ((burst_counter + 1) >= burst_quantity)
-                                    begin
-                                        if (!csr_start)
-                                            begin
-                                                reads_incr = 1;
-                                                ns = WAIT_;
-                                            end
-                                        else if (delay_ctr_max > 0)
-                                            begin
-                                                reads_incr = 1;
-                                                beat_counter_rst = 1;
-                                                burst_counter_rst = 1;
-                                                delay_counter_rst = 1;
-                                                ns = READ_PAUSE;
-                                            end
-                                        else
-                                            begin
-                                                beat_counter_rst = 1;
-                                                burst_counter_rst = 1;
-                                                ticks_rst = 1;
-                                                reads_rst = 1;
-                                                ns = READ_VALID;
-                                            end
-                                    end
-                                else
-                                    begin
-                                        reads_incr = 1;
-                                        beat_counter_rst = 1;
-                                        ns = READ_VALID;
-                                    end
-                            end
-                        else if (axi_rvalid)
-                            begin
-                                reads_incr = 1;
-                                ns = READ_BEAT;
-                            end
-                        else
-                            begin
-                                ns = cs;
-                            end
-                    end
-                
-                READ_PAUSE:
-                    begin
-                        if (delay_ctr_max > 0)
-                            begin
-                                delay_incr = 1;
-                            end
-                        if (!csr_start)
-                            begin
-                                ns = WAIT_;
-                            end
-                        else if (delay_ctr_max == 0)
-                            begin
-                                ns = READ_VALID;
-                            end
-                        else if ((delay_counter + 1) >= delay_ctr_max)
-                            begin
-                                ticks_rst = 1;
-                                reads_rst = 1;
-                                ns = READ_VALID;
+                                wns = WRITE_LAST;
                             end
                     end
             endcase
-        end   
+        end
     end
     
     
     
     always_ff @(posedge axi_aclk)
     begin
-        cs = ns;
+        rcs <= rns;
+        wcs <= wns;
         
         if (!axi_aresetn)
             begin
                 csr_total_reads <= 0;
                 csr_total_writes <= 0;
-                csr_ticks <= 0;
-                burst_counter <= 0;
-                beat_counter <= 0;
-                delay_counter <= 0;
+                csr_read_ticks <= 0;
+                csr_write_ticks <= 0;
+                read_burst_counter <= 0;
+                read_beat_counter <= 0;
+                write_burst_counter <= 0;
+                write_beat_counter <= 0;
             end
         else
             begin
-                if (ticks_incr)
-                    csr_ticks <= csr_ticks + 1;
+                if (read_ticks_incr)
+                    csr_read_ticks <= csr_read_ticks + 1;
+                if (write_ticks_incr)
+                    csr_write_ticks <= csr_write_ticks + 1;
                 if (reads_incr)
                     csr_total_reads <= csr_total_reads + 1;
                 if (writes_incr)
                     csr_total_writes <= csr_total_writes + 1;
-                if (burst_incr)
-                    burst_counter <= burst_counter + 1;
-                if (beat_incr)
-                    beat_counter <= beat_counter + 1;
-                if (delay_incr)
-                    delay_counter <= delay_counter + 1;
+                if (read_burst_incr)
+                    read_burst_counter <= read_burst_counter + 1;
+                if (read_beat_incr)
+                    read_beat_counter <= read_beat_counter + 1;
+                if (write_burst_incr)
+                    write_burst_counter <= write_burst_counter + 1;
+                if (write_beat_incr)
+                    write_beat_counter <= write_beat_counter + 1;
                     
-                if (burst_counter_rst)
-                    burst_counter <= 0;
-                if (beat_counter_rst)
-                    beat_counter <= 0;
-                if (delay_counter_rst)
-                    delay_counter <= 0;
+                if (read_burst_counter_rst)
+                    read_burst_counter <= 0;
+                if (read_beat_counter_rst)
+                    read_beat_counter <= 0;
+                if (write_burst_counter_rst)
+                    write_burst_counter <= 0;
+                if (write_beat_counter_rst)
+                    write_beat_counter <= 0;
                 if (reads_rst)
                     csr_total_reads <= 0;
                 if (writes_rst)
                     csr_total_writes <= 0;
-                if (ticks_rst)
-                    csr_ticks <= 0;
+                if (read_ticks_rst)
+                    csr_read_ticks <= 0;
+                if (write_ticks_rst)
+                    csr_write_ticks <= 0;
                     
             end
     end

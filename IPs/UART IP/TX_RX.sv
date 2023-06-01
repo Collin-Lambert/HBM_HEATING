@@ -24,7 +24,7 @@ module TX_RX(
     input wire clk,
     input wire USB_UART_RX,
     output logic USB_UART_TX,
-    output logic read_write,
+    output logic [2:0] read_write,
     output logic start
     );
     
@@ -63,7 +63,7 @@ module TX_RX(
     
     
     logic [7:0] din_temp;
-    logic send_async, start_async, stop_async, read_async, write_async;  
+    logic send_async, start_async, stop_async, read_async, write_async, rw_async;  
     
     always_ff @(posedge clk)
         begin
@@ -82,6 +82,8 @@ module TX_RX(
                 read_write <= 0;
             if (write_async)
                 read_write <= 1;
+            if (rw_async)
+                read_write <= 2;
         end
         
     always_comb
@@ -93,6 +95,7 @@ module TX_RX(
             stop_async = 0;
             write_async = 0;
             read_async = 0;
+            rw_async = 0;
             if (req)
                 begin
                 if (RX_OUT == 8'b00110000) //Start Command
@@ -119,6 +122,12 @@ module TX_RX(
                         send_async = 1;
                         read_async = 1;
                     end 
+                else if (RX_OUT == 8'b00110100) //READ / WRITE Command
+                    begin
+                        din_temp = 8'b01000101;
+                        send_async = 1;
+                        rw_async = 1;
+                    end
                 ack = 1;      
                 end
             else

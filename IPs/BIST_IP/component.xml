@@ -3,7 +3,7 @@
   <spirit:vendor>user.org</spirit:vendor>
   <spirit:library>user</spirit:library>
   <spirit:name>BIST</spirit:name>
-  <spirit:version>1.6</spirit:version>
+  <spirit:version>1.8</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>axi</spirit:name>
@@ -318,7 +318,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>d3ef61cb</spirit:value>
+            <spirit:value>3f708487</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -334,7 +334,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>d3ef61cb</spirit:value>
+            <spirit:value>3f708487</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -384,22 +384,13 @@
         <spirit:name>read_or_write</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">2</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>wire</spirit:typeName>
-              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
-              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
-            </spirit:wireTypeDef>
-          </spirit:wireTypeDefs>
-        </spirit:wire>
-      </spirit:port>
-      <spirit:port>
-        <spirit:name>csr_exec_done_status</spirit:name>
-        <spirit:wire>
-          <spirit:direction>out</spirit:direction>
-          <spirit:wireTypeDefs>
-            <spirit:wireTypeDef>
-              <spirit:typeName>logic</spirit:typeName>
               <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
               <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
             </spirit:wireTypeDef>
@@ -441,7 +432,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>csr_ticks</spirit:name>
+        <spirit:name>csr_read_ticks</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
@@ -458,9 +449,13 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>delay_stat_fsm</spirit:name>
+        <spirit:name>csr_write_ticks</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>logic</spirit:typeName>
@@ -983,7 +978,7 @@
       <spirit:file>
         <spirit:name>BIST.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_d3ef61cb</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_3f708487</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -996,14 +991,14 @@
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/BIST_v1_6.tcl</spirit:name>
+        <spirit:name>xgui/BIST_v1_8.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_aa291f09</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>Fixed Addressing Part 2</spirit:description>
+  <spirit:description>BIST_v1_8</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>bist_num</spirit:name>
@@ -1047,7 +1042,7 @@
       <xilinx:taxonomies>
         <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
       </xilinx:taxonomies>
-      <xilinx:displayName>BIST_v1_6</xilinx:displayName>
+      <xilinx:displayName>BIST_v1_8</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:xpmLibraries>
         <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
@@ -1057,7 +1052,7 @@
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>user.org:user:BIST:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2023-05-26T20:00:18Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2023-06-01T17:44:50Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="nopcore"/>
       </xilinx:tags>
@@ -1066,8 +1061,8 @@
       <xilinx:xilinxVersion>2022.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="016d87be"/>
       <xilinx:checksum xilinx:scope="addressSpaces" xilinx:value="7475231b"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="12652e88"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="bcac88c2"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="865592e0"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="8dda6a73"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="4ad4133d"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="ec1d9613"/>
     </xilinx:packagingInfo>
