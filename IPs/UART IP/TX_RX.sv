@@ -63,7 +63,7 @@ module TX_RX(
     
     
     logic [7:0] din_temp;
-    logic send_async, start_async, stop_async, read_async, write_async, rw_async;  
+    logic send_async, start_async, stop_async, read_async, write_async, rw_async, qr_async, qw_async;  
     
     always_ff @(posedge clk)
         begin
@@ -84,6 +84,10 @@ module TX_RX(
                 read_write <= 1;
             if (rw_async)
                 read_write <= 2;
+            if (qr_async)
+                read_write <= 3;
+            if (qw_async)
+                read_write <= 4;
         end
         
     always_comb
@@ -127,6 +131,18 @@ module TX_RX(
                         din_temp = 8'b01000101;
                         send_async = 1;
                         rw_async = 1;
+                    end
+                else if (RX_OUT == 8'b00110101) //Queued Read
+                    begin
+                        din_temp = 8'b01000110;
+                        send_async = 1;
+                        qr_async = 1;
+                    end
+                else if (RX_OUT == 8'b00110110) //Queued Write
+                    begin
+                        din_temp = 8'b01000111;
+                        send_async = 1;
+                        qw_async = 1;
                     end
                 ack = 1;      
                 end
