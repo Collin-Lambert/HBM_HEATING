@@ -62,11 +62,10 @@ void writeSerialPort(int fd, const std::string &data)
 }
 
 // Function to read data from the serial port
-std::string readSerialPort(int fd, bool printErrors = true)
+std::string readSerialPort(int fd, std::string &data)
 {
     const int bufferSize = 128;
     char buffer[bufferSize];
-    std::string data;
 
     int i = 0;
     bool status = true;
@@ -81,7 +80,7 @@ std::string readSerialPort(int fd, bool printErrors = true)
             status = false;
         }
     }
-    if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E" && data != "F" && data != "G" && printErrors)
+    if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E")
     {
         std::cout << "Received unknown bytes: [" << data << "]" << std::endl;
     }
@@ -109,14 +108,6 @@ std::string encodeInstruction(std::string input)
     else if (input == "rw_set")
     {
         return "4";
-    }
-    else if (input == "queued_read_set")
-    {
-        return "5";
-    }
-    else if (input == "queued_write_set")
-    {
-        return "6";
     }
     else
     {
@@ -158,12 +149,6 @@ std::string decodeResponse(std::string response)
     {
         return "set mode to \"concurrent reads and writes\"";
     }
-    else if (response == "F")
-    {
-        return "set mode to \"queued reads\"";
-    }
-    else if (response == "G")
-        return "set mode to \"queued write\"";
     else if (response == "?")
         return "[ERR] : ?";
     else
@@ -184,29 +169,20 @@ int main()
     configureSerialPort(fd, baudRate);
     std::string userInput;
 
-    std::cout << "Do you want to run initialization? [y/n]: ";
-    std::getline(std::cin, userInput);
-
-    if (userInput == "y")
-    {
-        // Initialize
-        std::cout << "Initializing" << std::flush;
-        std::string loadingBar = "";
-        std::string temp;
-
-        // Do some interesting toggleing of start and stop.For some reason this makes the reads ramp up to their max speed.
-        for (int i = 0; i < 12; ++i)
-        {
-            writeSerialPort(fd, "0\n");
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-            writeSerialPort(fd, "1\n");
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        }
-        std::cout << std::endl
-                  << "Initialization Complete." << std::endl
-                  << std::endl;
-        readSerialPort(fd, false);
-    }
+    // Initialize
+    std::cout << "Initializing" << std::flush;
+    // Do some interesting toggleing of start and stop.For some reason this makes the reads ramp up to their max speed.
+    // for (int i = 0; i < 12; ++i)
+    // {
+    //     writeSerialPort(fd, "0\n");
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    //     writeSerialPort(fd, "1\n");
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    //     std::cout << "." << std::flush;
+    // }
+    // std::cout << std::endl
+    //           << "Initialization Complete." << std::endl
+    //           << std::endl;
 
     // Main loop
 
@@ -232,7 +208,7 @@ int main()
             writeSerialPort(fd, encodedInstruction + "\n");
 
             // Read and display response
-            std::string response = readSerialPort(fd);
+            std::string response = readSerialPort(fd, encodedInstruction);
             std::cout << " - " << decodeResponse(response) << std::endl
                       << std::endl;
         }
