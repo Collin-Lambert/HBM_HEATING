@@ -81,7 +81,8 @@ std::string readSerialPort(int fd, bool printErrors = true)
             status = false;
         }
     }
-    if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E" && data != "F" && data != "G" && printErrors)
+    if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E" && data != "F" && data != "G" &&
+        data != "H" && data != "I" && printErrors)
     {
         std::cout << "Received unknown bytes: [" << data << "]" << std::endl;
     }
@@ -118,6 +119,14 @@ std::string encodeInstruction(std::string input)
     {
         return "6";
     }
+    else if (input == "address_inc_set")
+    {
+        return "7";
+    }
+    else if (input == "address_static_set")
+    {
+        return "8";
+    }
     else
     {
         if (input != "help")
@@ -126,12 +135,16 @@ std::string encodeInstruction(std::string input)
                       << "Invalid Command!" << std::endl;
         }
         std::cout << "Commands:" << std::endl;
-        std::cout << "\t help      - displays this list" << std::endl;
-        std::cout << "\t start     - enables reading / writing test" << std::endl;
-        std::cout << "\t stop      - halts reading / writing test" << std::endl;
-        std::cout << "\t write_set - sets port mode to write" << std::endl;
-        std::cout << "\t read_set  - sets port mode to read" << std::endl;
-        std::cout << "\t exit      - to exit" << std::endl;
+        std::cout << "\t help               - displays this list" << std::endl;
+        std::cout << "\t start              - enables reading / writing test" << std::endl;
+        std::cout << "\t stop               - halts reading / writing test" << std::endl;
+        std::cout << "\t write_set          - sets port mode to write" << std::endl;
+        std::cout << "\t read_set           - sets port mode to read" << std::endl;
+        std::cout << "\t queued_write_set   - sets port mode to queued_write" << std::endl;
+        std::cout << "\t queued_read_set    - sets port mode to queued_read" << std::endl;
+        std::cout << "\t address_inc_set    - enables address incrementing" << std::endl;
+        std::cout << "\t address_static_set - disables address incrementing" << std::endl;
+        std::cout << "\t exit               - to exit" << std::endl;
         return "";
     }
 }
@@ -163,7 +176,17 @@ std::string decodeResponse(std::string response)
         return "set mode to \"queued reads\"";
     }
     else if (response == "G")
+    {
         return "set mode to \"queued write\"";
+    }
+    else if (response == "H")
+    {
+        return "Enabled address incrementing";
+    }
+    else if (response == "I")
+    {
+        return "Disabled address incrementing";
+    }
     else if (response == "?")
         return "[ERR] : ?";
     else

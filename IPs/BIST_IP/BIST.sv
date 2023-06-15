@@ -25,6 +25,7 @@ module BIST #(parameter bist_num = 0) (
         //SHARED CSRs
         input wire csr_start,                   //Tells the BIST when to begin/end  
         input wire [2:0] read_or_write,               //0 for read, 1 for write, 2 for read and write   
+        input wire address_inc_csr,
                
                
         //AXI
@@ -66,6 +67,12 @@ module BIST #(parameter bist_num = 0) (
         input wire axi_aresetn                 //global reset                                         
         
     );
+//    logic [5:0] transaction_id;
+//    assign axi_arid = transaction_id;
+//    assign axi_awid = transaction_id;
+
+    assign axi_arid = 0;
+    assign axi_awid = 0;
     
     
     logic [32:0] default_address;
@@ -89,7 +96,7 @@ module BIST #(parameter bist_num = 0) (
    
    
     
-    logic [31:0] read_burst_counter, write_burst_counter, read_beat_counter, write_beat_counter;
+    logic [4:0] read_burst_counter, write_burst_counter, read_beat_counter, write_beat_counter;
     
     
     
@@ -139,10 +146,6 @@ module BIST #(parameter bist_num = 0) (
     
     assign axi_awaddr = address_write;
     assign axi_araddr = address_read;
-    
-    assign axi_arid = 0;
-    assign axi_awid = 0;
-    assign axi_rid = 0;
     
     //read state machine and write state machine
     always_comb
@@ -462,14 +465,19 @@ module BIST #(parameter bist_num = 0) (
                         qawns = AW_CHECK;
                     end
                 AW_CHECK:
-                    begin
-                        if (outstanding_writes <= 1)
+                    begin   
+                        if (!csr_start)
+                            qawns = AW_WAIT;
+                        else
                             begin
-                                qawns = AW_VALID;
-                            end
-                        else 
-                            begin
-                                qawns = AW_CHECK;
+                                if (outstanding_writes <= 1)
+                                    begin
+                                        qawns = AW_VALID;
+                                    end
+                                else 
+                                    begin
+                                        qawns = AW_CHECK;
+                                    end
                             end
                     end
             endcase
@@ -500,7 +508,11 @@ module BIST #(parameter bist_num = 0) (
                         else if (write_beat_counter == axi_awlen)
                             begin
                                 axi_wlast = 1;
-                                if (axi_wready)
+                                if (!csr_start)
+                                    begin
+                                        qwns = W_WAIT;
+                                    end
+                                else if (axi_wready)
                                     begin
                                         write_beat_counter_rst = 1;
                                         qwns = W_LAST;
@@ -563,21 +575,28 @@ module BIST #(parameter bist_num = 0) (
                 write_beat_counter <= 0;
                 outstanding_reads <= 0;
                 outstanding_writes <= 0;
+                //transaction_id <= 0;
                 address_read <= default_address;
                 address_write <= default_address;
             end
         else
             begin
+                //transaction_id <= transaction_id + 1;
                 if (read_burst_incr)
                     begin
                     read_burst_counter <= read_burst_counter + 1;
-                    //This prevents the address from exceeding 4096 above the base address
-                    //For some reason this is required
-                    if (address_read <= address_limit)
-                        //Using burst type of INCR each burst uses up 32 addresses
-                        //Since there are 16 bursts per transaction, each transaction uses 512 (0x200) addresses.
-                        //The next sequential address should then be curr_address + 0x200
-                        address_read <= address_read + 'h200;
+                    if (address_inc_csr)
+                        begin
+                            //This prevents the address from exceeding 4096 above the base address
+                            //For some reason this is required
+                            if (address_read <= address_limit)
+                                //Using burst type of INCR each burst uses up 32 addresses
+                                //Since there are 16 bursts per transaction, each transaction uses 512 (0x200) addresses.
+                                //The next sequential address should then be curr_address + 0x200
+                                address_read <= address_read + 'h200;
+                            else
+                                address_read <= default_address;
+                        end
                     else
                         address_read <= default_address;
                     end
@@ -586,8 +605,13 @@ module BIST #(parameter bist_num = 0) (
                 if (write_burst_incr)
                     begin
                     write_burst_counter <= write_burst_counter + 1;
-                    if (address_write <= address_limit)
-                        address_write <= address_write + 'h200;
+                    if (address_inc_csr)
+                        begin
+                            if (address_write <= address_limit)
+                                address_write <= address_write + 'h200;
+                            else
+                                address_write <= default_address;
+                        end
                     else
                         address_write <= default_address;
                     end
@@ -604,19 +628,29 @@ module BIST #(parameter bist_num = 0) (
                     write_beat_counter <= 0;
                 if (r_address_inc)
                     begin 
-                        if (address_read <= address_limit)
-                        address_read <= address_read + 'h200;
-                    else
-                        address_read <= default_address;
-                        //address_read <= address_read;
+                        if (address_inc_csr)
+                            begin
+                                if (address_read <= address_limit)
+                                    address_read <= address_read + 'h200;
+                                else
+                                    address_read <= default_address;
+                                //address_read <= address_read;
+                            end
+                        else
+                            address_read <= default_address;
                     end
                 if (w_address_inc)
                     begin
-                        if (address_write <= address_limit)
-                        address_write <= address_write + 'h200;
-                    else
-                        address_write <= default_address;
-                        //address_write <= address_write;
+                        if (address_inc_csr)
+                            begin
+                                if (address_write <= address_limit)
+                                    address_write <= address_write + 'h200;
+                                else
+                                    address_write <= default_address;
+                                //address_write <= address_write;
+                            end
+                        else
+                            address_write <= default_address;
                     end
                 if (outstanding_reads_inc)
                     outstanding_reads <= outstanding_reads + 1;

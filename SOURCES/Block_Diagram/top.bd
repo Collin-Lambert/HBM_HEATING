@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x9D54229220F3772E",
+      "boundary_crc": "0x575DCC49064FC0BF",
       "device": "xcu280-fsvh2892-2L-e",
       "gen_directory": "../../../../BIST.gen/sources_1/bd/top",
       "name": "top",
@@ -15,8 +15,8 @@
       "clk_wiz_0": "",
       "proc_sys_reset_0": "",
       "proc_sys_reset_1": "",
-      "TX_RX_0": "",
       "clk_wiz_1": "",
+      "TX_RX_0": "",
       "BIST_0": "",
       "BIST_10": "",
       "BIST_11": "",
@@ -94,6 +94,26 @@
       },
       "USB_UART_TX": {
         "direction": "O"
+      },
+      "clk_uart": {
+        "direction": "I"
+      },
+      "clk_450": {
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "top_clk_wiz_0_0_MHz_450",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "450000000",
+            "value_src": "ip_prop"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "ip_prop"
+          }
+        }
       }
     },
     "components": {
@@ -106,17 +126,32 @@
           "USER_APB_EN": {
             "value": "false"
           },
+          "USER_AUTO_POPULATE": {
+            "value": "yes"
+          },
           "USER_DEBUG_EN": {
             "value": "FALSE"
           },
           "USER_HBM_DENSITY": {
             "value": "8GB"
           },
+          "USER_MC0_EN_SBREF": {
+            "value": "true"
+          },
+          "USER_MC0_LOOKAHEAD_SBRF": {
+            "value": "true"
+          },
           "USER_MC0_MANUAL_ADDR_MAP_SEL": {
+            "value": "false"
+          },
+          "USER_MC0_REF_TEMP_COMP": {
             "value": "false"
           },
           "USER_MC0_REORDER_EN": {
             "value": "true"
+          },
+          "USER_MC0_TRAFFIC_OPTION": {
+            "value": "User_Defined"
           },
           "USER_SWITCH_ENABLE_00": {
             "value": "FALSE"
@@ -420,12 +455,6 @@
           }
         }
       },
-      "TX_RX_0": {
-        "vlnv": "user.org:user:TX_RX:1.2",
-        "xci_name": "top_TX_RX_0_0",
-        "xci_path": "ip/top_TX_RX_0_0/top_TX_RX_0_0.xci",
-        "inst_hier_path": "TX_RX_0"
-      },
       "clk_wiz_1": {
         "vlnv": "xilinx.com:ip:clk_wiz:6.0",
         "xci_name": "top_clk_wiz_1_0",
@@ -440,8 +469,14 @@
           }
         }
       },
+      "TX_RX_0": {
+        "vlnv": "user.org:user:TX_RX:1.5",
+        "xci_name": "top_TX_RX_0_0",
+        "xci_path": "ip/top_TX_RX_0_0/top_TX_RX_0_0.xci",
+        "inst_hier_path": "TX_RX_0"
+      },
       "BIST_0": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_0_0",
         "xci_path": "ip/top_BIST_0_0/top_BIST_0_0.xci",
         "inst_hier_path": "BIST_0",
@@ -467,7 +502,7 @@
         }
       },
       "BIST_10": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_10_0",
         "xci_path": "ip/top_BIST_10_0_1/top_BIST_10_0.xci",
         "inst_hier_path": "BIST_10",
@@ -498,7 +533,7 @@
         }
       },
       "BIST_11": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_11_0",
         "xci_path": "ip/top_BIST_11_0_1/top_BIST_11_0.xci",
         "inst_hier_path": "BIST_11",
@@ -529,7 +564,7 @@
         }
       },
       "BIST_12": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_12_0",
         "xci_path": "ip/top_BIST_12_0_1/top_BIST_12_0.xci",
         "inst_hier_path": "BIST_12",
@@ -560,7 +595,7 @@
         }
       },
       "BIST_13": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_13_0",
         "xci_path": "ip/top_BIST_13_0_1/top_BIST_13_0.xci",
         "inst_hier_path": "BIST_13",
@@ -591,7 +626,7 @@
         }
       },
       "BIST_14": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_14_0",
         "xci_path": "ip/top_BIST_14_0_1/top_BIST_14_0.xci",
         "inst_hier_path": "BIST_14",
@@ -622,7 +657,7 @@
         }
       },
       "BIST_15": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_15_0",
         "xci_path": "ip/top_BIST_15_0_1/top_BIST_15_0.xci",
         "inst_hier_path": "BIST_15",
@@ -653,7 +688,7 @@
         }
       },
       "BIST_16": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_16_0",
         "xci_path": "ip/top_BIST_16_0/top_BIST_16_0.xci",
         "inst_hier_path": "BIST_16",
@@ -684,7 +719,7 @@
         }
       },
       "BIST_17": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_17_0",
         "xci_path": "ip/top_BIST_17_0/top_BIST_17_0.xci",
         "inst_hier_path": "BIST_17",
@@ -715,7 +750,7 @@
         }
       },
       "BIST_18": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_18_0",
         "xci_path": "ip/top_BIST_18_0/top_BIST_18_0.xci",
         "inst_hier_path": "BIST_18",
@@ -746,7 +781,7 @@
         }
       },
       "BIST_19": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_19_0",
         "xci_path": "ip/top_BIST_19_0/top_BIST_19_0.xci",
         "inst_hier_path": "BIST_19",
@@ -777,7 +812,7 @@
         }
       },
       "BIST_1": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_1_0",
         "xci_path": "ip/top_BIST_1_0_1/top_BIST_1_0.xci",
         "inst_hier_path": "BIST_1",
@@ -808,7 +843,7 @@
         }
       },
       "BIST_20": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_20_0",
         "xci_path": "ip/top_BIST_20_0/top_BIST_20_0.xci",
         "inst_hier_path": "BIST_20",
@@ -839,7 +874,7 @@
         }
       },
       "BIST_21": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_21_0",
         "xci_path": "ip/top_BIST_21_0/top_BIST_21_0.xci",
         "inst_hier_path": "BIST_21",
@@ -870,7 +905,7 @@
         }
       },
       "BIST_22": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_22_0",
         "xci_path": "ip/top_BIST_22_0/top_BIST_22_0.xci",
         "inst_hier_path": "BIST_22",
@@ -901,7 +936,7 @@
         }
       },
       "BIST_23": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_23_0",
         "xci_path": "ip/top_BIST_23_0/top_BIST_23_0.xci",
         "inst_hier_path": "BIST_23",
@@ -932,7 +967,7 @@
         }
       },
       "BIST_24": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_24_0",
         "xci_path": "ip/top_BIST_24_0/top_BIST_24_0.xci",
         "inst_hier_path": "BIST_24",
@@ -963,7 +998,7 @@
         }
       },
       "BIST_25": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_25_0",
         "xci_path": "ip/top_BIST_25_0/top_BIST_25_0.xci",
         "inst_hier_path": "BIST_25",
@@ -994,7 +1029,7 @@
         }
       },
       "BIST_26": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_26_0",
         "xci_path": "ip/top_BIST_26_0/top_BIST_26_0.xci",
         "inst_hier_path": "BIST_26",
@@ -1025,7 +1060,7 @@
         }
       },
       "BIST_27": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_27_0",
         "xci_path": "ip/top_BIST_27_0/top_BIST_27_0.xci",
         "inst_hier_path": "BIST_27",
@@ -1056,7 +1091,7 @@
         }
       },
       "BIST_28": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_28_0",
         "xci_path": "ip/top_BIST_28_0/top_BIST_28_0.xci",
         "inst_hier_path": "BIST_28",
@@ -1087,7 +1122,7 @@
         }
       },
       "BIST_29": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_29_0",
         "xci_path": "ip/top_BIST_29_0/top_BIST_29_0.xci",
         "inst_hier_path": "BIST_29",
@@ -1118,7 +1153,7 @@
         }
       },
       "BIST_2": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_2_0",
         "xci_path": "ip/top_BIST_2_0_1/top_BIST_2_0.xci",
         "inst_hier_path": "BIST_2",
@@ -1149,7 +1184,7 @@
         }
       },
       "BIST_30": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_30_0",
         "xci_path": "ip/top_BIST_30_0/top_BIST_30_0.xci",
         "inst_hier_path": "BIST_30",
@@ -1180,7 +1215,7 @@
         }
       },
       "BIST_31": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_31_0",
         "xci_path": "ip/top_BIST_31_0/top_BIST_31_0.xci",
         "inst_hier_path": "BIST_31",
@@ -1211,7 +1246,7 @@
         }
       },
       "BIST_3": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_3_0",
         "xci_path": "ip/top_BIST_3_0_1/top_BIST_3_0.xci",
         "inst_hier_path": "BIST_3",
@@ -1242,7 +1277,7 @@
         }
       },
       "BIST_4": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_4_0",
         "xci_path": "ip/top_BIST_4_0_1/top_BIST_4_0.xci",
         "inst_hier_path": "BIST_4",
@@ -1273,7 +1308,7 @@
         }
       },
       "BIST_5": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_5_0",
         "xci_path": "ip/top_BIST_5_0_1/top_BIST_5_0.xci",
         "inst_hier_path": "BIST_5",
@@ -1304,7 +1339,7 @@
         }
       },
       "BIST_6": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_6_0",
         "xci_path": "ip/top_BIST_6_0_1/top_BIST_6_0.xci",
         "inst_hier_path": "BIST_6",
@@ -1335,7 +1370,7 @@
         }
       },
       "BIST_7": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_7_0",
         "xci_path": "ip/top_BIST_7_0_1/top_BIST_7_0.xci",
         "inst_hier_path": "BIST_7",
@@ -1366,7 +1401,7 @@
         }
       },
       "BIST_8": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_8_0",
         "xci_path": "ip/top_BIST_8_0_1/top_BIST_8_0.xci",
         "inst_hier_path": "BIST_8",
@@ -1397,7 +1432,7 @@
         }
       },
       "BIST_9": {
-        "vlnv": "user.org:user:BIST:1.13",
+        "vlnv": "user.org:user:BIST:17.4",
         "xci_name": "top_BIST_9_0",
         "xci_path": "ip/top_BIST_9_0_1/top_BIST_9_0.xci",
         "inst_hier_path": "BIST_9",
@@ -1667,6 +1702,43 @@
           "hbm_0/APB_0_PRESET_N"
         ]
       },
+      "Net2": {
+        "ports": [
+          "TX_RX_0/address_inc",
+          "BIST_0/address_inc_csr",
+          "BIST_10/address_inc_csr",
+          "BIST_11/address_inc_csr",
+          "BIST_12/address_inc_csr",
+          "BIST_13/address_inc_csr",
+          "BIST_14/address_inc_csr",
+          "BIST_15/address_inc_csr",
+          "BIST_16/address_inc_csr",
+          "BIST_17/address_inc_csr",
+          "BIST_18/address_inc_csr",
+          "BIST_19/address_inc_csr",
+          "BIST_1/address_inc_csr",
+          "BIST_20/address_inc_csr",
+          "BIST_21/address_inc_csr",
+          "BIST_22/address_inc_csr",
+          "BIST_23/address_inc_csr",
+          "BIST_24/address_inc_csr",
+          "BIST_25/address_inc_csr",
+          "BIST_26/address_inc_csr",
+          "BIST_27/address_inc_csr",
+          "BIST_28/address_inc_csr",
+          "BIST_29/address_inc_csr",
+          "BIST_2/address_inc_csr",
+          "BIST_30/address_inc_csr",
+          "BIST_31/address_inc_csr",
+          "BIST_3/address_inc_csr",
+          "BIST_4/address_inc_csr",
+          "BIST_5/address_inc_csr",
+          "BIST_6/address_inc_csr",
+          "BIST_7/address_inc_csr",
+          "BIST_8/address_inc_csr",
+          "BIST_9/address_inc_csr"
+        ]
+      },
       "TX_RX_0_USB_UART_TX": {
         "ports": [
           "TX_RX_0/USB_UART_TX",
@@ -1685,6 +1757,12 @@
           "clk_wiz_0/clk_in1"
         ]
       },
+      "clk_uart_1": {
+        "ports": [
+          "clk_uart",
+          "clk_wiz_1/clk_in1"
+        ]
+      },
       "clk_wiz_0_MHz_100": {
         "ports": [
           "clk_wiz_0/MHz_100",
@@ -1692,8 +1770,7 @@
           "hbm_0/APB_1_PCLK",
           "hbm_0/APB_0_PCLK",
           "proc_sys_reset_1/slowest_sync_clk",
-          "hbm_0/HBM_REF_CLK_1",
-          "clk_wiz_1/clk_in1"
+          "hbm_0/HBM_REF_CLK_1"
         ]
       },
       "clk_wiz_0_MHz_450": {
@@ -1732,6 +1809,7 @@
           "hbm_0/AXI_30_ACLK",
           "hbm_0/AXI_31_ACLK",
           "proc_sys_reset_0/slowest_sync_clk",
+          "clk_450",
           "BIST_0/axi_aclk",
           "BIST_10/axi_aclk",
           "BIST_11/axi_aclk",

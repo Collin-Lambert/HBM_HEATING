@@ -157,7 +157,7 @@ module TX_RX(
                         send_async = 1;
                         address_inc_async = 1;
                     end
-                else if (RX_OUT == 8'b00111000) //Disable address_increment
+                else if (RX_OUT == 8'b00101000) //Disable address_increment
                     begin
                         din_temp = 8'b01001001;
                         send_async = 1;
