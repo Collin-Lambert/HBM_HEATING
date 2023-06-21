@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x9D54229220F3772E",
+      "boundary_crc": "0x575DCC49064FC0BF",
       "device": "xcu280-fsvh2892-2L-e",
       "gen_directory": "../../../../BIST.gen/sources_1/bd/top",
       "name": "top",
@@ -15,9 +15,15 @@
       "clk_wiz_0": "",
       "proc_sys_reset_0": "",
       "proc_sys_reset_1": "",
+<<<<<<< HEAD
+      "clk_wiz_1": "",
+      "TX_RX_0": "",
+      "BIST_0": "",
+=======
       "TX_RX_0": "",
       "BIST_8": "",
       "BIST_9": "",
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       "BIST_10": "",
       "BIST_11": "",
       "BIST_12": "",
@@ -93,6 +99,26 @@
       },
       "USB_UART_TX": {
         "direction": "O"
+      },
+      "clk_uart": {
+        "direction": "I"
+      },
+      "clk_450": {
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "top_clk_wiz_0_0_MHz_450",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "450000000",
+            "value_src": "ip_prop"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "ip_prop"
+          }
+        }
       }
     },
     "components": {
@@ -105,12 +131,42 @@
           "USER_APB_EN": {
             "value": "false"
           },
+          "USER_AUTO_POPULATE": {
+            "value": "yes"
+          },
           "USER_DEBUG_EN": {
             "value": "FALSE"
           },
           "USER_HBM_DENSITY": {
             "value": "8GB"
           },
+<<<<<<< HEAD
+          "USER_MC0_EN_SBREF": {
+            "value": "true"
+          },
+          "USER_MC0_LOOKAHEAD_SBRF": {
+            "value": "true"
+          },
+          "USER_MC0_MANUAL_ADDR_MAP_SEL": {
+            "value": "false"
+          },
+          "USER_MC0_REF_TEMP_COMP": {
+            "value": "false"
+          },
+          "USER_MC0_REORDER_EN": {
+            "value": "true"
+          },
+          "USER_MC0_TRAFFIC_OPTION": {
+            "value": "User_Defined"
+          },
+          "USER_SWITCH_ENABLE_00": {
+            "value": "FALSE"
+          },
+          "USER_SWITCH_ENABLE_01": {
+            "value": "FALSE"
+          },
+=======
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
           "USER_XSDB_INTF_EN": {
             "value": "TRUE"
           }
@@ -407,16 +463,967 @@
           }
         }
       },
+<<<<<<< HEAD
+      "clk_wiz_1": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "xci_name": "top_clk_wiz_1_0",
+        "xci_path": "ip/top_clk_wiz_1_0/top_clk_wiz_1_0.xci",
+        "inst_hier_path": "clk_wiz_1",
+        "parameters": {
+          "USE_LOCKED": {
+            "value": "false"
+          },
+          "USE_RESET": {
+            "value": "false"
+          }
+        }
+      },
+      "TX_RX_0": {
+        "vlnv": "user.org:user:TX_RX:1.15.7",
+=======
       "TX_RX_0": {
         "vlnv": "user.org:user:TX_RX:1.1",
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
         "xci_name": "top_TX_RX_0_0",
         "xci_path": "ip/top_TX_RX_0_0/top_TX_RX_0_0.xci",
         "inst_hier_path": "TX_RX_0"
       },
+<<<<<<< HEAD
+      "BIST_0": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_0_0",
+        "xci_path": "ip/top_BIST_0_0/top_BIST_0_0.xci",
+        "inst_hier_path": "BIST_0",
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_10": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_10_0",
+        "xci_path": "ip/top_BIST_10_0_1/top_BIST_10_0.xci",
+        "inst_hier_path": "BIST_10",
+        "parameters": {
+          "bist_num": {
+            "value": "10"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_11": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_11_0",
+        "xci_path": "ip/top_BIST_11_0_1/top_BIST_11_0.xci",
+        "inst_hier_path": "BIST_11",
+        "parameters": {
+          "bist_num": {
+            "value": "11"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_12": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_12_0",
+        "xci_path": "ip/top_BIST_12_0_1/top_BIST_12_0.xci",
+        "inst_hier_path": "BIST_12",
+        "parameters": {
+          "bist_num": {
+            "value": "12"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_13": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_13_0",
+        "xci_path": "ip/top_BIST_13_0_1/top_BIST_13_0.xci",
+        "inst_hier_path": "BIST_13",
+        "parameters": {
+          "bist_num": {
+            "value": "13"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_14": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_14_0",
+        "xci_path": "ip/top_BIST_14_0_1/top_BIST_14_0.xci",
+        "inst_hier_path": "BIST_14",
+        "parameters": {
+          "bist_num": {
+            "value": "14"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_15": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_15_0",
+        "xci_path": "ip/top_BIST_15_0_1/top_BIST_15_0.xci",
+        "inst_hier_path": "BIST_15",
+        "parameters": {
+          "bist_num": {
+            "value": "15"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_16": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_16_0",
+        "xci_path": "ip/top_BIST_16_0/top_BIST_16_0.xci",
+        "inst_hier_path": "BIST_16",
+        "parameters": {
+          "bist_num": {
+            "value": "16"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_17": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_17_0",
+        "xci_path": "ip/top_BIST_17_0/top_BIST_17_0.xci",
+        "inst_hier_path": "BIST_17",
+        "parameters": {
+          "bist_num": {
+            "value": "17"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_18": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_18_0",
+        "xci_path": "ip/top_BIST_18_0/top_BIST_18_0.xci",
+        "inst_hier_path": "BIST_18",
+        "parameters": {
+          "bist_num": {
+            "value": "18"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_19": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_19_0",
+        "xci_path": "ip/top_BIST_19_0/top_BIST_19_0.xci",
+        "inst_hier_path": "BIST_19",
+        "parameters": {
+          "bist_num": {
+            "value": "19"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_1": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_1_0",
+        "xci_path": "ip/top_BIST_1_0_1/top_BIST_1_0.xci",
+        "inst_hier_path": "BIST_1",
+        "parameters": {
+          "bist_num": {
+            "value": "1"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_20": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_20_0",
+        "xci_path": "ip/top_BIST_20_0/top_BIST_20_0.xci",
+        "inst_hier_path": "BIST_20",
+        "parameters": {
+          "bist_num": {
+            "value": "20"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_21": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_21_0",
+        "xci_path": "ip/top_BIST_21_0/top_BIST_21_0.xci",
+        "inst_hier_path": "BIST_21",
+        "parameters": {
+          "bist_num": {
+            "value": "21"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_22": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_22_0",
+        "xci_path": "ip/top_BIST_22_0/top_BIST_22_0.xci",
+        "inst_hier_path": "BIST_22",
+        "parameters": {
+          "bist_num": {
+            "value": "22"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_23": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_23_0",
+        "xci_path": "ip/top_BIST_23_0/top_BIST_23_0.xci",
+        "inst_hier_path": "BIST_23",
+        "parameters": {
+          "bist_num": {
+            "value": "23"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_24": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_24_0",
+        "xci_path": "ip/top_BIST_24_0/top_BIST_24_0.xci",
+        "inst_hier_path": "BIST_24",
+        "parameters": {
+          "bist_num": {
+            "value": "24"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_25": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_25_0",
+        "xci_path": "ip/top_BIST_25_0/top_BIST_25_0.xci",
+        "inst_hier_path": "BIST_25",
+        "parameters": {
+          "bist_num": {
+            "value": "25"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_26": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_26_0",
+        "xci_path": "ip/top_BIST_26_0/top_BIST_26_0.xci",
+        "inst_hier_path": "BIST_26",
+        "parameters": {
+          "bist_num": {
+            "value": "26"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_27": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_27_0",
+        "xci_path": "ip/top_BIST_27_0/top_BIST_27_0.xci",
+        "inst_hier_path": "BIST_27",
+        "parameters": {
+          "bist_num": {
+            "value": "27"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_28": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_28_0",
+        "xci_path": "ip/top_BIST_28_0/top_BIST_28_0.xci",
+        "inst_hier_path": "BIST_28",
+        "parameters": {
+          "bist_num": {
+            "value": "28"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_29": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_29_0",
+        "xci_path": "ip/top_BIST_29_0/top_BIST_29_0.xci",
+        "inst_hier_path": "BIST_29",
+        "parameters": {
+          "bist_num": {
+            "value": "29"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_2": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_2_0",
+        "xci_path": "ip/top_BIST_2_0_1/top_BIST_2_0.xci",
+        "inst_hier_path": "BIST_2",
+        "parameters": {
+          "bist_num": {
+            "value": "2"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_30": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_30_0",
+        "xci_path": "ip/top_BIST_30_0/top_BIST_30_0.xci",
+        "inst_hier_path": "BIST_30",
+        "parameters": {
+          "bist_num": {
+            "value": "30"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_31": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_31_0",
+        "xci_path": "ip/top_BIST_31_0/top_BIST_31_0.xci",
+        "inst_hier_path": "BIST_31",
+        "parameters": {
+          "bist_num": {
+            "value": "31"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_3": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_3_0",
+        "xci_path": "ip/top_BIST_3_0_1/top_BIST_3_0.xci",
+        "inst_hier_path": "BIST_3",
+        "parameters": {
+          "bist_num": {
+            "value": "3"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_4": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_4_0",
+        "xci_path": "ip/top_BIST_4_0_1/top_BIST_4_0.xci",
+        "inst_hier_path": "BIST_4",
+        "parameters": {
+          "bist_num": {
+            "value": "4"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_5": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_5_0",
+        "xci_path": "ip/top_BIST_5_0_1/top_BIST_5_0.xci",
+        "inst_hier_path": "BIST_5",
+        "parameters": {
+          "bist_num": {
+            "value": "5"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_6": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_6_0",
+        "xci_path": "ip/top_BIST_6_0_1/top_BIST_6_0.xci",
+        "inst_hier_path": "BIST_6",
+        "parameters": {
+          "bist_num": {
+            "value": "6"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_7": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_7_0",
+        "xci_path": "ip/top_BIST_7_0_1/top_BIST_7_0.xci",
+        "inst_hier_path": "BIST_7",
+        "parameters": {
+          "bist_num": {
+            "value": "7"
+          }
+        },
+        "interface_ports": {
+          "axi": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "axi",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0x0001FFFFFFFF",
+              "width": "33"
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axi": {
+              "range": "8G",
+              "width": "33"
+            }
+          }
+        }
+      },
+      "BIST_8": {
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_8_0",
+        "xci_path": "ip/top_BIST_8_0_1/top_BIST_8_0.xci",
+=======
       "BIST_8": {
         "vlnv": "user.org:user:BIST:1.8",
         "xci_name": "top_BIST_0_10",
         "xci_path": "ip/top_BIST_0_10/top_BIST_0_10.xci",
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
         "inst_hier_path": "BIST_8",
         "parameters": {
           "bist_num": {
@@ -445,9 +1452,15 @@
         }
       },
       "BIST_9": {
+<<<<<<< HEAD
+        "vlnv": "user.org:user:BIST:18.6",
+        "xci_name": "top_BIST_9_0",
+        "xci_path": "ip/top_BIST_9_0_1/top_BIST_9_0.xci",
+=======
         "vlnv": "user.org:user:BIST:1.8",
         "xci_name": "top_BIST_0_11",
         "xci_path": "ip/top_BIST_0_11/top_BIST_0_11.xci",
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
         "inst_hier_path": "BIST_9",
         "parameters": {
           "bist_num": {
@@ -1640,6 +2653,80 @@
           "hbm_0/APB_0_PRESET_N"
         ]
       },
+      "Net2": {
+        "ports": [
+          "TX_RX_0/address_inc",
+          "BIST_0/address_inc_csr",
+          "BIST_10/address_inc_csr",
+          "BIST_11/address_inc_csr",
+          "BIST_12/address_inc_csr",
+          "BIST_13/address_inc_csr",
+          "BIST_14/address_inc_csr",
+          "BIST_15/address_inc_csr",
+          "BIST_16/address_inc_csr",
+          "BIST_17/address_inc_csr",
+          "BIST_18/address_inc_csr",
+          "BIST_19/address_inc_csr",
+          "BIST_1/address_inc_csr",
+          "BIST_20/address_inc_csr",
+          "BIST_21/address_inc_csr",
+          "BIST_22/address_inc_csr",
+          "BIST_23/address_inc_csr",
+          "BIST_24/address_inc_csr",
+          "BIST_25/address_inc_csr",
+          "BIST_26/address_inc_csr",
+          "BIST_27/address_inc_csr",
+          "BIST_28/address_inc_csr",
+          "BIST_29/address_inc_csr",
+          "BIST_2/address_inc_csr",
+          "BIST_30/address_inc_csr",
+          "BIST_31/address_inc_csr",
+          "BIST_3/address_inc_csr",
+          "BIST_4/address_inc_csr",
+          "BIST_5/address_inc_csr",
+          "BIST_6/address_inc_csr",
+          "BIST_7/address_inc_csr",
+          "BIST_8/address_inc_csr",
+          "BIST_9/address_inc_csr"
+        ]
+      },
+      "Net3": {
+        "ports": [
+          "TX_RX_0/port_mask",
+          "BIST_0/port_mask",
+          "BIST_10/port_mask",
+          "BIST_11/port_mask",
+          "BIST_12/port_mask",
+          "BIST_13/port_mask",
+          "BIST_14/port_mask",
+          "BIST_15/port_mask",
+          "BIST_16/port_mask",
+          "BIST_17/port_mask",
+          "BIST_18/port_mask",
+          "BIST_19/port_mask",
+          "BIST_1/port_mask",
+          "BIST_20/port_mask",
+          "BIST_21/port_mask",
+          "BIST_22/port_mask",
+          "BIST_23/port_mask",
+          "BIST_24/port_mask",
+          "BIST_25/port_mask",
+          "BIST_26/port_mask",
+          "BIST_27/port_mask",
+          "BIST_28/port_mask",
+          "BIST_29/port_mask",
+          "BIST_2/port_mask",
+          "BIST_30/port_mask",
+          "BIST_31/port_mask",
+          "BIST_3/port_mask",
+          "BIST_4/port_mask",
+          "BIST_5/port_mask",
+          "BIST_6/port_mask",
+          "BIST_7/port_mask",
+          "BIST_8/port_mask",
+          "BIST_9/port_mask"
+        ]
+      },
       "TX_RX_0_USB_UART_TX": {
         "ports": [
           "TX_RX_0/USB_UART_TX",
@@ -1658,6 +2745,12 @@
           "clk_wiz_0/clk_in1"
         ]
       },
+      "clk_uart_1": {
+        "ports": [
+          "clk_uart",
+          "clk_wiz_1/clk_in1"
+        ]
+      },
       "clk_wiz_0_MHz_100": {
         "ports": [
           "clk_wiz_0/MHz_100",
@@ -1665,8 +2758,12 @@
           "hbm_0/APB_1_PCLK",
           "hbm_0/APB_0_PCLK",
           "proc_sys_reset_1/slowest_sync_clk",
+<<<<<<< HEAD
+          "hbm_0/HBM_REF_CLK_1"
+=======
           "hbm_0/HBM_REF_CLK_1",
           "TX_RX_0/clk"
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
         ]
       },
       "clk_wiz_0_MHz_450": {
@@ -1705,8 +2802,13 @@
           "hbm_0/AXI_30_ACLK",
           "hbm_0/AXI_31_ACLK",
           "proc_sys_reset_0/slowest_sync_clk",
+<<<<<<< HEAD
+          "clk_450",
+          "BIST_0/axi_aclk",
+=======
           "BIST_8/axi_aclk",
           "BIST_9/axi_aclk",
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
           "BIST_10/axi_aclk",
           "BIST_11/axi_aclk",
           "BIST_12/axi_aclk",

@@ -3,13 +3,19 @@
   <spirit:vendor>user.org</spirit:vendor>
   <spirit:library>user</spirit:library>
   <spirit:name>TX_RX</spirit:name>
+<<<<<<< HEAD
+  <spirit:version>1.15.7</spirit:version>
+=======
   <spirit:version>1.1</spirit:version>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>clk</spirit:name>
       <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
       <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
-      <spirit:slave/>
+      <spirit:slave>
+        <spirit:memoryMapRef spirit:memoryMapRef="clk"/>
+      </spirit:slave>
       <spirit:portMaps>
         <spirit:portMap>
           <spirit:logicalPort>
@@ -22,6 +28,11 @@
       </spirit:portMaps>
     </spirit:busInterface>
   </spirit:busInterfaces>
+  <spirit:memoryMaps>
+    <spirit:memoryMap>
+      <spirit:name>clk</spirit:name>
+    </spirit:memoryMap>
+  </spirit:memoryMaps>
   <spirit:model>
     <spirit:views>
       <spirit:view>
@@ -36,7 +47,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
+<<<<<<< HEAD
+            <spirit:value>e556d5f9</spirit:value>
+=======
             <spirit:value>1769a043</spirit:value>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -52,7 +67,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
+<<<<<<< HEAD
+            <spirit:value>e556d5f9</spirit:value>
+=======
             <spirit:value>1769a043</spirit:value>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -129,9 +148,39 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
+        <spirit:name>address_inc</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
         <spirit:name>start</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>port_mask</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
               <spirit:typeName>logic</spirit:typeName>
@@ -169,7 +218,11 @@
       <spirit:file>
         <spirit:name>TX_RX.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
+<<<<<<< HEAD
+        <spirit:userFileType>CHECKSUM_6a90b02e</spirit:userFileType>
+=======
         <spirit:userFileType>CHECKSUM_df9209c2</spirit:userFileType>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -202,14 +255,22 @@
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
+<<<<<<< HEAD
+        <spirit:name>xgui/TX_RX_v1_15_7.tcl</spirit:name>
+=======
         <spirit:name>xgui/TX_RX_v1_1.tcl</spirit:name>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
         <spirit:fileType>tclSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_f92e9879</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
+<<<<<<< HEAD
+  <spirit:description>TX_RX_v1_15.7</spirit:description>
+=======
   <spirit:description>TX_RX_v1_1</spirit:description>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
@@ -248,22 +309,55 @@
       <xilinx:taxonomies>
         <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
       </xilinx:taxonomies>
+<<<<<<< HEAD
+      <xilinx:displayName>TX_RX_v1_15.7</xilinx:displayName>
+=======
       <xilinx:displayName>TX_RX_v1_1</xilinx:displayName>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:coreRevision>1</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.0</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.5</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.6</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.7</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.8</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.9</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.10</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.10.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.11</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.13</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.5</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.6</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
+<<<<<<< HEAD
+      <xilinx:coreCreationDateTime>2023-06-20T19:55:51Z</xilinx:coreCreationDateTime>
+=======
       <xilinx:coreCreationDateTime>2023-06-01T16:16:10Z</xilinx:coreCreationDateTime>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <xilinx:tags>
         <xilinx:tag xilinx:name="nopcore"/>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2022.2</xilinx:xilinxVersion>
+<<<<<<< HEAD
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="9e68ecf6"/>
+      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="e178f9e6"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="1b418c2d"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="781b56bf"/>
+=======
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="a88d4390"/>
       <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="9a1466f8"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="bffd8edc"/>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="85d7f697"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>

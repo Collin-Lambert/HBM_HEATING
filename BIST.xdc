@@ -28,7 +28,22 @@ set_property PACKAGE_PIN G31 [get_ports SYS_CLK3_P]
 set_property PACKAGE_PIN F31 [get_ports SYS_CLK3_N]
 set_property IOSTANDARD LVDS [get_ports SYS_CLK3_P]
 
-create_clock -period 10.000 -name sysclk3 [get_ports SYS_CLK3_P]
+#set_property PACKAGE_PIN BJ44              [ get_ports  {SYS_CLK0_N} ]
+#set_property IOSTANDARD  LVDS              [ get_ports  {SYS_CLK0_N} ]
+#set_property PACKAGE_PIN BJ43              [ get_ports  {SYS_CLK0_P} ]
+#set_property IOSTANDARD  LVDS              [ get_ports  {SYS_CLK0_P} ]
+
+create_clock -period 10.000 -name SYS_CLK3_P [get_ports SYS_CLK3_P]
+
+#create_clock -period 10.000 -name SYS_CLK0_P [get_ports SYS_CLK0_P]
+
+#set_clock_groups -name async_clks -asynchronous #-group [get_clocks -of_objects[get_pins MMCME2_ADV/clkout0]] #-group [get_clocks -of_objects[get_pins MMCME2_ADV/clkout1]]
+
+
+set_property PACKAGE_PIN F30 [get_ports clk_450]
+set_property IOSTANDARD LVCMOS18 [get_ports clk_450]
+
+set_clock_groups -name TX_RX -asynchronous -group clk_out1_top_clk_wiz_1_0
 
 
 connect_debug_port dbg_hub/clk [get_nets clk_out]

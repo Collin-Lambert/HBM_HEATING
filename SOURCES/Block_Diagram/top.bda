@@ -23,6 +23,21 @@
   <key id="VT" for="node" attr.name="vert_type" attr.type="string"/>
   <graph id="G" edgedefault="undirected" parse.nodeids="canonical" parse.edgeids="canonical" parse.order="nodesfirst">
     <node id="n0">
+<<<<<<< HEAD
+      <data key="BA">0x130000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x13FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_19</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM19</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_19</data>
+      <data key="SS">HBM_MEM19</data>
+=======
       <data key="BA">0x010000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x01FFFFFFF</data>
@@ -36,16 +51,103 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_18</data>
       <data key="SS">HBM_MEM01</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
     <node id="n1">
-      <data key="BA">0x050000000</data>
+<<<<<<< HEAD
+      <data key="BA">0x0D0000000</data>
       <data key="BP">C_BASEADDR</data>
-      <data key="HA">0x05FFFFFFF</data>
+      <data key="HA">0x0DFFFFFFF</data>
       <data key="HP">C_HIGHADDR</data>
       <data key="MA">axi</data>
+      <data key="MX">/BIST_13</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM13</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_13</data>
+      <data key="SS">HBM_MEM13</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n2">
+      <data key="BA">0x190000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x19FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_25</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM25</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_25</data>
+      <data key="SS">HBM_MEM25</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n3">
+      <data key="BA">0x1C0000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x1CFFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_28</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM28</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_28</data>
+      <data key="SS">HBM_MEM28</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n4">
+      <data key="BA">0x120000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x12FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_18</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM18</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_18</data>
+      <data key="SS">HBM_MEM18</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n5">
+      <data key="BA">0x140000000</data>
+=======
+      <data key="BA">0x050000000</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x14FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+<<<<<<< HEAD
+      <data key="MX">/BIST_20</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM20</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_20</data>
+      <data key="SS">HBM_MEM20</data>
+=======
       <data key="MX">/BIST_26</data>
       <data key="MI">axi</data>
       <data key="MS">SEG_hbm_0_HBM_MEM05</data>
@@ -54,10 +156,27 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_26</data>
       <data key="SS">HBM_MEM05</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n6">
+      <data key="BA">0x030000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x03FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_3</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM03</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_03</data>
+      <data key="SS">HBM_MEM03</data>
+=======
     <node id="n2">
       <data key="BA">0x070000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -144,11 +263,32 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_18</data>
       <data key="SS">HBM_MEM16</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
     <node id="n7">
+<<<<<<< HEAD
+      <data key="TU">active</data>
+      <data key="VH">2</data>
+      <data key="VT">PM</data>
+    </node>
+    <node id="n8">
+      <data key="BA">0x0F0000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x0FFFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_15</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM15</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_15</data>
+      <data key="SS">HBM_MEM15</data>
+=======
       <data key="BA">0x1B0000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x1BFFFFFFF</data>
@@ -180,11 +320,27 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_31</data>
       <data key="SS">HBM_MEM25</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
     <node id="n9">
+<<<<<<< HEAD
+      <data key="BA">0x020000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x02FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_2</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM02</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_02</data>
+      <data key="SS">HBM_MEM02</data>
+=======
       <data key="BA">0x040000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x04FFFFFFF</data>
@@ -198,11 +354,14 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_26</data>
       <data key="SS">HBM_MEM04</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
     <node id="n10">
+<<<<<<< HEAD
+=======
       <data key="BA">0x1C0000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x1CFFFFFFF</data>
@@ -995,6 +1154,7 @@
       <data key="VT">AC</data>
     </node>
     <node id="n54">
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="BA">0x060000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x06FFFFFFF</data>
@@ -1003,7 +1163,11 @@
       <data key="MX">/BIST_6</data>
       <data key="MI">axi</data>
       <data key="MS">SEG_hbm_0_HBM_MEM06</data>
+<<<<<<< HEAD
+      <data key="MV">user.org:user:BIST:18.6</data>
+=======
       <data key="MV">user.org:user:BIST:1.8</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="TM">both</data>
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_06</data>
@@ -1012,6 +1176,184 @@
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n11">
+      <data key="BA">0x080000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x08FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_8</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM08</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_08</data>
+      <data key="SS">HBM_MEM08</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n12">
+      <data key="BA">0x010000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x01FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_1</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM01</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_01</data>
+      <data key="SS">HBM_MEM01</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n13">
+      <data key="BA">0x0B0000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x0BFFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_11</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM11</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_11</data>
+      <data key="SS">HBM_MEM11</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n14">
+      <data key="BA">0x150000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x15FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_21</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM21</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_21</data>
+      <data key="SS">HBM_MEM21</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n15">
+      <data key="BA">0x1E0000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x1EFFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_30</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM30</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_30</data>
+      <data key="SS">HBM_MEM30</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n16">
+      <data key="BA">0x0E0000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x0EFFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_14</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM14</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_14</data>
+      <data key="SS">HBM_MEM14</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n17">
+      <data key="BA">0x0A0000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x0AFFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_10</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM10</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_10</data>
+      <data key="SS">HBM_MEM10</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n18">
+      <data key="BA">0x040000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x04FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_4</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM04</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_04</data>
+      <data key="SS">HBM_MEM04</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n19">
+      <data key="BA">0x050000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x05FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_5</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM05</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_05</data>
+      <data key="SS">HBM_MEM05</data>
+      <data key="SV">xilinx.com:ip:hbm:1.0</data>
+      <data key="TU">memory</data>
+      <data key="VT">AC</data>
+    </node>
+    <node id="n20">
+      <data key="BA">0x180000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x18FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_24</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM24</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_24</data>
+      <data key="SS">HBM_MEM24</data>
+=======
     <node id="n55">
       <data key="BA">0x040000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -1026,10 +1368,27 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_06</data>
       <data key="SS">HBM_MEM04</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n21">
+      <data key="BA">0x100000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x10FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_16</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM16</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_16</data>
+      <data key="SS">HBM_MEM16</data>
+=======
     <node id="n56">
       <data key="BA">0x080000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -1044,10 +1403,32 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_06</data>
       <data key="SS">HBM_MEM08</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n22">
+      <data key="VH">2</data>
+      <data key="VM">top</data>
+      <data key="VT">VR</data>
+    </node>
+    <node id="n23">
+      <data key="BA">0x1A0000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x1AFFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_26</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM26</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_26</data>
+      <data key="SS">HBM_MEM26</data>
+=======
     <node id="n57">
       <data key="BA">0x030000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -1062,10 +1443,14 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_06</data>
       <data key="SS">HBM_MEM03</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n24">
+=======
     <node id="n58">
       <data key="BA">0x020000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -1175,6 +1560,7 @@
       <data key="VT">AC</data>
     </node>
     <node id="n64">
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="BA">0x1D0000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x1DFFFFFFF</data>
@@ -1183,7 +1569,11 @@
       <data key="MX">/BIST_0</data>
       <data key="MI">axi</data>
       <data key="MS">SEG_hbm_0_HBM_MEM29</data>
+<<<<<<< HEAD
+      <data key="MV">user.org:user:BIST:18.6</data>
+=======
       <data key="MV">user.org:user:BIST:1.8</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="TM">both</data>
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_00</data>
@@ -1192,6 +1582,22 @@
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n25">
+      <data key="BA">0x0C0000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x0CFFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_12</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM12</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_12</data>
+      <data key="SS">HBM_MEM12</data>
+=======
     <node id="n65">
       <data key="BA">0x040000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -1206,10 +1612,14 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_29</data>
       <data key="SS">HBM_MEM04</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n26">
+=======
     <node id="n66">
       <data key="BA">0x080000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -1769,11 +2179,21 @@
       <data key="VT">AC</data>
     </node>
     <node id="n97">
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="BA">0x170000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x17FFFFFFF</data>
       <data key="HP">C_HIGHADDR</data>
       <data key="MA">axi</data>
+<<<<<<< HEAD
+      <data key="MX">/BIST_23</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM23</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_23</data>
+=======
       <data key="MX">/BIST_13</data>
       <data key="MI">axi</data>
       <data key="MS">SEG_hbm_0_HBM_MEM23</data>
@@ -1781,17 +2201,31 @@
       <data key="TM">both</data>
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_13</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SS">HBM_MEM23</data>
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n27">
+=======
     <node id="n98">
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="BA">0x1B0000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x1BFFFFFFF</data>
       <data key="HP">C_HIGHADDR</data>
       <data key="MA">axi</data>
+<<<<<<< HEAD
+      <data key="MX">/BIST_27</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM27</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_27</data>
+=======
       <data key="MX">/BIST_10</data>
       <data key="MI">axi</data>
       <data key="MS">SEG_hbm_0_HBM_MEM27</data>
@@ -1799,11 +2233,28 @@
       <data key="TM">both</data>
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_10</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SS">HBM_MEM27</data>
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n28">
+      <data key="BA">0x1F0000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x1FFFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_31</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM31</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_31</data>
+      <data key="SS">HBM_MEM31</data>
+=======
     <node id="n99">
       <data key="BA">0x0A0000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -1818,10 +2269,18 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_10</data>
       <data key="SS">HBM_MEM10</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n29">
+      <data key="VM">top</data>
+      <data key="VT">BC</data>
+    </node>
+    <node id="n30">
+=======
     <node id="n100">
       <data key="BA">0x150000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -1841,6 +2300,7 @@
       <data key="VT">AC</data>
     </node>
     <node id="n101">
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="BA">0x160000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x16FFFFFFF</data>
@@ -1849,7 +2309,11 @@
       <data key="MX">/BIST_22</data>
       <data key="MI">axi</data>
       <data key="MS">SEG_hbm_0_HBM_MEM22</data>
+<<<<<<< HEAD
+      <data key="MV">user.org:user:BIST:18.6</data>
+=======
       <data key="MV">user.org:user:BIST:1.8</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="TM">both</data>
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_22</data>
@@ -1858,6 +2322,10 @@
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n31">
+      <data key="BA">0x090000000</data>
+=======
     <node id="n102">
       <data key="BA">0x170000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -7260,22 +7728,44 @@
     </node>
     <node id="n402">
       <data key="BA">0x180000000</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="BP">C_BASEADDR</data>
-      <data key="HA">0x18FFFFFFF</data>
+      <data key="HA">0x09FFFFFFF</data>
       <data key="HP">C_HIGHADDR</data>
       <data key="MA">axi</data>
-      <data key="MX">/BIST_24</data>
+      <data key="MX">/BIST_9</data>
       <data key="MI">axi</data>
+<<<<<<< HEAD
+      <data key="MS">SEG_hbm_0_HBM_MEM09</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+=======
       <data key="MS">SEG_hbm_0_HBM_MEM24</data>
       <data key="MV">user.org:user:BIST:1.8</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="TM">both</data>
       <data key="SX">/hbm_0</data>
-      <data key="SI">SAXI_24</data>
-      <data key="SS">HBM_MEM24</data>
+      <data key="SI">SAXI_09</data>
+      <data key="SS">HBM_MEM09</data>
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n32">
+      <data key="BA">0x110000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x11FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_17</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM17</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_17</data>
+      <data key="SS">HBM_MEM17</data>
+=======
     <node id="n403">
       <data key="BA">0x190000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -7290,10 +7780,27 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_24</data>
       <data key="SS">HBM_MEM25</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n33">
+      <data key="BA">0x070000000</data>
+      <data key="BP">C_BASEADDR</data>
+      <data key="HA">0x07FFFFFFF</data>
+      <data key="HP">C_HIGHADDR</data>
+      <data key="MA">axi</data>
+      <data key="MX">/BIST_7</data>
+      <data key="MI">axi</data>
+      <data key="MS">SEG_hbm_0_HBM_MEM07</data>
+      <data key="MV">user.org:user:BIST:18.6</data>
+      <data key="TM">both</data>
+      <data key="SX">/hbm_0</data>
+      <data key="SI">SAXI_07</data>
+      <data key="SS">HBM_MEM07</data>
+=======
     <node id="n404">
       <data key="BA">0x1A0000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -7308,10 +7815,14 @@
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_24</data>
       <data key="SS">HBM_MEM26</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="SV">xilinx.com:ip:hbm:1.0</data>
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <node id="n34">
+=======
     <node id="n405">
       <data key="BA">0x1B0000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -7493,6 +8004,7 @@
       <data key="VT">AC</data>
     </node>
     <node id="n415">
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="BA">0x000000000</data>
       <data key="BP">C_BASEADDR</data>
       <data key="HA">0x00FFFFFFF</data>
@@ -7501,7 +8013,11 @@
       <data key="MX">/BIST_0</data>
       <data key="MI">axi</data>
       <data key="MS">SEG_hbm_0_HBM_MEM00</data>
+<<<<<<< HEAD
+      <data key="MV">user.org:user:BIST:18.6</data>
+=======
       <data key="MV">user.org:user:BIST:1.8</data>
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="TM">both</data>
       <data key="SX">/hbm_0</data>
       <data key="SI">SAXI_00</data>
@@ -7510,6 +8026,104 @@
       <data key="TU">memory</data>
       <data key="VT">AC</data>
     </node>
+<<<<<<< HEAD
+    <edge id="e0" source="n29" target="n22"/>
+    <edge id="e1" source="n22" target="n7"/>
+    <edge id="e2" source="n34" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e3" source="n17" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e4" source="n13" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e5" source="n25" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e6" source="n1" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e7" source="n16" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e8" source="n8" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e9" source="n21" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e10" source="n32" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e11" source="n4" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e12" source="n0" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e13" source="n12" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e14" source="n5" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e15" source="n14" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e16" source="n30" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e17" source="n26" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e18" source="n20" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e19" source="n2" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e20" source="n23" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e21" source="n27" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e22" source="n3" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e23" source="n24" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e24" source="n9" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e25" source="n15" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e26" source="n28" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e27" source="n6" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e28" source="n18" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e29" source="n19" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e30" source="n10" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e31" source="n33" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e32" source="n11" target="n7">
+      <data key="EH">2</data>
+    </edge>
+    <edge id="e33" source="n31" target="n7">
+=======
     <node id="n416">
       <data key="BA">0x1E0000000</data>
       <data key="BP">C_BASEADDR</data>
@@ -21540,6 +22154,7 @@
       <data key="EH">2</data>
     </edge>
     <edge id="e1025" source="n914" target="n614">
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
       <data key="EH">2</data>
     </edge>
   </graph>

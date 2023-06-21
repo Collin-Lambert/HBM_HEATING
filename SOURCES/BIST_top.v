@@ -1,67 +1,65 @@
-//Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
-//--------------------------------------------------------------------------------
-//Tool Version: Vivado v.2022.2 (lin64) Build 3671981 Fri Oct 14 04:59:54 MDT 2022
-//Date        : Tue May 23 13:28:32 2023
-//Host        : cb461-ccl0 running 64-bit Ubuntu 22.04.2 LTS
-//Command     : generate_target top_wrapper.bd
-//Design      : top_wrapper
-//Purpose     : IP block netlist
-//--------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-module BIST_top
-   (SYS_CLK3_P,
-    SYS_CLK3_N,
-    resetn,
-    USB_UART_RX,
-    USB_UART_TX
-    );
-    
-    
+module BIST_top (
+  SYS_CLK3_P,
+  SYS_CLK3_N,
+//  SYS_CLK0_P,
+//  SYS_CLK0_N,
+  resetn,
+  USB_UART_RX,
+  USB_UART_TX,
+  clk_450
+);
   input SYS_CLK3_P;
   input SYS_CLK3_N;
+//  input SYS_CLK0_P;
+//  input SYS_CLK0_N;
   input resetn;
   input USB_UART_RX;
   output USB_UART_TX;
-  
+  output clk_450;
 
   wire resetn;
   wire clk_out;
   reg temp_rst;
-  
+
+  // Instantiate the IBUFDS for differential clock input
   IBUFDS diff_clk (
-        .O (clk_out),
-        .I (SYS_CLK3_P),
-        .IB (SYS_CLK3_N)
-    );
-    
-
+    .O(clk_out),
+    .I(SYS_CLK3_P),
+    .IB(SYS_CLK3_N)
+  );
   
-  
-//  TX_RX tx_rx (
-//    .clk(clk_out),
-//    .USB_UART_RX(USB_UART_RX),
-//    .USB_UART_TX(USB_UART_TX),
-//    .read_write(read_write),
-//    .start(start)
+//  IBUFDS diff_clk_1 (
+//    .O(clk_uart),
+//    .I(SYS_CLK0_P),
+//    .IB(SYS_CLK0_N)
 //  );
+    
+//  MMCME2_ADV #(
+//	.BANDWIDTH("OPTIMIZED"),
+//	.CLKFBOUT_MULT_F(4'd12),
+//	.CLKIN1_PERIOD(10.0),
+//	.CLKOUT0_DIVIDE_F(4'd12),
+//	.CLKOUT0_PHASE(1'd0),
+//	.CLKOUT1_DIVIDE(4'd12),
+//	.CLKOUT1_PHASE(1'd0),
+//	.REF_JITTER1(0.01)
+//) MMCME2_ADV (
+//	.CLKIN1(clk_out),
+//	.CLKOUT0(clk_bist),
+//	.CLKOUT1(clk_uart)
+//);
   
-//  reg [12:0] counter;
   
-//  always @(posedge clk_out)
-//    begin
-//        if (counter < 5)
-//            begin
-//                counter <= counter + 1;
-//                temp_rst <= 0;
-//            end
-//        else
-//            temp_rst <= 1;
-//    end
 
-  top top_i
-       (.clk(clk_out),
-        .resetn(resetn),
-        .USB_UART_RX(USB_UART_RX),
-        .USB_UART_TX(USB_UART_TX));
+  top top_i (
+    .clk(clk_out),
+    .clk_uart(clk_out),
+    .resetn(resetn),
+    .USB_UART_RX(USB_UART_RX),
+    .USB_UART_TX(USB_UART_TX),
+    .clk_450(clk_450)
+  );
+  
 endmodule

@@ -24,6 +24,13 @@ module BIST #(parameter bist_num = 0) (
         input wire axi_aclk,
         
         //SHARED CSRs
+<<<<<<< HEAD
+        input wire csr_start,                    //Tells the BIST when to begin/end  
+        //output logic start_out,                   //For staggered starts
+        input wire [2:0] read_or_write,          //0 for read, 1 for write, 2 for read and write   
+        input wire address_inc_csr,
+        input wire [31:0] port_mask,
+=======
         //input wire [31:0] csr_port_mask,        //Defines which ports are set to read/write
         input wire csr_start,                   //Tells the BIST when to begin/end
         //input wire [31:0] csr_data_pattern,     //The pattern of data to be written     
@@ -36,6 +43,7 @@ module BIST #(parameter bist_num = 0) (
         output logic [31:0] csr_read_ticks,          //Number of clock cycles taken per transaction
         output logic [31:0] csr_write_ticks,
         //input wire [31:0] address_readwrite,    //Address to read and write to
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
                
                
         //AXI
@@ -80,6 +88,12 @@ module BIST #(parameter bist_num = 0) (
 //        output wire axi_error                         
         
     );
+//    logic [5:0] transaction_id;
+//    assign axi_arid = transaction_id;
+//    assign axi_awid = transaction_id;
+
+    assign axi_arid = 0;
+    assign axi_awid = 0;
     
     //NUM_BYTES = fff = 4096
     //BEATS_PER_BURST = 16
@@ -120,7 +134,7 @@ module BIST #(parameter bist_num = 0) (
    
    
     
-    logic [31:0] read_burst_counter, write_burst_counter, read_beat_counter, write_beat_counter;
+    logic [4:0] read_burst_counter, write_burst_counter, read_beat_counter, write_beat_counter;
     
     
     
@@ -169,19 +183,28 @@ module BIST #(parameter bist_num = 0) (
     
     //Bottom 5 bits of the address are unused as per the HBM IP specification
     
+<<<<<<< HEAD
+    logic [5:0] outstanding_reads, outstanding_writes;
+    //logic [15:0] start_delay;
+    logic outstanding_reads_inc, r_address_inc, outstanding_reads_dec, outstanding_writes_inc, w_address_inc, outstanding_writes_dec;
+=======
     
     
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
     
     
     assign axi_awaddr = address_write;
     assign axi_araddr = address_read;
     
+<<<<<<< HEAD
+=======
     assign csr_port_setting = read_or_write;
     
     assign axi_arid = 0;
     assign axi_awid = 0;
     assign axi_rid = 0;
     
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
     //read state machine and write state machine
     always_comb
     begin
@@ -210,6 +233,384 @@ module BIST #(parameter bist_num = 0) (
     writes_rst = 0;
     write_ticks_rst = 0;
     wns = WRITE_WAIT;
+<<<<<<< HEAD
+    if (port_mask[bist_num])
+    begin
+        if (!axi_aresetn)
+            begin
+                rns = READ_WAIT;
+                wns = WRITE_WAIT;
+                qarns = AR_WAIT;
+                qrns = R_WAIT;
+            end
+        else
+            begin
+                //Read portion
+                case(rcs)
+                    READ_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b000)) //READ
+                                begin
+                                    rns = READ_VALID;
+                                end
+                            else
+                                rns = rcs;
+                        end
+                    READ_VALID:
+                        begin
+                            if (csr_start)
+                                axi_arvalid = 1;
+                            if (!csr_start)
+                                begin
+                                    rns = READ_WAIT;
+                                end
+                            else if (axi_arready)
+                                begin
+                                    rns = READ_BEAT;
+                                end
+                            else
+                                begin
+                                    rns = READ_VALID;
+                                end
+                        end
+                    READ_BEAT:
+                        begin
+                            axi_rready = 1;
+                            if (axi_rvalid && axi_rlast)
+                                begin
+                                    read_burst_incr = 1;
+                                    if ((read_burst_counter + 1) >= read_burst_quantity)
+                                        begin
+                                            if (!csr_start)
+                                                begin
+                                                    rns = READ_WAIT;
+                                                end
+                                            else
+                                                begin
+                                                    read_beat_counter_rst = 1;
+                                                    read_burst_counter_rst = 1;
+                                                    rns = READ_VALID;
+                                                end
+                                        end
+                                    else
+                                        begin
+                                            read_beat_counter_rst = 1;
+                                            rns = READ_VALID;
+                                        end
+                                end
+                            else if (axi_rvalid)
+                                begin
+                                    rns = READ_BEAT;
+                                end
+                            else
+                                begin
+                                    rns = rcs;
+                                end
+                        end
+                endcase
+                
+                //Write portion
+                case(wcs)
+                    WRITE_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b001)) //WRITE
+                                begin
+                                    wns = WRITE_VALID;
+                                end
+                            else
+                                wns = wcs;
+                        end
+                    WRITE_VALID:
+                        begin
+                            if (csr_start)
+                                begin
+                                axi_awvalid = 1;
+                                axi_wvalid = 1;
+                                end
+                            if (!csr_start)
+                                begin
+                                    wns = WRITE_WAIT;
+                                end
+                            else if (axi_awready && (axi_awlen > 0))
+                                begin
+                                    if (axi_wready)
+                                        write_beat_incr = 1;
+                                    wns = WRITE_BEAT;
+                                end
+                            else if (axi_awready)
+                                begin
+                                    axi_wlast = 1;
+                                    write_burst_incr = 1;
+                                    wns = WRITE_LAST;
+                                end
+                            else
+                                begin
+                                    wns = WRITE_VALID;
+                                end
+                        end
+                        
+                    WRITE_BEAT:
+                        begin
+                            axi_wvalid = 1;
+                            if (axi_wready && (write_beat_counter < axi_awlen))
+                                begin
+                                    write_beat_incr = 1;
+                                    wns = WRITE_BEAT;
+                                end
+                            else if (write_beat_counter == axi_awlen)
+                                begin
+                                    axi_wlast = 1;
+                                    if (axi_wready)
+                                        begin
+                                            write_beat_counter_rst = 1;
+                                            write_burst_incr = 1;
+                                            wns = WRITE_LAST;
+                                        end
+                                    else
+                                        wns = wcs;
+                                end
+                            else
+                                begin
+                                    wns = WRITE_BEAT;
+                                end
+                        end
+                    
+                    WRITE_LAST:
+                        begin
+                            axi_bready = 1;
+                            if (axi_bvalid && (write_burst_counter >= write_burst_quantity))
+                                begin
+                                    if (!csr_start)
+                                        begin
+                                            wns = WRITE_WAIT;
+                                        end
+                                    else
+                                        begin
+                                            write_beat_counter_rst = 1;
+                                            write_burst_counter_rst = 1;
+                                            wns = WRITE_VALID;
+                                        end
+                                end
+                            else if (axi_bvalid)
+                                begin
+                                    write_beat_counter_rst = 1;
+                                    wns = WRITE_VALID;
+                                end
+                            else
+                                begin
+                                    wns = WRITE_LAST;
+                                end
+                        end
+                endcase
+                
+                case(qarcs)
+                    AR_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b011))
+                                begin
+                                    qarns = AR_VALID;
+                                end
+                            else
+                                qarns = qarcs;
+                        end
+                    AR_VALID:
+                        begin
+                            if (csr_start)
+                                axi_arvalid = 1;
+                            if (!csr_start)
+                                begin
+                                    qarns = AR_WAIT;
+                                end
+                            else if (axi_arready)
+                                begin
+                                    qarns = AR_INC;
+                                end
+                            else
+                                begin
+                                    qarns = AR_VALID;
+                                end
+                        end
+                    AR_INC:
+                        begin
+                            r_address_inc = 1;
+                            outstanding_reads_inc = 1;
+                            qarns = AR_CHECK;
+                        end
+                    AR_CHECK:
+                        begin
+                            if (outstanding_reads <= 60)
+                                begin
+                                    qarns = AR_VALID;
+                                end
+                            else 
+                                begin
+                                    qarns = AR_CHECK;
+                                end
+                        end
+                        
+                endcase
+                
+                case(qrcs)
+                    R_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b011))
+                                begin
+                                    qrns = R_BEAT;
+                                end
+                            else
+                                begin
+                                    qrns = qrcs;
+                                end
+                        end
+                    R_BEAT:
+                        begin
+                            axi_rready = 1;
+                            if (!csr_start && (outstanding_reads == 0))
+                                begin
+                                    qrns = R_WAIT;
+                                end
+                            else if (axi_rvalid && axi_rlast)
+                                begin
+                                    qrns = R_INC;
+                                end
+                            else if (axi_rvalid)
+                                begin
+                                    qrns = R_BEAT;
+                                end
+                            else
+                                qrns = R_BEAT;
+                        end
+                    R_INC:
+                        begin
+                            outstanding_reads_dec = 1;
+                            qrns = R_BEAT;
+                        end
+                endcase
+    
+                case(qawcs)
+                    AW_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b100))
+                                begin
+                                    qawns = AW_VALID;
+                                end
+                            else
+                                qawns = qawcs;
+                        end
+                    AW_VALID:
+                        begin
+                            if (csr_start)
+                                axi_awvalid = 1;
+                            if (!csr_start)
+                                begin
+                                    qawns = AW_WAIT;
+                                end
+                            else if (axi_awready)
+                                begin
+                                    qawns = AW_INC;
+                                end
+                            else
+                                begin
+                                    qawns = AW_VALID;
+                                end
+                        end
+                    AW_INC:
+                        begin
+                            w_address_inc = 1;
+                            outstanding_writes_inc = 1;
+                            qawns = AW_CHECK;
+                        end
+                    AW_CHECK:
+                        begin   
+                            if (!csr_start)
+                                qawns = AW_WAIT;
+                            else
+                                begin
+                                    if (outstanding_writes <= 60)
+                                        begin
+                                            qawns = AW_VALID;
+                                        end
+                                    else 
+                                        begin
+                                            qawns = AW_CHECK;
+                                        end
+                                end
+                        end
+                endcase
+                
+                case(qwcs)
+                    W_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b100))
+                                begin
+                                    qwns = W_BEAT;
+                                end
+                            else
+                                qwns = qwcs;
+                        end
+    
+                    W_BEAT:
+                        begin
+                            axi_wvalid = 1;
+                            if (!csr_start && (outstanding_writes == 0))
+                                begin
+                                    qwns = W_WAIT;
+                                end
+                            else if (axi_wready && (write_beat_counter < axi_awlen))
+                                begin
+                                    write_beat_incr = 1;
+                                    qwns = W_BEAT;
+                                end
+                            else if (write_beat_counter == axi_awlen)
+                                begin
+                                    axi_wlast = 1;
+                                    if (!csr_start)
+                                        begin
+                                            qwns = W_WAIT;
+                                        end
+                                    else if (axi_wready)
+                                        begin
+                                            write_beat_counter_rst = 1;
+                                            qwns = W_LAST;
+                                        end
+                                    else
+                                        qwns = qwcs;
+                                end
+                            else
+                                qwns = W_BEAT;
+                        end
+                    
+                    W_LAST:
+                        begin
+                            axi_bready = 1;
+                            if (axi_wready)
+                                begin
+                                    axi_wlast = 1;
+                                    axi_wvalid = 1;
+                                end
+                            if (!csr_start && (outstanding_writes == 0))
+                                begin
+                                    qwns = W_WAIT;
+                                end
+                            else if (axi_bvalid)
+                                begin
+                                    write_beat_counter_rst = 1;
+                                    outstanding_writes_dec = 1;
+                                    axi_wvalid = 0;
+                                    if (csr_start || (outstanding_writes > 1))
+                                        qwns = W_BEAT;
+                                    else
+                                        qwns = W_WAIT;
+                                end
+                            else
+                                qwns = qwcs;
+                        end
+    
+                endcase 
+    
+    
+            end
+=======
     
     if (!axi_aresetn)
         begin
@@ -386,6 +787,7 @@ module BIST #(parameter bist_num = 0) (
                             end
                     end
             endcase
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
         end
     end
     
@@ -395,6 +797,15 @@ module BIST #(parameter bist_num = 0) (
     begin
         rcs <= rns;
         wcs <= wns;
+<<<<<<< HEAD
+        qarcs <= qarns;
+        qrcs <= qrns;
+        qawcs <= qawns;
+        qwcs <= qwns;
+//        start_delay <= 0;
+//        start_out <= 0;
+=======
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
         
         if (!axi_aresetn)
             begin
@@ -406,6 +817,32 @@ module BIST #(parameter bist_num = 0) (
                 read_beat_counter <= 0;
                 write_burst_counter <= 0;
                 write_beat_counter <= 0;
+<<<<<<< HEAD
+                outstanding_reads <= 0;
+                outstanding_writes <= 0;
+                //transaction_id <= 0;
+                address_read <= default_address;
+                address_write <= default_address;
+            end
+        else
+            begin
+//                if (start_delay < 65000 && csr_start)
+//                    begin
+//                        start_delay <= start_delay + 1;
+//                        start_out <= 0;
+//                    end
+//                else if (csr_start)
+//                    begin
+//                        start_delay <= start_delay;
+//                        start_out <= 1;
+//                    end
+//                else
+//                    begin
+//                        start_delay <= 0;
+//                        start_out <= 0;
+//                    end
+                //transaction_id <= transaction_id + 1;
+=======
             end
         else
             begin
@@ -417,12 +854,44 @@ module BIST #(parameter bist_num = 0) (
                     csr_total_reads <= csr_total_reads + 1;
                 if (writes_incr)
                     csr_total_writes <= csr_total_writes + 1;
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
                 if (read_burst_incr)
                     read_burst_counter <= read_burst_counter + 1;
+<<<<<<< HEAD
+                    if (address_inc_csr)
+                        begin
+                            //This prevents the address from exceeding 4096 above the base address
+                            //For some reason this is required
+                            if (address_read <= address_limit)
+                                //Using burst type of INCR each burst uses up 32 addresses
+                                //Since there are 16 bursts per transaction, each transaction uses 512 (0x200) addresses.
+                                //The next sequential address should then be curr_address + 0x200
+                                address_read <= address_read + 'h200;
+                            else
+                                address_read <= default_address;
+                        end
+                    else
+                        address_read <= default_address;
+                    end
+=======
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
                 if (read_beat_incr)
                     read_beat_counter <= read_beat_counter + 1;
                 if (write_burst_incr)
                     write_burst_counter <= write_burst_counter + 1;
+<<<<<<< HEAD
+                    if (address_inc_csr)
+                        begin
+                            if (address_write <= address_limit)
+                                address_write <= address_write + 'h200;
+                            else
+                                address_write <= default_address;
+                        end
+                    else
+                        address_write <= default_address;
+                    end
+=======
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
                 if (write_beat_incr)
                     write_beat_counter <= write_beat_counter + 1;
                     
@@ -434,6 +903,42 @@ module BIST #(parameter bist_num = 0) (
                     write_burst_counter <= 0;
                 if (write_beat_counter_rst)
                     write_beat_counter <= 0;
+<<<<<<< HEAD
+                if (r_address_inc)
+                    begin 
+                        if (address_inc_csr)
+                            begin
+                                if (address_read <= address_limit)
+                                    address_read <= address_read + 'h200;
+                                else
+                                    address_read <= default_address;
+                                //address_read <= address_read;
+                            end
+                        else
+                            address_read <= default_address;
+                    end
+                if (w_address_inc)
+                    begin
+                        if (address_inc_csr)
+                            begin
+                                if (address_write <= address_limit)
+                                    address_write <= address_write + 'h200;
+                                else
+                                    address_write <= default_address;
+                                //address_write <= address_write;
+                            end
+                        else
+                            address_write <= default_address;
+                    end
+                if (outstanding_reads_inc)
+                    outstanding_reads <= outstanding_reads + 1;
+                if (outstanding_reads_dec && outstanding_reads >= 1)
+                    outstanding_reads <= outstanding_reads - 1;
+                if (outstanding_writes_inc)
+                    outstanding_writes <= outstanding_writes + 1;
+                if (outstanding_writes_dec && outstanding_writes >= 1)
+                    outstanding_writes <= outstanding_writes - 1;
+=======
                 if (reads_rst)
                     csr_total_reads <= 0;
                 if (writes_rst)
@@ -442,6 +947,7 @@ module BIST #(parameter bist_num = 0) (
                     csr_read_ticks <= 0;
                 if (write_ticks_rst)
                     csr_write_ticks <= 0;
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
                     
             end
     end
