@@ -7,6 +7,7 @@
 #include <termios.h>
 #include <chrono>
 #include <thread>
+#include <sstream>
 
 // Yes, I did have chatGPT make the basic UART interface for me
 
@@ -82,7 +83,7 @@ std::string readSerialPort(int fd, bool printErrors = true)
         }
     }
     if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E" && data != "F" && data != "G" &&
-        data != "H" && data != "I" && printErrors)
+        data != "H" && data != "I" && data != "J" && printErrors)
     {
         std::cout << "Received unknown bytes: [" << data << "]" << std::endl;
     }
@@ -127,6 +128,14 @@ std::string encodeInstruction(std::string input)
     {
         return "8";
     }
+    else if (input == "reset_uart")
+    {
+        return "@";
+    }
+    else if (input == "port_select")
+    {
+        return "9";
+    }
     else
     {
         if (input != "help")
@@ -144,6 +153,8 @@ std::string encodeInstruction(std::string input)
         std::cout << "\t queued_read_set    - sets port mode to queued_read" << std::endl;
         std::cout << "\t address_inc_set    - enables address incrementing" << std::endl;
         std::cout << "\t address_static_set - disables address incrementing" << std::endl;
+        std::cout << "\t reset_uart         - resets the uart" << std::endl;
+        std::cout << "\t port_select        - 32 bit hex number for which ports to enable" << std::endl;
         std::cout << "\t exit               - to exit" << std::endl;
         return "";
     }
@@ -187,12 +198,31 @@ std::string decodeResponse(std::string response)
     {
         return "Disabled address incrementing";
     }
+    else if (response == "J")
+    {
+        return "Set ports";
+    }
     else if (response == "?")
         return "[ERR] : ?";
     else
     {
         return "[ERR]";
     }
+}
+
+std::string hexToAscii(const std::string &hexString)
+{
+    std::stringstream ss;
+    for (size_t i = 0; i < hexString.length(); i += 2)
+    {
+        std::string byteString = hexString.substr(i, 2);
+        unsigned int byteValue;
+        std::stringstream byteStream(byteString);
+        byteStream >> std::hex >> byteValue;
+        char asciiChar = static_cast<char>(byteValue);
+        ss << asciiChar;
+    }
+    return ss.str();
 }
 
 int main()
@@ -207,29 +237,8 @@ int main()
     configureSerialPort(fd, baudRate);
     std::string userInput;
 
-    std::cout << "Do you want to run initialization? [y/n]: ";
-    std::getline(std::cin, userInput);
-
-    if (userInput == "y")
-    {
-        // Initialize
-        std::cout << "Initializing" << std::flush;
-        std::string loadingBar = "";
-        std::string temp;
-
-        // Do some interesting toggleing of start and stop.For some reason this makes the reads ramp up to their max speed.
-        for (int i = 0; i < 12; ++i)
-        {
-            writeSerialPort(fd, "0\n");
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-            writeSerialPort(fd, "1\n");
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        }
-        std::cout << std::endl
-                  << "Initialization Complete." << std::endl
-                  << std::endl;
-        readSerialPort(fd, false);
-    }
+    // Reset UART
+    writeSerialPort(fd, "@\n");
 
     // Main loop
 
@@ -251,13 +260,44 @@ int main()
 
         if (!encodedInstruction.empty())
         {
-            // Send command to the device
-            writeSerialPort(fd, encodedInstruction + "\n");
+            if (encodedInstruction == "9") // Port Select
+            {
+                std::cout << "\t Enter 32 bit port selection as a hex number [8 digits]" << std::endl;
+                std::cout << "\t 0x";
 
-            // Read and display response
-            std::string response = readSerialPort(fd);
-            std::cout << " - " << decodeResponse(response) << std::endl
-                      << std::endl;
+                std::string ports;
+                std::getline(std::cin, ports);
+
+                // hexToAscii() is necessary because writeSerialPort() accepts a string and converts it into ascii binary
+                // If I were to put "F2" into writeSerialPort() it would write the asscii charater for F and 2 in binary
+                // Instead of the intended "11110010"
+                std::string asciiConversion = hexToAscii(ports);
+                writeSerialPort(fd, encodedInstruction);
+
+                writeSerialPort(fd, asciiConversion);
+
+                // Read and display response
+                std::string response = readSerialPort(fd);
+                std::cout << " - " << decodeResponse(response) << std::endl
+                          << std::endl;
+            }
+            else
+            {
+                // Send command to the device
+                writeSerialPort(fd, encodedInstruction + "\n");
+
+                if (encodedInstruction != "@") // UART reset. reset doesn't send a response
+                {
+                    // Read and display response
+                    std::string response = readSerialPort(fd);
+                    std::cout << " - " << decodeResponse(response) << std::endl
+                              << std::endl;
+                }
+                else
+                {
+                    std::cout << std::endl;
+                }
+            }
         }
     }
 

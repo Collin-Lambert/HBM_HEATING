@@ -23,9 +23,11 @@ module BIST #(parameter bist_num = 0) (
         input wire axi_aclk,
         
         //SHARED CSRs
-        input wire csr_start,                   //Tells the BIST when to begin/end  
-        input wire [2:0] read_or_write,               //0 for read, 1 for write, 2 for read and write   
+        input wire csr_start,                    //Tells the BIST when to begin/end  
+        //output logic start_out,                   //For staggered starts
+        input wire [2:0] read_or_write,          //0 for read, 1 for write, 2 for read and write   
         input wire address_inc_csr,
+        input wire [31:0] port_mask,
                
                
         //AXI
@@ -141,6 +143,7 @@ module BIST #(parameter bist_num = 0) (
     //Bottom 5 bits of the address are unused as per the HBM IP specification
     
     logic [5:0] outstanding_reads, outstanding_writes;
+    //logic [15:0] start_delay;
     logic outstanding_reads_inc, r_address_inc, outstanding_reads_dec, outstanding_writes_inc, w_address_inc, outstanding_writes_dec;
     
     
@@ -179,380 +182,382 @@ module BIST #(parameter bist_num = 0) (
     write_beat_counter_rst = 0;
     write_burst_counter_rst = 0;
     wns = WRITE_WAIT;
-    
-    if (!axi_aresetn)
-        begin
-            rns = READ_WAIT;
-            wns = WRITE_WAIT;
-            qarns = AR_WAIT;
-            qrns = R_WAIT;
-        end
-    else
-        begin
-            //Read portion
-            case(rcs)
-                READ_WAIT:
-                    begin
-                        if (csr_start && (csr_port_setting == 3'b000)) //READ
-                            begin
-                                rns = READ_VALID;
-                            end
-                        else
-                            rns = rcs;
-                    end
-                READ_VALID:
-                    begin
-                        if (csr_start)
-                            axi_arvalid = 1;
-                        if (!csr_start)
-                            begin
-                                rns = READ_WAIT;
-                            end
-                        else if (axi_arready)
-                            begin
-                                rns = READ_BEAT;
-                            end
-                        else
-                            begin
-                                rns = READ_VALID;
-                            end
-                    end
-                READ_BEAT:
-                    begin
-                        axi_rready = 1;
-                        if (axi_rvalid && axi_rlast)
-                            begin
-                                read_burst_incr = 1;
-                                if ((read_burst_counter + 1) >= read_burst_quantity)
-                                    begin
-                                        if (!csr_start)
-                                            begin
-                                                rns = READ_WAIT;
-                                            end
-                                        else
-                                            begin
-                                                read_beat_counter_rst = 1;
-                                                read_burst_counter_rst = 1;
-                                                rns = READ_VALID;
-                                            end
-                                    end
-                                else
-                                    begin
-                                        read_beat_counter_rst = 1;
-                                        rns = READ_VALID;
-                                    end
-                            end
-                        else if (axi_rvalid)
-                            begin
-                                rns = READ_BEAT;
-                            end
-                        else
-                            begin
+    if (port_mask[bist_num])
+    begin
+        if (!axi_aresetn)
+            begin
+                rns = READ_WAIT;
+                wns = WRITE_WAIT;
+                qarns = AR_WAIT;
+                qrns = R_WAIT;
+            end
+        else
+            begin
+                //Read portion
+                case(rcs)
+                    READ_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b000)) //READ
+                                begin
+                                    rns = READ_VALID;
+                                end
+                            else
                                 rns = rcs;
-                            end
-                    end
-            endcase
-            
-            //Write portion
-            case(wcs)
-                WRITE_WAIT:
-                    begin
-                        if (csr_start && (csr_port_setting == 3'b001)) //WRITE
-                            begin
-                                wns = WRITE_VALID;
-                            end
-                        else
-                            wns = wcs;
-                    end
-                WRITE_VALID:
-                    begin
-                        if (csr_start)
-                            begin
-                            axi_awvalid = 1;
-                            axi_wvalid = 1;
-                            end
-                        if (!csr_start)
-                            begin
-                                wns = WRITE_WAIT;
-                            end
-                        else if (axi_awready && (axi_awlen > 0))
-                            begin
-                                if (axi_wready)
-                                    write_beat_incr = 1;
-                                wns = WRITE_BEAT;
-                            end
-                        else if (axi_awready)
-                            begin
-                                axi_wlast = 1;
-                                write_burst_incr = 1;
-                                wns = WRITE_LAST;
-                            end
-                        else
-                            begin
-                                wns = WRITE_VALID;
-                            end
-                    end
-                    
-                WRITE_BEAT:
-                    begin
-                        axi_wvalid = 1;
-                        if (axi_wready && (write_beat_counter < axi_awlen))
-                            begin
-                                write_beat_incr = 1;
-                                wns = WRITE_BEAT;
-                            end
-                        else if (write_beat_counter == axi_awlen)
-                            begin
-                                axi_wlast = 1;
-                                if (axi_wready)
-                                    begin
-                                        write_beat_counter_rst = 1;
-                                        write_burst_incr = 1;
-                                        wns = WRITE_LAST;
-                                    end
-                                else
-                                    wns = wcs;
-                            end
-                        else
-                            begin
-                                wns = WRITE_BEAT;
-                            end
-                    end
+                        end
+                    READ_VALID:
+                        begin
+                            if (csr_start)
+                                axi_arvalid = 1;
+                            if (!csr_start)
+                                begin
+                                    rns = READ_WAIT;
+                                end
+                            else if (axi_arready)
+                                begin
+                                    rns = READ_BEAT;
+                                end
+                            else
+                                begin
+                                    rns = READ_VALID;
+                                end
+                        end
+                    READ_BEAT:
+                        begin
+                            axi_rready = 1;
+                            if (axi_rvalid && axi_rlast)
+                                begin
+                                    read_burst_incr = 1;
+                                    if ((read_burst_counter + 1) >= read_burst_quantity)
+                                        begin
+                                            if (!csr_start)
+                                                begin
+                                                    rns = READ_WAIT;
+                                                end
+                                            else
+                                                begin
+                                                    read_beat_counter_rst = 1;
+                                                    read_burst_counter_rst = 1;
+                                                    rns = READ_VALID;
+                                                end
+                                        end
+                                    else
+                                        begin
+                                            read_beat_counter_rst = 1;
+                                            rns = READ_VALID;
+                                        end
+                                end
+                            else if (axi_rvalid)
+                                begin
+                                    rns = READ_BEAT;
+                                end
+                            else
+                                begin
+                                    rns = rcs;
+                                end
+                        end
+                endcase
                 
-                WRITE_LAST:
-                    begin
-                        axi_bready = 1;
-                        if (axi_bvalid && (write_burst_counter >= write_burst_quantity))
-                            begin
-                                if (!csr_start)
-                                    begin
-                                        wns = WRITE_WAIT;
-                                    end
-                                else
-                                    begin
-                                        write_beat_counter_rst = 1;
-                                        write_burst_counter_rst = 1;
-                                        wns = WRITE_VALID;
-                                    end
-                            end
-                        else if (axi_bvalid)
-                            begin
-                                write_beat_counter_rst = 1;
-                                wns = WRITE_VALID;
-                            end
-                        else
-                            begin
-                                wns = WRITE_LAST;
-                            end
-                    end
-            endcase
-            
-            case(qarcs)
-                AR_WAIT:
-                    begin
-                        if (csr_start && (csr_port_setting == 3'b011))
-                            begin
-                                qarns = AR_VALID;
-                            end
-                        else
-                            qarns = qarcs;
-                    end
-                AR_VALID:
-                    begin
-                        if (csr_start)
-                            axi_arvalid = 1;
-                        if (!csr_start)
-                            begin
-                                qarns = AR_WAIT;
-                            end
-                        else if (axi_arready)
-                            begin
-                                qarns = AR_INC;
-                            end
-                        else
-                            begin
-                                qarns = AR_VALID;
-                            end
-                    end
-                AR_INC:
-                    begin
-                        r_address_inc = 1;
-                        outstanding_reads_inc = 1;
-                        qarns = AR_CHECK;
-                    end
-                AR_CHECK:
-                    begin
-                        if (outstanding_reads <= 1)
-                            begin
-                                qarns = AR_VALID;
-                            end
-                        else 
-                            begin
-                                qarns = AR_CHECK;
-                            end
-                    end
-                    
-            endcase
-            
-            case(qrcs)
-                R_WAIT:
-                    begin
-                        if (csr_start && (csr_port_setting == 3'b011))
-                            begin
-                                qrns = R_BEAT;
-                            end
-                        else
-                            begin
-                                qrns = qrcs;
-                            end
-                    end
-                R_BEAT:
-                    begin
-                        axi_rready = 1;
-                        if (!csr_start && (outstanding_reads == 0))
-                            begin
-                                qrns = R_WAIT;
-                            end
-                        else if (axi_rvalid && axi_rlast)
-                            begin
-                                qrns = R_INC;
-                            end
-                        else if (axi_rvalid)
-                            begin
-                                qrns = R_BEAT;
-                            end
-                        else
-                            qrns = R_BEAT;
-                    end
-                R_INC:
-                    begin
-                        outstanding_reads_dec = 1;
-                        qrns = R_BEAT;
-                    end
-            endcase
-
-            case(qawcs)
-                AW_WAIT:
-                    begin
-                        if (csr_start && (csr_port_setting == 3'b100))
-                            begin
-                                qawns = AW_VALID;
-                            end
-                        else
-                            qawns = qawcs;
-                    end
-                AW_VALID:
-                    begin
-                        if (csr_start)
-                            axi_awvalid = 1;
-                        if (!csr_start)
-                            begin
-                                qawns = AW_WAIT;
-                            end
-                        else if (axi_awready)
-                            begin
-                                qawns = AW_INC;
-                            end
-                        else
-                            begin
-                                qawns = AW_VALID;
-                            end
-                    end
-                AW_INC:
-                    begin
-                        w_address_inc = 1;
-                        outstanding_writes_inc = 1;
-                        qawns = AW_CHECK;
-                    end
-                AW_CHECK:
-                    begin   
-                        if (!csr_start)
-                            qawns = AW_WAIT;
-                        else
-                            begin
-                                if (outstanding_writes <= 1)
-                                    begin
-                                        qawns = AW_VALID;
-                                    end
-                                else 
-                                    begin
-                                        qawns = AW_CHECK;
-                                    end
-                            end
-                    end
-            endcase
-            
-            case(qwcs)
-                W_WAIT:
-                    begin
-                        if (csr_start && (csr_port_setting == 3'b100))
-                            begin
-                                qwns = W_BEAT;
-                            end
-                        else
-                            qwns = qwcs;
-                    end
-
-                W_BEAT:
-                    begin
-                        axi_wvalid = 1;
-                        if (!csr_start && (outstanding_writes == 0))
-                            begin
-                                qwns = W_WAIT;
-                            end
-                        else if (axi_wready && (write_beat_counter < axi_awlen))
-                            begin
-                                write_beat_incr = 1;
-                                qwns = W_BEAT;
-                            end
-                        else if (write_beat_counter == axi_awlen)
-                            begin
-                                axi_wlast = 1;
-                                if (!csr_start)
-                                    begin
-                                        qwns = W_WAIT;
-                                    end
-                                else if (axi_wready)
-                                    begin
-                                        write_beat_counter_rst = 1;
-                                        qwns = W_LAST;
-                                    end
-                                else
-                                    qwns = qwcs;
-                            end
-                        else
-                            qwns = W_BEAT;
-                    end
-                
-                W_LAST:
-                    begin
-                        axi_bready = 1;
-                        if (axi_wready)
-                            begin
-                                axi_wlast = 1;
+                //Write portion
+                case(wcs)
+                    WRITE_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b001)) //WRITE
+                                begin
+                                    wns = WRITE_VALID;
+                                end
+                            else
+                                wns = wcs;
+                        end
+                    WRITE_VALID:
+                        begin
+                            if (csr_start)
+                                begin
+                                axi_awvalid = 1;
                                 axi_wvalid = 1;
-                            end
-                        if (!csr_start && (outstanding_writes == 0))
-                            begin
-                                qwns = W_WAIT;
-                            end
-                        else if (axi_bvalid)
-                            begin
-                                write_beat_counter_rst = 1;
-                                outstanding_writes_dec = 1;
-                                axi_wvalid = 0;
-                                if (csr_start || (outstanding_writes > 1))
+                                end
+                            if (!csr_start)
+                                begin
+                                    wns = WRITE_WAIT;
+                                end
+                            else if (axi_awready && (axi_awlen > 0))
+                                begin
+                                    if (axi_wready)
+                                        write_beat_incr = 1;
+                                    wns = WRITE_BEAT;
+                                end
+                            else if (axi_awready)
+                                begin
+                                    axi_wlast = 1;
+                                    write_burst_incr = 1;
+                                    wns = WRITE_LAST;
+                                end
+                            else
+                                begin
+                                    wns = WRITE_VALID;
+                                end
+                        end
+                        
+                    WRITE_BEAT:
+                        begin
+                            axi_wvalid = 1;
+                            if (axi_wready && (write_beat_counter < axi_awlen))
+                                begin
+                                    write_beat_incr = 1;
+                                    wns = WRITE_BEAT;
+                                end
+                            else if (write_beat_counter == axi_awlen)
+                                begin
+                                    axi_wlast = 1;
+                                    if (axi_wready)
+                                        begin
+                                            write_beat_counter_rst = 1;
+                                            write_burst_incr = 1;
+                                            wns = WRITE_LAST;
+                                        end
+                                    else
+                                        wns = wcs;
+                                end
+                            else
+                                begin
+                                    wns = WRITE_BEAT;
+                                end
+                        end
+                    
+                    WRITE_LAST:
+                        begin
+                            axi_bready = 1;
+                            if (axi_bvalid && (write_burst_counter >= write_burst_quantity))
+                                begin
+                                    if (!csr_start)
+                                        begin
+                                            wns = WRITE_WAIT;
+                                        end
+                                    else
+                                        begin
+                                            write_beat_counter_rst = 1;
+                                            write_burst_counter_rst = 1;
+                                            wns = WRITE_VALID;
+                                        end
+                                end
+                            else if (axi_bvalid)
+                                begin
+                                    write_beat_counter_rst = 1;
+                                    wns = WRITE_VALID;
+                                end
+                            else
+                                begin
+                                    wns = WRITE_LAST;
+                                end
+                        end
+                endcase
+                
+                case(qarcs)
+                    AR_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b011))
+                                begin
+                                    qarns = AR_VALID;
+                                end
+                            else
+                                qarns = qarcs;
+                        end
+                    AR_VALID:
+                        begin
+                            if (csr_start)
+                                axi_arvalid = 1;
+                            if (!csr_start)
+                                begin
+                                    qarns = AR_WAIT;
+                                end
+                            else if (axi_arready)
+                                begin
+                                    qarns = AR_INC;
+                                end
+                            else
+                                begin
+                                    qarns = AR_VALID;
+                                end
+                        end
+                    AR_INC:
+                        begin
+                            r_address_inc = 1;
+                            outstanding_reads_inc = 1;
+                            qarns = AR_CHECK;
+                        end
+                    AR_CHECK:
+                        begin
+                            if (outstanding_reads <= 60)
+                                begin
+                                    qarns = AR_VALID;
+                                end
+                            else 
+                                begin
+                                    qarns = AR_CHECK;
+                                end
+                        end
+                        
+                endcase
+                
+                case(qrcs)
+                    R_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b011))
+                                begin
+                                    qrns = R_BEAT;
+                                end
+                            else
+                                begin
+                                    qrns = qrcs;
+                                end
+                        end
+                    R_BEAT:
+                        begin
+                            axi_rready = 1;
+                            if (!csr_start && (outstanding_reads == 0))
+                                begin
+                                    qrns = R_WAIT;
+                                end
+                            else if (axi_rvalid && axi_rlast)
+                                begin
+                                    qrns = R_INC;
+                                end
+                            else if (axi_rvalid)
+                                begin
+                                    qrns = R_BEAT;
+                                end
+                            else
+                                qrns = R_BEAT;
+                        end
+                    R_INC:
+                        begin
+                            outstanding_reads_dec = 1;
+                            qrns = R_BEAT;
+                        end
+                endcase
+    
+                case(qawcs)
+                    AW_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b100))
+                                begin
+                                    qawns = AW_VALID;
+                                end
+                            else
+                                qawns = qawcs;
+                        end
+                    AW_VALID:
+                        begin
+                            if (csr_start)
+                                axi_awvalid = 1;
+                            if (!csr_start)
+                                begin
+                                    qawns = AW_WAIT;
+                                end
+                            else if (axi_awready)
+                                begin
+                                    qawns = AW_INC;
+                                end
+                            else
+                                begin
+                                    qawns = AW_VALID;
+                                end
+                        end
+                    AW_INC:
+                        begin
+                            w_address_inc = 1;
+                            outstanding_writes_inc = 1;
+                            qawns = AW_CHECK;
+                        end
+                    AW_CHECK:
+                        begin   
+                            if (!csr_start)
+                                qawns = AW_WAIT;
+                            else
+                                begin
+                                    if (outstanding_writes <= 60)
+                                        begin
+                                            qawns = AW_VALID;
+                                        end
+                                    else 
+                                        begin
+                                            qawns = AW_CHECK;
+                                        end
+                                end
+                        end
+                endcase
+                
+                case(qwcs)
+                    W_WAIT:
+                        begin
+                            if (csr_start && (csr_port_setting == 3'b100))
+                                begin
                                     qwns = W_BEAT;
-                                else
+                                end
+                            else
+                                qwns = qwcs;
+                        end
+    
+                    W_BEAT:
+                        begin
+                            axi_wvalid = 1;
+                            if (!csr_start && (outstanding_writes == 0))
+                                begin
                                     qwns = W_WAIT;
-                            end
-                        else
-                            qwns = qwcs;
-                    end
-
-            endcase 
-
-
+                                end
+                            else if (axi_wready && (write_beat_counter < axi_awlen))
+                                begin
+                                    write_beat_incr = 1;
+                                    qwns = W_BEAT;
+                                end
+                            else if (write_beat_counter == axi_awlen)
+                                begin
+                                    axi_wlast = 1;
+                                    if (!csr_start)
+                                        begin
+                                            qwns = W_WAIT;
+                                        end
+                                    else if (axi_wready)
+                                        begin
+                                            write_beat_counter_rst = 1;
+                                            qwns = W_LAST;
+                                        end
+                                    else
+                                        qwns = qwcs;
+                                end
+                            else
+                                qwns = W_BEAT;
+                        end
+                    
+                    W_LAST:
+                        begin
+                            axi_bready = 1;
+                            if (axi_wready)
+                                begin
+                                    axi_wlast = 1;
+                                    axi_wvalid = 1;
+                                end
+                            if (!csr_start && (outstanding_writes == 0))
+                                begin
+                                    qwns = W_WAIT;
+                                end
+                            else if (axi_bvalid)
+                                begin
+                                    write_beat_counter_rst = 1;
+                                    outstanding_writes_dec = 1;
+                                    axi_wvalid = 0;
+                                    if (csr_start || (outstanding_writes > 1))
+                                        qwns = W_BEAT;
+                                    else
+                                        qwns = W_WAIT;
+                                end
+                            else
+                                qwns = qwcs;
+                        end
+    
+                endcase 
+    
+    
+            end
         end
     end
     
@@ -566,6 +571,8 @@ module BIST #(parameter bist_num = 0) (
         qrcs <= qrns;
         qawcs <= qawns;
         qwcs <= qwns;
+//        start_delay <= 0;
+//        start_out <= 0;
         
         if (!axi_aresetn)
             begin
@@ -581,6 +588,21 @@ module BIST #(parameter bist_num = 0) (
             end
         else
             begin
+//                if (start_delay < 65000 && csr_start)
+//                    begin
+//                        start_delay <= start_delay + 1;
+//                        start_out <= 0;
+//                    end
+//                else if (csr_start)
+//                    begin
+//                        start_delay <= start_delay;
+//                        start_out <= 1;
+//                    end
+//                else
+//                    begin
+//                        start_delay <= 0;
+//                        start_out <= 0;
+//                    end
                 //transaction_id <= transaction_id + 1;
                 if (read_burst_incr)
                     begin

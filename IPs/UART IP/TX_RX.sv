@@ -26,7 +26,8 @@ module TX_RX(
     output logic USB_UART_TX,
     output logic [2:0] read_write,
     output logic address_inc,
-    output logic start
+    output logic start,
+    output logic [31:0] port_mask
     );
     
     logic [8:0] counter;
@@ -64,11 +65,14 @@ module TX_RX(
     
     
     logic [7:0] din_temp;
-    logic send_async, start_async, stop_async, read_async, write_async, rw_async, qr_async, qw_async, address_inc_async, address_static_async;  
+    logic [31:0] port_mask_temp;
+    logic send_async, start_async, stop_async, read_async, write_async, rw_async, qr_async, reset_state_machine;
+    logic qw_async, address_inc_async, address_static_async, port_select, enable_port_select, disable_port_select;  
+    logic bytes_received_inc, output_port_mask;
+    logic [3:0] bytes_received;
     
     always_ff @(posedge clk)
         begin
-            
             send_character <= 0;
             if (send_async)
                 begin
@@ -93,11 +97,35 @@ module TX_RX(
                 address_inc <= 1;
             if (address_static_async)
                 address_inc <= 0;
+            if (enable_port_select)
+                port_select <= 1;
+            if (disable_port_select)
+                begin
+                    port_select <= 0;
+                end
+            if (bytes_received_inc)
+                begin
+                    bytes_received <= bytes_received + 1;
+                    port_mask_temp <= {port_mask_temp[23 : 0], RX_OUT};
+                end
+            if (reset_state_machine)
+                begin
+                    bytes_received <= 0;
+                    port_mask <= 0;
+                    port_select <= 0;
+                    port_mask_temp <= 0;
+                    port_select <= 0;
+                end
+            if (output_port_mask)
+                begin
+                    port_mask <= port_mask_temp;
+                    bytes_received <= 0;
+                end
         end
         
     always_comb
         begin
-            din_temp = 8'b00111111; //ERR
+            din_temp = 'h3F; //ERR
             send_async = 0;
             ack = 0;
             start_async = 0;
@@ -105,68 +133,99 @@ module TX_RX(
             write_async = 0;
             read_async = 0;
             rw_async = 0;
+            qr_async = 0;
+            qw_async = 0;
             address_inc_async = 0;
             address_static_async = 0;
+            enable_port_select = 0;
+            disable_port_select = 0;
+            bytes_received_inc = 0;
+            reset_state_machine = 0;
+            output_port_mask = 0;
             if (req)
                 begin
-                if (RX_OUT == 8'b00110000) //Start Command
+                if (RX_OUT == 'h39 || port_select) //Port Select
                     begin
-                        din_temp = 8'b01000001;
+                        enable_port_select = 1;
+                        if (port_select)
+                            begin
+                                if (bytes_received < 4)
+                                    begin
+                                        bytes_received_inc = 1;
+                                    end
+                            end
+                    end
+                else if (RX_OUT == 'h40) //RESET
+                    begin
+                        reset_state_machine = 1;
+                    end
+                else if (RX_OUT == 'h30) //Start Command
+                    begin
+                        din_temp = 'h41;
                         send_async = 1;
                         start_async = 1;
                     end  
-                else if (RX_OUT == 8'b00110001) //Stop Command
+                else if (RX_OUT == 'h31) //Stop Command
                     begin
-                        din_temp = 8'b01000010;
+                        din_temp = 'h42;
                         send_async = 1;
                         stop_async = 1;
                     end  
-                else if (RX_OUT == 8'b00110010) //Write_set Command
+                else if (RX_OUT == 'h32) //Write_set Command
                     begin
-                        din_temp = 8'b01000011;
+                        din_temp = 'h43;
                         send_async = 1;
                         write_async = 1;
                     end     
-                else if (RX_OUT == 8'b00110011) //Read_set Command
+                else if (RX_OUT == 'h33) //Read_set Command
                     begin
-                        din_temp = 8'b01000100;
+                        din_temp = 'h44;
                         send_async = 1;
                         read_async = 1;
                     end 
-                else if (RX_OUT == 8'b00110100) //READ / WRITE Command
+                else if (RX_OUT == 'h34) //READ / WRITE Command
                     begin
-                        din_temp = 8'b01000101;
+                        din_temp = 'h45;
                         send_async = 1;
                         rw_async = 1;
                     end
-                else if (RX_OUT == 8'b00110101) //Queued Read
+                else if (RX_OUT == 'h35) //Queued Read
                     begin
-                        din_temp = 8'b01000110;
+                        din_temp = 'h46;
                         send_async = 1;
                         qr_async = 1;
                     end
-                else if (RX_OUT == 8'b00110110) //Queued Write
+                else if (RX_OUT == 'h36) //Queued Write
                     begin
-                        din_temp = 8'b01000111;
+                        din_temp = 'h47;
                         send_async = 1;
                         qw_async = 1;
                     end
-                else if (RX_OUT == 8'b00110111) //Enable address_increment
+                else if (RX_OUT == 'h37) //Enable address_increment
                     begin
-                        din_temp = 8'b01001000;
+                        din_temp = 'h48;
                         send_async = 1;
                         address_inc_async = 1;
                     end
-                else if (RX_OUT == 8'b00111000) //Disable address_increment
+                else if (RX_OUT == 'h38) //Disable address_increment
                     begin
-                        din_temp = 8'b01001001;
+                        din_temp = 'h49;
                         send_async = 1;
                         address_static_async = 1;
                     end
                 ack = 1;      
                 end
             else
-                send_async <= 0;
+                begin
+                    if (bytes_received == 4)
+                       begin
+                            din_temp = 'h4A;
+                            enable_port_select = 0;
+                            disable_port_select = 1;
+                            send_async = 1;
+                            output_port_mask = 1;
+                        end
+                end
         end
     
 endmodule

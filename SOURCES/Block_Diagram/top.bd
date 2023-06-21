@@ -470,13 +470,13 @@
         }
       },
       "TX_RX_0": {
-        "vlnv": "user.org:user:TX_RX:1.5",
+        "vlnv": "user.org:user:TX_RX:1.15.7",
         "xci_name": "top_TX_RX_0_0",
         "xci_path": "ip/top_TX_RX_0_0/top_TX_RX_0_0.xci",
         "inst_hier_path": "TX_RX_0"
       },
       "BIST_0": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_0_0",
         "xci_path": "ip/top_BIST_0_0/top_BIST_0_0.xci",
         "inst_hier_path": "BIST_0",
@@ -502,7 +502,7 @@
         }
       },
       "BIST_10": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_10_0",
         "xci_path": "ip/top_BIST_10_0_1/top_BIST_10_0.xci",
         "inst_hier_path": "BIST_10",
@@ -533,7 +533,7 @@
         }
       },
       "BIST_11": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_11_0",
         "xci_path": "ip/top_BIST_11_0_1/top_BIST_11_0.xci",
         "inst_hier_path": "BIST_11",
@@ -564,7 +564,7 @@
         }
       },
       "BIST_12": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_12_0",
         "xci_path": "ip/top_BIST_12_0_1/top_BIST_12_0.xci",
         "inst_hier_path": "BIST_12",
@@ -595,7 +595,7 @@
         }
       },
       "BIST_13": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_13_0",
         "xci_path": "ip/top_BIST_13_0_1/top_BIST_13_0.xci",
         "inst_hier_path": "BIST_13",
@@ -626,7 +626,7 @@
         }
       },
       "BIST_14": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_14_0",
         "xci_path": "ip/top_BIST_14_0_1/top_BIST_14_0.xci",
         "inst_hier_path": "BIST_14",
@@ -657,7 +657,7 @@
         }
       },
       "BIST_15": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_15_0",
         "xci_path": "ip/top_BIST_15_0_1/top_BIST_15_0.xci",
         "inst_hier_path": "BIST_15",
@@ -688,7 +688,7 @@
         }
       },
       "BIST_16": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_16_0",
         "xci_path": "ip/top_BIST_16_0/top_BIST_16_0.xci",
         "inst_hier_path": "BIST_16",
@@ -719,7 +719,7 @@
         }
       },
       "BIST_17": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_17_0",
         "xci_path": "ip/top_BIST_17_0/top_BIST_17_0.xci",
         "inst_hier_path": "BIST_17",
@@ -750,7 +750,7 @@
         }
       },
       "BIST_18": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_18_0",
         "xci_path": "ip/top_BIST_18_0/top_BIST_18_0.xci",
         "inst_hier_path": "BIST_18",
@@ -781,7 +781,7 @@
         }
       },
       "BIST_19": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_19_0",
         "xci_path": "ip/top_BIST_19_0/top_BIST_19_0.xci",
         "inst_hier_path": "BIST_19",
@@ -812,7 +812,7 @@
         }
       },
       "BIST_1": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_1_0",
         "xci_path": "ip/top_BIST_1_0_1/top_BIST_1_0.xci",
         "inst_hier_path": "BIST_1",
@@ -843,7 +843,7 @@
         }
       },
       "BIST_20": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_20_0",
         "xci_path": "ip/top_BIST_20_0/top_BIST_20_0.xci",
         "inst_hier_path": "BIST_20",
@@ -874,7 +874,7 @@
         }
       },
       "BIST_21": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_21_0",
         "xci_path": "ip/top_BIST_21_0/top_BIST_21_0.xci",
         "inst_hier_path": "BIST_21",
@@ -905,7 +905,7 @@
         }
       },
       "BIST_22": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_22_0",
         "xci_path": "ip/top_BIST_22_0/top_BIST_22_0.xci",
         "inst_hier_path": "BIST_22",
@@ -936,7 +936,7 @@
         }
       },
       "BIST_23": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_23_0",
         "xci_path": "ip/top_BIST_23_0/top_BIST_23_0.xci",
         "inst_hier_path": "BIST_23",
@@ -967,7 +967,7 @@
         }
       },
       "BIST_24": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_24_0",
         "xci_path": "ip/top_BIST_24_0/top_BIST_24_0.xci",
         "inst_hier_path": "BIST_24",
@@ -998,7 +998,7 @@
         }
       },
       "BIST_25": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_25_0",
         "xci_path": "ip/top_BIST_25_0/top_BIST_25_0.xci",
         "inst_hier_path": "BIST_25",
@@ -1029,7 +1029,7 @@
         }
       },
       "BIST_26": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_26_0",
         "xci_path": "ip/top_BIST_26_0/top_BIST_26_0.xci",
         "inst_hier_path": "BIST_26",
@@ -1060,7 +1060,7 @@
         }
       },
       "BIST_27": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_27_0",
         "xci_path": "ip/top_BIST_27_0/top_BIST_27_0.xci",
         "inst_hier_path": "BIST_27",
@@ -1091,7 +1091,7 @@
         }
       },
       "BIST_28": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_28_0",
         "xci_path": "ip/top_BIST_28_0/top_BIST_28_0.xci",
         "inst_hier_path": "BIST_28",
@@ -1122,7 +1122,7 @@
         }
       },
       "BIST_29": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_29_0",
         "xci_path": "ip/top_BIST_29_0/top_BIST_29_0.xci",
         "inst_hier_path": "BIST_29",
@@ -1153,7 +1153,7 @@
         }
       },
       "BIST_2": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_2_0",
         "xci_path": "ip/top_BIST_2_0_1/top_BIST_2_0.xci",
         "inst_hier_path": "BIST_2",
@@ -1184,7 +1184,7 @@
         }
       },
       "BIST_30": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_30_0",
         "xci_path": "ip/top_BIST_30_0/top_BIST_30_0.xci",
         "inst_hier_path": "BIST_30",
@@ -1215,7 +1215,7 @@
         }
       },
       "BIST_31": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_31_0",
         "xci_path": "ip/top_BIST_31_0/top_BIST_31_0.xci",
         "inst_hier_path": "BIST_31",
@@ -1246,7 +1246,7 @@
         }
       },
       "BIST_3": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_3_0",
         "xci_path": "ip/top_BIST_3_0_1/top_BIST_3_0.xci",
         "inst_hier_path": "BIST_3",
@@ -1277,7 +1277,7 @@
         }
       },
       "BIST_4": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_4_0",
         "xci_path": "ip/top_BIST_4_0_1/top_BIST_4_0.xci",
         "inst_hier_path": "BIST_4",
@@ -1308,7 +1308,7 @@
         }
       },
       "BIST_5": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_5_0",
         "xci_path": "ip/top_BIST_5_0_1/top_BIST_5_0.xci",
         "inst_hier_path": "BIST_5",
@@ -1339,7 +1339,7 @@
         }
       },
       "BIST_6": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_6_0",
         "xci_path": "ip/top_BIST_6_0_1/top_BIST_6_0.xci",
         "inst_hier_path": "BIST_6",
@@ -1370,7 +1370,7 @@
         }
       },
       "BIST_7": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_7_0",
         "xci_path": "ip/top_BIST_7_0_1/top_BIST_7_0.xci",
         "inst_hier_path": "BIST_7",
@@ -1401,7 +1401,7 @@
         }
       },
       "BIST_8": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_8_0",
         "xci_path": "ip/top_BIST_8_0_1/top_BIST_8_0.xci",
         "inst_hier_path": "BIST_8",
@@ -1432,7 +1432,7 @@
         }
       },
       "BIST_9": {
-        "vlnv": "user.org:user:BIST:17.4",
+        "vlnv": "user.org:user:BIST:18.6",
         "xci_name": "top_BIST_9_0",
         "xci_path": "ip/top_BIST_9_0_1/top_BIST_9_0.xci",
         "inst_hier_path": "BIST_9",
@@ -1737,6 +1737,43 @@
           "BIST_7/address_inc_csr",
           "BIST_8/address_inc_csr",
           "BIST_9/address_inc_csr"
+        ]
+      },
+      "Net3": {
+        "ports": [
+          "TX_RX_0/port_mask",
+          "BIST_0/port_mask",
+          "BIST_10/port_mask",
+          "BIST_11/port_mask",
+          "BIST_12/port_mask",
+          "BIST_13/port_mask",
+          "BIST_14/port_mask",
+          "BIST_15/port_mask",
+          "BIST_16/port_mask",
+          "BIST_17/port_mask",
+          "BIST_18/port_mask",
+          "BIST_19/port_mask",
+          "BIST_1/port_mask",
+          "BIST_20/port_mask",
+          "BIST_21/port_mask",
+          "BIST_22/port_mask",
+          "BIST_23/port_mask",
+          "BIST_24/port_mask",
+          "BIST_25/port_mask",
+          "BIST_26/port_mask",
+          "BIST_27/port_mask",
+          "BIST_28/port_mask",
+          "BIST_29/port_mask",
+          "BIST_2/port_mask",
+          "BIST_30/port_mask",
+          "BIST_31/port_mask",
+          "BIST_3/port_mask",
+          "BIST_4/port_mask",
+          "BIST_5/port_mask",
+          "BIST_6/port_mask",
+          "BIST_7/port_mask",
+          "BIST_8/port_mask",
+          "BIST_9/port_mask"
         ]
       },
       "TX_RX_0_USB_UART_TX": {
