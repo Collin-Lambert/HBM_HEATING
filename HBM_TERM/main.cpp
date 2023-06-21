@@ -63,11 +63,10 @@ void writeSerialPort(int fd, const std::string &data)
 }
 
 // Function to read data from the serial port
-std::string readSerialPort(int fd, bool printErrors = true)
+std::string readSerialPort(int fd, std::string &data)
 {
     const int bufferSize = 128;
     char buffer[bufferSize];
-    std::string data;
 
     int i = 0;
     bool status = true;
@@ -82,8 +81,12 @@ std::string readSerialPort(int fd, bool printErrors = true)
             status = false;
         }
     }
+<<<<<<< HEAD
     if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E" && data != "F" && data != "G" &&
         data != "H" && data != "I" && data != "J" && printErrors)
+=======
+    if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E")
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
     {
         std::cout << "Received unknown bytes: [" << data << "]" << std::endl;
     }
@@ -112,6 +115,7 @@ std::string encodeInstruction(std::string input)
     {
         return "4";
     }
+<<<<<<< HEAD
     else if (input == "queued_read_set")
     {
         return "5";
@@ -136,6 +140,8 @@ std::string encodeInstruction(std::string input)
     {
         return "9";
     }
+=======
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
     else
     {
         if (input != "help")
@@ -182,6 +188,7 @@ std::string decodeResponse(std::string response)
     {
         return "set mode to \"concurrent reads and writes\"";
     }
+<<<<<<< HEAD
     else if (response == "F")
     {
         return "set mode to \"queued reads\"";
@@ -202,6 +209,8 @@ std::string decodeResponse(std::string response)
     {
         return "Set ports";
     }
+=======
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
     else if (response == "?")
         return "[ERR] : ?";
     else
@@ -237,8 +246,25 @@ int main()
     configureSerialPort(fd, baudRate);
     std::string userInput;
 
+<<<<<<< HEAD
     // Reset UART
     writeSerialPort(fd, "@\n");
+=======
+    // Initialize
+    std::cout << "Initializing" << std::flush;
+    // Do some interesting toggleing of start and stop.For some reason this makes the reads ramp up to their max speed.
+    // for (int i = 0; i < 12; ++i)
+    // {
+    //     writeSerialPort(fd, "0\n");
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    //     writeSerialPort(fd, "1\n");
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    //     std::cout << "." << std::flush;
+    // }
+    // std::cout << std::endl
+    //           << "Initialization Complete." << std::endl
+    //           << std::endl;
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
 
     // Main loop
 
@@ -265,6 +291,7 @@ int main()
                 std::cout << "\t Enter 32 bit port selection as a hex number [8 digits]" << std::endl;
                 std::cout << "\t 0x";
 
+<<<<<<< HEAD
                 std::string ports;
                 std::getline(std::cin, ports);
 
@@ -298,6 +325,12 @@ int main()
                     std::cout << std::endl;
                 }
             }
+=======
+            // Read and display response
+            std::string response = readSerialPort(fd, encodedInstruction);
+            std::cout << " - " << decodeResponse(response) << std::endl
+                      << std::endl;
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
         }
     }
 

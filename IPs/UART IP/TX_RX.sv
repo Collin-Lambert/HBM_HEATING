@@ -65,11 +65,15 @@ module TX_RX(
     
     
     logic [7:0] din_temp;
+<<<<<<< HEAD
     logic [31:0] port_mask_temp;
     logic send_async, start_async, stop_async, read_async, write_async, rw_async, qr_async, reset_state_machine;
     logic qw_async, address_inc_async, address_static_async, port_select, enable_port_select, disable_port_select;  
     logic bytes_received_inc, output_port_mask;
     logic [3:0] bytes_received;
+=======
+    logic send_async, start_async, stop_async, read_async, write_async, rw_async;  
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
     
     always_ff @(posedge clk)
         begin
@@ -89,6 +93,7 @@ module TX_RX(
                 read_write <= 1;
             if (rw_async)
                 read_write <= 2;
+<<<<<<< HEAD
             if (qr_async)
                 read_write <= 3;
             if (qw_async)
@@ -121,6 +126,8 @@ module TX_RX(
                     port_mask <= port_mask_temp;
                     bytes_received <= 0;
                 end
+=======
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
         end
         
     always_comb
@@ -189,6 +196,7 @@ module TX_RX(
                         send_async = 1;
                         rw_async = 1;
                     end
+<<<<<<< HEAD
                 else if (RX_OUT == 'h35) //Queued Read
                     begin
                         din_temp = 'h46;
@@ -213,6 +221,8 @@ module TX_RX(
                         send_async = 1;
                         address_static_async = 1;
                     end
+=======
+>>>>>>> b29fe04f2901e3a7bb2196c344df2acd025f04df
                 ack = 1;      
                 end
             else
