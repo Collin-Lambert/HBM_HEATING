@@ -8,6 +8,7 @@
 #include <chrono>
 #include <thread>
 #include <sstream>
+#include <vector>
 
 // Yes, I did have chatGPT make the basic UART interface for me
 
@@ -83,11 +84,36 @@ std::string readSerialPort(int fd, bool printErrors = true)
         }
     }
     if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E" && data != "F" && data != "G" &&
-        data != "H" && data != "I" && data != "J" && printErrors)
+        data != "H" && data != "I" && data != "J" && data != "L" && data != "K" && printErrors)
     {
         std::cout << "Received unknown bytes: [" << data << "]" << std::endl;
     }
     return data;
+}
+
+void PrintHelp()
+{
+    std::cout << "Commands:" << std::endl;
+    std::cout << "\t help               - displays this list" << std::endl;
+    std::cout << "\t start              - enables reading / writing test" << std::endl;
+    std::cout << "\t stop               - halts reading / writing test" << std::endl
+              << std::endl;
+    std::cout << "\t write_set          - sets port mode to write" << std::endl;
+    std::cout << "\t read_set           - sets port mode to read" << std::endl;
+    std::cout << "\t queued_read_set    - enables queued reading" << std::endl;
+    std::cout << "\t queued_write_set   - enables queued writing" << std::endl
+              << std::endl;
+    std::cout << "\t write / read / queued_write / queued_read support the following options:" << std::endl;
+    std::cout << "\t\t -ports [port_select]                    - 32 bit hex number for which ports to enable" << std::endl;
+    std::cout << "\t\t -mode [addressing_mode (inc or static)] - specifies whether to increment address or not" << std::endl;
+    std::cout << "\t\t -length [transaction_length]            - 4 bit hex number for length of transaction" << std::endl
+              << std::endl;
+    std::cout << "\t address_inc_set        - enables address incrementing" << std::endl;
+    std::cout << "\t address_static_set     - disables address incrementing" << std::endl;
+    std::cout << "\t reset_uart             - resets the uart" << std::endl;
+    std::cout << "\t port_select            - 32 bit hex number for which ports to enable" << std::endl;
+    std::cout << "\t transaction_length_set - 4 bit hex number for length of transaction" << std::endl;
+    std::cout << "\t exit                   - to exit" << std::endl;
 }
 
 std::string encodeInstruction(std::string input)
@@ -99,26 +125,6 @@ std::string encodeInstruction(std::string input)
     else if (input == "stop")
     {
         return "1";
-    }
-    else if (input == "write_set")
-    {
-        return "2";
-    }
-    else if (input == "read_set")
-    {
-        return "3";
-    }
-    else if (input == "rw_set")
-    {
-        return "4";
-    }
-    else if (input == "queued_read_set")
-    {
-        return "5";
-    }
-    else if (input == "queued_write_set")
-    {
-        return "6";
     }
     else if (input == "address_inc_set")
     {
@@ -136,6 +142,10 @@ std::string encodeInstruction(std::string input)
     {
         return "9";
     }
+    else if (input == "transaction_length_set")
+    {
+        return ":";
+    }
     else
     {
         if (input != "help")
@@ -143,19 +153,7 @@ std::string encodeInstruction(std::string input)
             std::cout << std::endl
                       << "Invalid Command!" << std::endl;
         }
-        std::cout << "Commands:" << std::endl;
-        std::cout << "\t help               - displays this list" << std::endl;
-        std::cout << "\t start              - enables reading / writing test" << std::endl;
-        std::cout << "\t stop               - halts reading / writing test" << std::endl;
-        std::cout << "\t write_set          - sets port mode to write" << std::endl;
-        std::cout << "\t read_set           - sets port mode to read" << std::endl;
-        std::cout << "\t queued_write_set   - sets port mode to queued_write" << std::endl;
-        std::cout << "\t queued_read_set    - sets port mode to queued_read" << std::endl;
-        std::cout << "\t address_inc_set    - enables address incrementing" << std::endl;
-        std::cout << "\t address_static_set - disables address incrementing" << std::endl;
-        std::cout << "\t reset_uart         - resets the uart" << std::endl;
-        std::cout << "\t port_select        - 32 bit hex number for which ports to enable" << std::endl;
-        std::cout << "\t exit               - to exit" << std::endl;
+        PrintHelp();
         return "";
     }
 }
@@ -202,6 +200,14 @@ std::string decodeResponse(std::string response)
     {
         return "Set ports";
     }
+    else if (response == "K")
+    {
+        return "Reset UART";
+    }
+    else if (response == "L")
+    {
+        return "Set transaction length";
+    }
     else if (response == "?")
         return "[ERR] : ?";
     else
@@ -225,6 +231,89 @@ std::string hexToAscii(const std::string &hexString)
     return ss.str();
 }
 
+std::vector<std::string> ParseArgs(std::string input)
+{
+    std::stringstream argStream(input);
+
+    std::vector<std::string> args;
+    std::string arg;
+
+    while (!argStream.eof())
+    {
+        argStream >> arg;
+        args.push_back(arg);
+    }
+
+    return args;
+}
+
+void PortSelect(int fd, std::string ports = "")
+{
+
+    if (ports.empty())
+    {
+        std::cout << "\t Enter 32 bit port selection as a hex number [8 digits]" << std::endl;
+        std::cout << "\t 0x";
+
+        std::getline(std::cin, ports);
+    }
+    // hexToAscii() is necessary because writeSerialPort() accepts a string and converts it into ascii binary
+    // If I were to put "F2" into writeSerialPort() it would write the asscii charater for F and 2 in binary
+    // Instead of the intended "11110010"
+    std::string asciiConversion = hexToAscii(ports);
+    writeSerialPort(fd, "9");
+
+    writeSerialPort(fd, asciiConversion);
+
+    // Read and display response
+    std::string response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+}
+
+void LengthSelect(int fd, std::string length = "")
+{
+    if (length.empty())
+    {
+        std::cout << "\t Enter 4 bit length selection as a hex number [1 digit]" << std::endl;
+        std::cout << "\t 0x";
+
+        std::getline(std::cin, length);
+    }
+
+    std::string asciiConversion = hexToAscii(length);
+    writeSerialPort(fd, ":");
+
+    writeSerialPort(fd, asciiConversion);
+
+    // Read and display response
+    std::string response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+}
+
+void AddressingMode(int fd, std::string mode)
+{
+    if (mode == "inc")
+    {
+        writeSerialPort(fd, "7");
+    }
+    else if (mode == "static")
+    {
+        writeSerialPort(fd, "8");
+    }
+    else
+    {
+        std::cout << std::endl
+                  << "Invalid Command!" << std::endl;
+        PrintHelp();
+        return;
+    }
+    std::string response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+}
+
 int main()
 {
     const char *serialPort = "/dev/ttyUSB2";
@@ -240,8 +329,13 @@ int main()
     // Reset UART
     writeSerialPort(fd, "@\n");
 
-    // Main loop
+    std::string response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
 
+    std::vector<std::string> args;
+
+    // Main loop
     while (true)
     {
 
@@ -256,46 +350,79 @@ int main()
             break;
         }
 
-        std::string encodedInstruction = encodeInstruction(userInput);
+        args = ParseArgs(userInput);
 
-        if (!encodedInstruction.empty())
+        if (args[0] == "queued_read_set" || args[0] == "queued_write_set" || args[0] == "read_set" || args[0] == "write_set")
         {
-            if (encodedInstruction == "9") // Port Select
+            if (args[0] == "queued_read_set")
             {
-                std::cout << "\t Enter 32 bit port selection as a hex number [8 digits]" << std::endl;
-                std::cout << "\t 0x";
-
-                std::string ports;
-                std::getline(std::cin, ports);
-
-                // hexToAscii() is necessary because writeSerialPort() accepts a string and converts it into ascii binary
-                // If I were to put "F2" into writeSerialPort() it would write the asscii charater for F and 2 in binary
-                // Instead of the intended "11110010"
-                std::string asciiConversion = hexToAscii(ports);
-                writeSerialPort(fd, encodedInstruction);
-
-                writeSerialPort(fd, asciiConversion);
-
-                // Read and display response
-                std::string response = readSerialPort(fd);
-                std::cout << " - " << decodeResponse(response) << std::endl
-                          << std::endl;
+                writeSerialPort(fd, "5");
             }
-            else
+            else if (args[0] == "queued_write_set")
             {
-                // Send command to the device
-                writeSerialPort(fd, encodedInstruction + "\n");
+                writeSerialPort(fd, "6");
+            }
+            else if (args[0] == "read_set")
+            {
+                writeSerialPort(fd, "3");
+            }
+            else if (args[0] == "write_set")
+            {
+                writeSerialPort(fd, "2");
+            }
 
-                if (encodedInstruction != "@") // UART reset. reset doesn't send a response
+            std::string response = readSerialPort(fd);
+            std::cout << " - " << decodeResponse(response) << std::endl
+                      << std::endl;
+
+            for (int i = 1; i < args.size(); ++i)
+            {
+                if (args[i] == "-ports")
                 {
+                    PortSelect(fd, args[i + 1]);
+                    ++i;
+                }
+                else if (args[i] == "-mode")
+                {
+                    AddressingMode(fd, args[i + 1]);
+                    ++i;
+                }
+                else if (args[i] == "-length")
+                {
+                    LengthSelect(fd, args[i + 1]);
+                    ++i;
+                }
+                else
+                {
+                    std::cout << std::endl
+                              << "Invalid Command!" << std::endl;
+                    PrintHelp();
+                }
+            }
+        }
+        else
+        {
+            std::string encodedInstruction = encodeInstruction(args[0]);
+
+            if (!encodedInstruction.empty())
+            {
+                if (encodedInstruction == "9") // Port Select
+                {
+                    PortSelect(fd);
+                }
+                else if (encodedInstruction == ":")
+                {
+                    LengthSelect(fd);
+                }
+                else
+                {
+                    // Send command to the device
+                    writeSerialPort(fd, encodedInstruction + "\n");
+
                     // Read and display response
                     std::string response = readSerialPort(fd);
                     std::cout << " - " << decodeResponse(response) << std::endl
                               << std::endl;
-                }
-                else
-                {
-                    std::cout << std::endl;
                 }
             }
         }
@@ -303,6 +430,4 @@ int main()
 
     // Close the serial port
     close(fd);
-
-    return 0;
 }

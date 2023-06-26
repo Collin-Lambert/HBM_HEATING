@@ -28,6 +28,7 @@ module BIST #(parameter bist_num = 0) (
         input wire [2:0] read_or_write,          //0 for read, 1 for write, 2 for read and write   
         input wire address_inc_csr,
         input wire [31:0] port_mask,
+        input wire [3:0] transaction_length,
                
                
         //AXI
@@ -69,9 +70,6 @@ module BIST #(parameter bist_num = 0) (
         input wire axi_aresetn                 //global reset                                         
         
     );
-//    logic [5:0] transaction_id;
-//    assign axi_arid = transaction_id;
-//    assign axi_awid = transaction_id;
 
     assign axi_arid = 0;
     assign axi_awid = 0;
@@ -88,10 +86,10 @@ module BIST #(parameter bist_num = 0) (
     
     wire [31:0] read_burst_quantity; //The number of transactions per reading or writing command.
     wire [31:0] write_burst_quantity;
-    assign read_burst_quantity = 15;
-    assign write_burst_quantity = 15; 
-    assign axi_arlen = 15;
-    assign axi_awlen = 15;
+    assign read_burst_quantity = transaction_length;
+    assign write_burst_quantity = transaction_length; 
+    assign axi_arlen = transaction_length;
+    assign axi_awlen = transaction_length;
     
     assign axi_arsize = 5; //log2 (axi_port.data_width / 8)
     assign axi_awsize = 5;
@@ -571,8 +569,6 @@ module BIST #(parameter bist_num = 0) (
         qrcs <= qrns;
         qawcs <= qawns;
         qwcs <= qwns;
-//        start_delay <= 0;
-//        start_out <= 0;
         
         if (!axi_aresetn)
             begin
@@ -588,22 +584,6 @@ module BIST #(parameter bist_num = 0) (
             end
         else
             begin
-//                if (start_delay < 65000 && csr_start)
-//                    begin
-//                        start_delay <= start_delay + 1;
-//                        start_out <= 0;
-//                    end
-//                else if (csr_start)
-//                    begin
-//                        start_delay <= start_delay;
-//                        start_out <= 1;
-//                    end
-//                else
-//                    begin
-//                        start_delay <= 0;
-//                        start_out <= 0;
-//                    end
-                //transaction_id <= transaction_id + 1;
                 if (read_burst_incr)
                     begin
                     read_burst_counter <= read_burst_counter + 1;

@@ -27,7 +27,8 @@ module TX_RX(
     output logic [2:0] read_write,
     output logic address_inc,
     output logic start,
-    output logic [31:0] port_mask
+    output logic [31:0] port_mask,
+    output logic [3:0] length
     );
     
     logic [8:0] counter;
@@ -68,7 +69,7 @@ module TX_RX(
     logic [31:0] port_mask_temp;
     logic send_async, start_async, stop_async, read_async, write_async, rw_async, qr_async, reset_state_machine;
     logic qw_async, address_inc_async, address_static_async, port_select, enable_port_select, disable_port_select;  
-    logic bytes_received_inc, output_port_mask;
+    logic bytes_received_inc, output_port_mask, enable_length_select, disable_length_select, length_select, output_length;
     logic [3:0] bytes_received;
     
     always_ff @(posedge clk)
@@ -115,11 +116,26 @@ module TX_RX(
                     port_select <= 0;
                     port_mask_temp <= 0;
                     port_select <= 0;
+                    start <= 0;
+                    length_select <= 0;
+                    length <= 15;
                 end
             if (output_port_mask)
                 begin
                     port_mask <= port_mask_temp;
                     bytes_received <= 0;
+                end
+            if (enable_length_select && !disable_length_select)
+                begin
+                    length_select <= 1;
+                end
+            if (disable_length_select)
+                begin
+                    length_select <= 0;
+                end
+            if (output_length)
+                begin
+                    length <= RX_OUT[3:0];
                 end
         end
         
@@ -142,9 +158,12 @@ module TX_RX(
             bytes_received_inc = 0;
             reset_state_machine = 0;
             output_port_mask = 0;
+            enable_length_select = 0;
+            disable_length_select = 0;
+            output_length = 0;
             if (req)
                 begin
-                if (RX_OUT == 'h39 || port_select) //Port Select
+                if ((RX_OUT == 'h39 || port_select) && !length_select) //Port Select
                     begin
                         enable_port_select = 1;
                         if (port_select)
@@ -155,9 +174,22 @@ module TX_RX(
                                     end
                             end
                     end
+                else if (RX_OUT == 'h3A || length_select) //axi_len
+                    begin
+                        enable_length_select = 1;
+                        if (length_select)
+                            begin
+                                output_length = 1;
+                                din_temp = 'h4C;
+                                send_async = 1;
+                                disable_length_select = 1;
+                            end
+                    end
                 else if (RX_OUT == 'h40) //RESET
                     begin
                         reset_state_machine = 1;
+                        din_temp = 'h4B;
+                        send_async = 1;
                     end
                 else if (RX_OUT == 'h30) //Start Command
                     begin

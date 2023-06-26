@@ -3,7 +3,7 @@
   <spirit:vendor>user.org</spirit:vendor>
   <spirit:library>user</spirit:library>
   <spirit:name>BIST</spirit:name>
-  <spirit:version>18.6</spirit:version>
+  <spirit:version>19</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>axi</spirit:name>
@@ -318,7 +318,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>0338e093</spirit:value>
+            <spirit:value>5ed1fdf4</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -334,7 +334,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>0338e093</spirit:value>
+            <spirit:value>5ed1fdf4</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -416,6 +416,23 @@
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
             <spirit:left spirit:format="long">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>transaction_length</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">3</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -940,7 +957,7 @@
       <spirit:file>
         <spirit:name>BIST.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_0338e093</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_5ed1fdf4</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -953,14 +970,14 @@
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/BIST_v18_6.tcl</spirit:name>
+        <spirit:name>xgui/BIST_v19.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_aa291f09</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>BIST_v1_18.6</spirit:description>
+  <spirit:description>BIST_v1_19</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
       <spirit:name>bist_num</spirit:name>
@@ -1004,7 +1021,7 @@
       <xilinx:taxonomies>
         <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
       </xilinx:taxonomies>
-      <xilinx:displayName>BIST_v1_18.6</xilinx:displayName>
+      <xilinx:displayName>BIST_v1_19</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:coreRevision>1</xilinx:coreRevision>
       <xilinx:upgrades>
@@ -1020,8 +1037,9 @@
         <xilinx:canUpgradeFrom>user.org:user:BIST:18.3</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>user.org:user:BIST:18.4</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>user.org:user:BIST:18.5</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:BIST:18.6</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2023-06-20T22:05:05Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2023-06-22T19:04:14Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="nopcore"/>
       </xilinx:tags>
@@ -1030,8 +1048,8 @@
       <xilinx:xilinxVersion>2022.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="016d87be"/>
       <xilinx:checksum xilinx:scope="addressSpaces" xilinx:value="7475231b"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="41049bde"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="c565199f"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="a2e7f688"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="416b83f4"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="4ad4133d"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="ec1d9613"/>
     </xilinx:packagingInfo>
