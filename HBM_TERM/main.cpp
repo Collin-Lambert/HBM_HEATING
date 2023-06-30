@@ -98,8 +98,8 @@ void PrintHelp()
     std::cout << "\t start              - enables reading / writing test" << std::endl;
     std::cout << "\t stop               - halts reading / writing test" << std::endl
               << std::endl;
-    std::cout << "\t write_set          - sets port mode to write" << std::endl;
-    std::cout << "\t read_set           - sets port mode to read" << std::endl;
+    std::cout << "\t write_set          - enables writing" << std::endl;
+    std::cout << "\t read_set           - enables reading" << std::endl;
     std::cout << "\t queued_read_set    - enables queued reading" << std::endl;
     std::cout << "\t queued_write_set   - enables queued writing" << std::endl
               << std::endl;
