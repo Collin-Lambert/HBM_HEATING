@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <cstring>
 #include <cstdlib>
@@ -7,8 +8,11 @@
 #include <termios.h>
 #include <chrono>
 #include <thread>
-#include <sstream>
+#include <deque>
 #include <vector>
+#include <sstream>
+#include <bitset>
+#include <iomanip>
 
 // Yes, I did have chatGPT make the basic UART interface for me
 
@@ -37,8 +41,7 @@ void configureSerialPort(int fd, speed_t baudRate)
     // Enable receiver and set local mode
     options.c_cflag |= (CLOCAL | CREAD);
 
-    // Set parity, data bits, and stop bits
-    options.c_cflag |= PARENB;  // Enable parity
+    // Set parity, data bits, and stop bitsQuick Access
     options.c_cflag |= PARODD;  // Set odd parity
     options.c_cflag &= ~CSTOPB; // Set 1 stop bit
     options.c_cflag &= ~CSIZE;  // Clear data bits
@@ -63,10 +66,64 @@ void writeSerialPort(int fd, const std::string &data)
     write(fd, data.c_str(), data.length());
 }
 
+std::string binaryToHex(const std::string &binary)
+{
+    if (binary.length() % 4 != 0)
+    {
+        std::cerr << "Invalid binary string. Length must be a multiple of 4." << std::endl;
+        return "";
+    }
+
+    std::string hex;
+    for (size_t i = 0; i < binary.length(); i += 4)
+    {
+        std::bitset<4> bits(binary.substr(i, 4));
+        hex += static_cast<char>(bits.to_ulong() + (bits.to_ulong() > 9 ? 'A' - 10 : '0'));
+    }
+
+    return hex;
+}
+
+std::deque<std::string> readRawSerialPort(int fd)
+{
+    const int bufferSize = 256;
+    char buffer[bufferSize];
+    std::stringstream ss;
+    std::bitset<8> bits;
+    std::deque<std::string> throughput;
+
+    int i = 0;
+    bool status = true;
+
+    while (status)
+    {
+
+        int bytesRead = read(fd, buffer, bufferSize - 1);
+        if (bytesRead > 0)
+        {
+            buffer[bytesRead] = '\0';
+            for (int i = 31; i >= 0; --i)
+            {
+                for (int j = 3; j >= 0; --j)
+                {
+                    bits = buffer[(i * 4) + j];
+                    ss << std::hex << bits.to_string();
+                }
+                throughput.push_front(ss.str());
+                // std::cout << ss.str() << std::endl;
+                ss.clear();
+                ss.str("");
+            }
+            status = false;
+        }
+    }
+    return throughput;
+}
+
 // Function to read data from the serial port
 std::string readSerialPort(int fd, bool printErrors = true)
 {
-    const int bufferSize = 128;
+    const int bufferSize = 256;
     char buffer[bufferSize];
     std::string data;
 
@@ -84,7 +141,7 @@ std::string readSerialPort(int fd, bool printErrors = true)
         }
     }
     if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E" && data != "F" && data != "G" &&
-        data != "H" && data != "I" && data != "J" && data != "L" && data != "K" && printErrors)
+        data != "H" && data != "I" && data != "J" && data != "L" && data != "K" && data != "M" && printErrors)
     {
         std::cout << "Received unknown bytes: [" << data << "]" << std::endl;
     }
@@ -208,6 +265,10 @@ std::string decodeResponse(std::string response)
     {
         return "Set transaction length";
     }
+    else if (response == "M")
+    {
+        return "Sampling...";
+    }
     else if (response == "?")
         return "[ERR] : ?";
     else
@@ -229,6 +290,15 @@ std::string hexToAscii(const std::string &hexString)
         ss << asciiChar;
     }
     return ss.str();
+}
+
+long int hexToInt(const std::string &hex)
+{
+    long int value;
+    std::stringstream ss;
+    ss << std::hex << hex;
+    ss >> value;
+    return value;
 }
 
 std::vector<std::string> ParseArgs(std::string input)
@@ -327,7 +397,7 @@ int main()
     std::string userInput;
 
     // Reset UART
-    writeSerialPort(fd, "@\n");
+    writeSerialPort(fd, "@");
 
     std::string response = readSerialPort(fd);
     std::cout << " - " << decodeResponse(response) << std::endl
@@ -400,6 +470,40 @@ int main()
                 }
             }
         }
+        else if (args[0] == "sample")
+        {
+            writeSerialPort(fd, ";");
+
+            std::string response = readSerialPort(fd);
+            std::cout << " - " << decodeResponse(response) << std::endl
+                      << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            std::deque<std::string> throughput = readRawSerialPort(fd);
+            std::string hexConversion;
+            long int decimalConversion;
+            double throughputCalc;
+            double totalThroughput = 0;
+
+            std::cout << "AXI port  |  Transactions (0x)  |  Transactions (0d) |  Throughput" << std::endl;
+
+            for (int i = 0; i < throughput.size(); ++i)
+            {
+                hexConversion = binaryToHex(throughput[i]);
+                decimalConversion = hexToInt(hexConversion);
+                throughputCalc = (decimalConversion * 32.0 * 16.0 * 1000) / (1000000000.0);
+                std::cout << std::fixed << std::setw(13) << std::left << i
+                          << std::setw(17) << hexConversion << " ->  "
+                          << std::setw(16) << decimalConversion << " ->  "
+                          << std::setw(7) << std::setprecision(2) << throughputCalc << " GB/s" << std::endl;
+
+                totalThroughput += throughputCalc;
+            }
+            std::cout << std::endl
+                      << "Total Throughput -> " << totalThroughput << " GB/s" << std::endl
+                      << std::endl;
+            close(fd);
+            fd = openSerialPort(serialPort);
+        }
         else
         {
             std::string encodedInstruction = encodeInstruction(args[0]);
@@ -410,14 +514,14 @@ int main()
                 {
                     PortSelect(fd);
                 }
-                else if (encodedInstruction == ":")
+                else if (encodedInstruction == ":") // Length Select
                 {
                     LengthSelect(fd);
                 }
                 else
                 {
                     // Send command to the device
-                    writeSerialPort(fd, encodedInstruction + "\n");
+                    writeSerialPort(fd, encodedInstruction);
 
                     // Read and display response
                     std::string response = readSerialPort(fd);

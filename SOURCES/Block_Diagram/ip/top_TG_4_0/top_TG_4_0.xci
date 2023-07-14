@@ -3,8 +3,8 @@
   "ip_inst": {
     "xci_name": "top_TG_4_0",
     "cell_name": "TG_4",
-    "component_reference": "user.org:user:TRAFFIC_GEN:20.1",
-    "ip_revision": "2",
+    "component_reference": "user.org:user:TRAFFIC_GEN:21.4.1",
+    "ip_revision": "1",
     "gen_directory": "../../../../../../HBM_HEATING_TEST.gen/sources_1/bd/Block_Diagram/ip/top_TG_4_0",
     "parameters": {
       "component_parameters": {
@@ -31,7 +31,7 @@
       },
       "runtime_parameters": {
         "IPCONTEXT": [ { "value": "IP_Integrator" } ],
-        "IPREVISION": [ { "value": "2" } ],
+        "IPREVISION": [ { "value": "1" } ],
         "MANAGED": [ { "value": "TRUE" } ],
         "OUTPUTDIR": [ { "value": "../../../../../../HBM_HEATING_TEST.gen/sources_1/bd/Block_Diagram/ip/top_TG_4_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
@@ -77,7 +77,9 @@
         "axi_rready": [ { "direction": "out" } ],
         "axi_rresp": [ { "direction": "in", "size_left": "1", "size_right": "0", "driver_value": "0" } ],
         "axi_rvalid": [ { "direction": "in", "driver_value": "0" } ],
-        "axi_aresetn": [ { "direction": "in" } ]
+        "axi_aresetn": [ { "direction": "in" } ],
+        "transaction_counter_ena": [ { "direction": "in" } ],
+        "transaction_inc_out": [ { "direction": "out" } ]
       },
       "interfaces": {
         "axi": {

@@ -57,6 +57,17 @@
         "stop_token": "cpp",
         "thread": "cpp",
         "bitset": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "condition_variable": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "executor": "cpp",
+        "io_context": "cpp",
+        "netfwd": "cpp",
+        "timer": "cpp",
+        "future": "cpp",
+        "mutex": "cpp",
+        "iomanip": "cpp",
+        "fstream": "cpp"
     }
 }

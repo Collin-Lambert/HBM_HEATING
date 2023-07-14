@@ -67,12 +67,18 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
         input wire [1 : 0] axi_rresp,           //Read response                           
         input wire axi_rvalid,                                               
         
-        input wire axi_aresetn                 //global reset                                         
+        input wire axi_aresetn,                 //global reset        
+        
+        input wire transaction_counter_ena,
+        output logic transaction_inc_out                        
         
     );
+    
 
     assign axi_arid = 0;
     assign axi_awid = 0;
+    
+    logic transaction_inc;
     
     
     logic [32:0] default_address;
@@ -98,7 +104,7 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
     
     logic [4:0] read_burst_counter, write_burst_counter, read_beat_counter, write_beat_counter;
     
-    
+    logic one_shot_1, one_shot_2, transaction_one_shot_out;
     
     
     typedef enum logic [3:0] {READ_WAIT, READ_VALID, READ_BEAT, READ_ERR} ReadState;
@@ -107,12 +113,14 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
     typedef enum logic [3:0] {R_WAIT, R_BEAT, R_INC} QueuedRState;
     typedef enum logic [3:0] {AW_WAIT, AW_VALID, AW_INC, AW_CHECK} QueuedAWState;
     typedef enum logic [3:0] {W_WAIT, W_BEAT, W_LAST, W_INC} QueuedWState;
+    typedef enum logic [1:0] {SAMPLE_WAIT_POS, SAMPLE_INIT, SAMPLE_WAIT_NEG} SampleState;
     ReadState rcs, rns; //Read current state / next state
     WriteState wcs, wns;
     QueuedARState qarcs, qarns; // queued address read current state / next state
     QueuedRState qrcs, qrns;    // queued read current state / next state
     QueuedAWState qawcs, qawns; // queued address write current state / next state
     QueuedWState qwcs, qwns;    // queued write current state / next state
+    SampleState scs, sns;       // used to reset sample counters
     
 
     logic read_burst_incr;
@@ -143,7 +151,6 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
     logic [5:0] outstanding_reads, outstanding_writes;
     //logic [15:0] start_delay;
     logic outstanding_reads_inc, r_address_inc, outstanding_reads_dec, outstanding_writes_inc, w_address_inc, outstanding_writes_dec;
-    
     
     assign axi_awaddr = address_write;
     assign axi_araddr = address_read;
@@ -180,6 +187,33 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
     write_beat_counter_rst = 0;
     write_burst_counter_rst = 0;
     wns = WRITE_WAIT;
+    
+    sns = SAMPLE_WAIT_POS;
+    
+    transaction_inc = 0;
+    
+    case (scs)
+        SAMPLE_WAIT_POS:
+            begin
+                if (transaction_counter_ena)
+                    sns = SAMPLE_INIT;
+                else
+                    sns = scs;
+            end
+        SAMPLE_INIT:
+            begin
+                transaction_inc = 1;
+                sns = SAMPLE_WAIT_NEG;
+            end
+        SAMPLE_WAIT_NEG:
+            begin
+                if (!transaction_counter_ena)
+                    sns = SAMPLE_WAIT_POS;
+                else
+                    sns = scs;
+            end
+    endcase
+    
     if (port_mask[traffic_gen_num])
     begin
         if (!axi_aresetn)
@@ -212,6 +246,7 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
                                 end
                             else if (axi_arready)
                                 begin
+                                    transaction_inc = 1;
                                     rns = READ_BEAT;
                                 end
                             else
@@ -281,6 +316,7 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
                                 begin
                                     if (axi_wready)
                                         write_beat_incr = 1;
+                                    transaction_inc = 1;
                                     wns = WRITE_BEAT;
                                 end
                             else if (axi_awready)
@@ -370,6 +406,7 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
                             else if (axi_arready)
                                 begin
                                     qarns = AR_INC;
+                                    transaction_inc = 1;
                                 end
                             else
                                 begin
@@ -454,6 +491,7 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
                             else if (axi_awready)
                                 begin
                                     qawns = AW_INC;
+                                    transaction_inc = 1;
                                 end
                             else
                                 begin
@@ -569,6 +607,7 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
         qrcs <= qrns;
         qawcs <= qawns;
         qwcs <= qwns;
+        scs <= sns;
         
         if (!axi_aresetn)
             begin
@@ -662,10 +701,19 @@ module TRAFFIC_GEN #(parameter traffic_gen_num = 0) (
                     outstanding_writes <= outstanding_writes + 1;
                 if (outstanding_writes_dec && outstanding_writes >= 1)
                     outstanding_writes <= outstanding_writes - 1;
+                if (transaction_counter_ena)
+                    transaction_inc_out <= transaction_inc;
                     
             end
+            
+            //One shot for transaction_counter
+            one_shot_1 <= transaction_counter_ena;
+            one_shot_2 <= one_shot_1;
+            
     end
          
+    assign transaction_one_shot_out = one_shot_1 && !one_shot_2;
+    
 
 
 
