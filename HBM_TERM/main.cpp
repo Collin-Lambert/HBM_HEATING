@@ -133,6 +133,11 @@ std::string readSerialPort(int fd, bool printErrors = true)
     {
 
         int bytesRead = read(fd, buffer, bufferSize - 1);
+        // Experimental
+        // if (buffer[bytesRead - 1] == '\377')
+        // {
+        //     bytesRead -= 1;
+        // }
         if (bytesRead > 0)
         {
             buffer[bytesRead] = '\0';
@@ -141,9 +146,13 @@ std::string readSerialPort(int fd, bool printErrors = true)
         }
     }
     if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E" && data != "F" && data != "G" &&
-        data != "H" && data != "I" && data != "J" && data != "L" && data != "K" && data != "M" && printErrors)
+        data != "H" && data != "I" && data != "J" && data != "L" && data != "K" && data != "M" && data != "N" &&
+        data != "O" && data != "P" && printErrors)
     {
-        std::cout << "Received unknown bytes: [" << data << "]" << std::endl;
+        for (int j = 0; j < data.length(); ++j)
+        {
+            std::cout << "Received unknown bytes: [" << static_cast<int>(data.at(j)) << "]" << std::endl;
+        }
     }
     return data;
 }
@@ -169,7 +178,12 @@ void PrintHelp()
     std::cout << "\t address_static_set     - disables address incrementing" << std::endl;
     std::cout << "\t reset_uart             - resets the uart" << std::endl;
     std::cout << "\t port_select            - 32 bit hex number for which ports to enable" << std::endl;
-    std::cout << "\t transaction_length_set - 4 bit hex number for length of transaction" << std::endl;
+    std::cout << "\t transaction_length_set - 4 bit hex number for length of transaction" << std::endl
+              << std::endl;
+    std::cout << "\t sample" << std::endl;
+    std::cout << "\t clk_set_650" << std::endl;
+    std::cout << "\t clk_set_450" << std::endl;
+    std::cout << "\t clk_set_325" << std::endl;
     std::cout << "\t exit                   - to exit" << std::endl;
 }
 
@@ -202,6 +216,18 @@ std::string encodeInstruction(std::string input)
     else if (input == "transaction_length_set")
     {
         return ":";
+    }
+    else if (input == "clk_set_650")
+    {
+        return "<";
+    }
+    else if (input == "clk_set_450")
+    {
+        return "=";
+    }
+    else if (input == "clk_set_325")
+    {
+        return ">";
     }
     else
     {
@@ -269,11 +295,27 @@ std::string decodeResponse(std::string response)
     {
         return "Sampling...";
     }
+    else if (response == "N")
+    {
+        return "Setting Clock To 650MHz...";
+    }
+    else if (response == "O")
+    {
+        return "Setting Clock To 450MHz...";
+    }
+    else if (response == "P")
+    {
+        return "Setting Clock To 325MHz...";
+    }
+    else if (response == "Q")
+    {
+        return "Locked";
+    }
     else if (response == "?")
-        return "[ERR] : ?";
+        return "[ERROR : ?]";
     else
     {
-        return "[ERR]";
+        return "[ERROR : unkown response]";
     }
 }
 
@@ -335,6 +377,7 @@ void PortSelect(int fd, std::string ports = "")
 
     writeSerialPort(fd, asciiConversion);
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     // Read and display response
     std::string response = readSerialPort(fd);
     std::cout << " - " << decodeResponse(response) << std::endl
@@ -386,7 +429,7 @@ void AddressingMode(int fd, std::string mode)
 
 int main()
 {
-    const char *serialPort = "/dev/ttyUSB2";
+    const char *serialPort = "/dev/ttyUSB2"; // 4 for other port. 2 for main
     speed_t baudRate = B19200;
 
     // Open the serial port
@@ -483,6 +526,8 @@ int main()
             long int decimalConversion;
             double throughputCalc;
             double totalThroughput = 0;
+            double stack1Throughput = 0;
+            double stack2Throughput = 0;
 
             std::cout << "AXI port  |  Transactions (0x)  |  Transactions (0d) |  Throughput" << std::endl;
 
@@ -497,12 +542,37 @@ int main()
                           << std::setw(7) << std::setprecision(2) << throughputCalc << " GB/s" << std::endl;
 
                 totalThroughput += throughputCalc;
+
+                if (i < 16)
+                {
+                    stack1Throughput += throughputCalc;
+                }
+                else
+                {
+                    stack2Throughput += throughputCalc;
+                }
             }
             std::cout << std::endl
+                      << "Stack 1 Throughput -> " << stack1Throughput << " GB/s" << std::endl
+                      << "Stack 2 Throughput -> " << stack2Throughput << " GB/s" << std::endl
+                      << std::endl
                       << "Total Throughput -> " << totalThroughput << " GB/s" << std::endl
                       << std::endl;
             close(fd);
             fd = openSerialPort(serialPort);
+        }
+        else if (args[0] == "clk_set_650" || args[0] == "clk_set_450" || args[0] == "clk_set_325")
+        {
+            std::string encodedInstruction = encodeInstruction(args[0]);
+
+            // Send command to the device
+            writeSerialPort(fd, encodedInstruction);
+
+            // Read and display response
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::string response = readSerialPort(fd);
+            std::cout << " - " << decodeResponse(response) << std::endl
+                      << std::endl;
         }
         else
         {

@@ -3,7 +3,7 @@
   "ip_inst": {
     "xci_name": "top_TX_RX_0_0",
     "cell_name": "TX_RX_0",
-    "component_reference": "user.org:user:TX_RX:2.3.4",
+    "component_reference": "user.org:user:TX_RX:3.1.1",
     "ip_revision": "1",
     "gen_directory": "../../../../../../HBM_HEATING_TEST.gen/sources_1/bd/Block_Diagram/ip/top_TX_RX_0_0",
     "parameters": {
@@ -72,13 +72,18 @@
         "transaction_trigger_29": [ { "direction": "in" } ],
         "transaction_trigger_30": [ { "direction": "in" } ],
         "transaction_trigger_31": [ { "direction": "in" } ],
+        "clk_locked": [ { "direction": "in" } ],
+        "transaction_complete": [ { "direction": "in" } ],
         "USB_UART_TX": [ { "direction": "out" } ],
         "read_write": [ { "direction": "out", "size_left": "2", "size_right": "0" } ],
         "address_inc": [ { "direction": "out" } ],
         "start": [ { "direction": "out" } ],
         "port_mask": [ { "direction": "out", "size_left": "31", "size_right": "0" } ],
         "length": [ { "direction": "out", "size_left": "3", "size_right": "0" } ],
-        "transaction_counter_ena": [ { "direction": "out" } ]
+        "transaction_counter_ena": [ { "direction": "out" } ],
+        "transact": [ { "direction": "out" } ],
+        "clk_addr": [ { "direction": "out", "size_left": "10", "size_right": "0" } ],
+        "clk_data": [ { "direction": "out", "size_left": "31", "size_right": "0" } ]
       },
       "interfaces": {
         "clk": {

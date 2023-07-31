@@ -18,7 +18,19 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-typedef enum logic [3:0] {WAIT, SAMPLE_INIT, SAMPLE, TX_1, TX_2, TX_3, TX_4, CHECK} sample_state;
+typedef enum logic [6:0] {WAIT, SAMPLE_INIT, SAMPLE, TX_1, TX_2, TX_3, TX_4, CHECK,
+
+                         CLK_650_CONFIG, CLK_450_CONFIG, CLK_325_CONFIG, CLK0_0, CLK0_1, CLK1_0, CLK1_1,
+                         DIV_CLK, CLKFB_1, CLKFB_2, LOCK_1, LOCK_2, LOCK_3, FILTER_1, FILTER_2, RECONFIG, LOCK_WAIT,
+                         
+                         BYTE_0, BYTE_0_WAIT, BYTE_1, BYTE_1_WAIT, BYTE_2, BYTE_2_WAIT, BYTE_3, BYTE_3_WAIT, SET_PORTS,
+                         
+                         LENGTH_RECEIVE, LENGTH_SET} sample_state;
+
+
+
+
+
 
 module TX_RX(
     input wire clk,
@@ -57,13 +69,19 @@ module TX_RX(
     input wire transaction_trigger_30,
     input wire transaction_trigger_31,
     
+    input wire clk_locked,
+    input wire transaction_complete,
+    
     output logic USB_UART_TX,
     output logic [2:0] read_write,
     output logic address_inc,
     output logic start,
     output logic [31:0] port_mask,
     output logic [3:0] length,
-    output logic transaction_counter_ena
+    output logic transaction_counter_ena,
+    output logic transact,
+    output logic [10:0] clk_addr,
+    output logic [31:0] clk_data
     );
     
     sample_state ns, cs;
@@ -110,16 +128,23 @@ module TX_RX(
     logic [7:0] din_temp;
     logic [31:0] port_mask_temp;
     
-    //Port Select Signals
-    logic port_select, enable_port_select, disable_port_select, bytes_received_inc, output_port_mask;  
-    logic enable_length_select, disable_length_select, length_select, output_length;
-    logic [3:0] bytes_received;
+    //Length Select Signals
+    logic output_length;
+    
+    //Port Select Signals 
+    logic port_mask_set, output_port_mask;
     
     //Data Rate Sampling Signals
     logic sample_start_async, sample_timer_ena, sample_timer_done, timer_10ths_ena, timer_10ths_done;
     logic transmission_inc, transmission_count_rst, transaction_counter_rst;
     
+    //Clock Reconfiguration Signals
+    logic clk_650_config, clk_450_config, clk_325_config;
+    logic [15:0] clk0_0, clk0_1, clk1_0, clk1_1, div_clk, clkfb_1, clkfb_2, lock_1, lock_2, lock_3, filter_1, filter_2;
     
+    logic fsm_active;
+    
+    //More Sampling Signals
     Timer #(100000) sample_timer (.clk(clk), .enable(sample_timer_ena), .done(sample_timer_done));
     Timer #(10000000) timer_10ths (.clk(clk), .enable(timer_10ths_ena), .done(timer_10ths_done));
     
@@ -163,39 +188,6 @@ module TX_RX(
     
     
     reg [21:0] transaction_counts [0:31];
-    
-//    assign transaction_counts[0] = 'h30;
-//    assign transaction_counts[1] = 'h31;
-//    assign transaction_counts[2] = 'h32;
-//    assign transaction_counts[3] = 'h33;
-//    assign transaction_counts[4] = 'h34;
-//    assign transaction_counts[5] = 'h35;
-//    assign transaction_counts[6] = 'h36;
-//    assign transaction_counts[7] = 'h37;
-//    assign transaction_counts[8] = 'h38;
-//    assign transaction_counts[9] = 'h39;
-//    assign transaction_counts[10] = 'h3A;
-//    assign transaction_counts[11] = 'h3B;
-//    assign transaction_counts[12] = 'h3C;
-//    assign transaction_counts[13] = 'h3D;
-//    assign transaction_counts[14] = 'h3F;
-//    assign transaction_counts[15] = 'h40;
-//    assign transaction_counts[16] = 'h41;
-//    assign transaction_counts[17] = 'h42;
-//    assign transaction_counts[18] = 'h43;
-//    assign transaction_counts[19] = 'h44;
-//    assign transaction_counts[20] = 'h45;
-//    assign transaction_counts[21] = 'h46;
-//    assign transaction_counts[22] = 'h47;
-//    assign transaction_counts[23] = 'h48;
-//    assign transaction_counts[24] = 'h49;
-//    assign transaction_counts[25] = 'h4A;
-//    assign transaction_counts[26] = 'h4B;
-//    assign transaction_counts[27] = 'h4C;
-//    assign transaction_counts[28] = 'h4D;
-//    assign transaction_counts[29] = 'h4E;
-//    assign transaction_counts[30] = 'h4F;
-//    assign transaction_counts[31] = 'h50;
    
     //Transaction counters
     genvar i;
@@ -237,41 +229,38 @@ module TX_RX(
                 address_inc <= 1;
             if (address_static_async)
                 address_inc <= 0;
-            if (enable_port_select)
-                port_select <= 1;
-            if (disable_port_select)
+            if (port_mask_set)
                 begin
-                    port_select <= 0;
-                end
-            if (bytes_received_inc)
-                begin
-                    bytes_received <= bytes_received + 1;
                     port_mask_temp <= {port_mask_temp[23 : 0], RX_OUT};
                 end
             if (reset_state_machine)
                 begin
-                    bytes_received <= 0;
                     port_mask <= 0;
-                    port_select <= 0;
                     port_mask_temp <= 0;
-                    port_select <= 0;
                     start <= 0;
-                    length_select <= 0;
                     length <= 15;
                     transmission_count <= 0;
+                    
+                    clk0_0 <= 'h1041;
+                    clk0_1 <= 'h0000;
+                    clk1_0 <= 'h1105;
+                    clk1_1 <= 'h0080;
+                    
+                    div_clk <= 'h1041;
+                    
+                    clkfb_1 <= 'h1105;
+                    clkfb_2 <= 'h0080;
+                    
+                    lock_1 <= 'h03E8;
+                    lock_2 <= 'h6401;
+                    lock_3 <= 'h67E9;
+                    
+                    filter_1 <= 'h0900;
+                    filter_2 <= 'h1890;
                 end
             if (output_port_mask)
                 begin
                     port_mask <= port_mask_temp;
-                    bytes_received <= 0;
-                end
-            if (enable_length_select && !disable_length_select)
-                begin
-                    length_select <= 1;
-                end
-            if (disable_length_select)
-                begin
-                    length_select <= 0;
                 end
             if (output_length)
                 begin
@@ -285,7 +274,64 @@ module TX_RX(
                 begin
                     transmission_count <= 0;
                 end
-                
+            if (clk_650_config)
+                begin
+                    clk0_0 <= 'h1041;
+                    clk0_1 <= 'h0000;
+                    clk1_0 <= 'h1105;
+                    clk1_1 <= 'h0080;
+                    
+                    div_clk <= 'h1041;
+                    
+                    clkfb_1 <= 'h1187;
+                    clkfb_2 <= 'h0080;
+                    
+                    lock_1 <= 'h02EE;
+                    lock_2 <= 'h7C01;
+                    lock_3 <= 'h7FE9;
+                    
+                    filter_1 <= 'h0900;
+                    filter_2 <= 'h8890;
+                end
+            if (clk_450_config)
+                begin
+                    clk0_0 <= 'h1041;
+                    clk0_1 <= 'h0000;
+                    clk1_0 <= 'h1105;
+                    clk1_1 <= 'h0080;
+                    
+                    div_clk <= 'h1041;
+                    
+                    clkfb_1 <= 'h1105;
+                    clkfb_2 <= 'h0080;
+                    
+                    lock_1 <= 'h03E8;
+                    lock_2 <= 'h6401;
+                    lock_3 <= 'h67E9;
+                    
+                    filter_1 <= 'h0900;
+                    filter_2 <= 'h1890;
+                end
+            if (clk_325_config)
+                begin
+                    clk0_0 <= 'h1082;
+                    clk0_1 <= 'h0000;
+                    clk1_0 <= 'h1249;
+                    clk1_1 <= 'h0000;
+                    
+                    div_clk <= 'h1041;
+                    
+                    clkfb_1 <= 'h1187;
+                    clkfb_2 <= 'h0080;
+                    
+                    lock_1 <= 'h02EE;
+                    lock_2 <= 'h7C01;
+                    lock_3 <= 'h7FE9;
+                    
+                    filter_1 <= 'h0900;
+                    filter_2 <= 'h8890;
+                end    
+            
             cs <= ns;
         end
         
@@ -305,13 +351,8 @@ module TX_RX(
             qw_async = 0;
             address_inc_async = 0;
             address_static_async = 0;
-            enable_port_select = 0;
-            disable_port_select = 0;
-            bytes_received_inc = 0;
             reset_state_machine = 0;
             output_port_mask = 0;
-            enable_length_select = 0;
-            disable_length_select = 0;
             output_length = 0;
             sample_start_async = 0;
             transmission_inc = 0;
@@ -321,6 +362,16 @@ module TX_RX(
             timer_10ths_ena = 0;
             sample_timer_ena = 0;
             reset = 0;
+            port_mask_set = 0;
+            fsm_active = 1;
+            
+            clk_650_config = 0;
+            clk_450_config = 0;
+            clk_325_config = 0;
+            clk_addr = 'h0;
+            clk_data = 'h0000;
+            transact = 0;
+            
             
             
             ns = WAIT;
@@ -328,11 +379,48 @@ module TX_RX(
             case (cs)
                 WAIT:
                     begin
-                        if (req && RX_OUT == 'h3B && !length_select && !port_select)
+                        fsm_active = 0;
+                        
+                        if (req && RX_OUT == 'h3B) //SAMPLE
                             begin
                                 ns = SAMPLE_INIT;
                                 din_temp = 'h4D;
                                 send_async = 1;
+                                ack = 1; 
+                            end
+                        else if (req && RX_OUT == 'h3C) //SET CLK to 650 MHz
+                            begin
+                                ns = CLK_650_CONFIG;
+                                din_temp = 'h4E;
+                                send_async = 1;
+                                ack = 1; 
+                            end
+                            
+                        else if (req && RX_OUT == 'h3D) //SET CLK to 450 MHz
+                            begin
+                                ns = CLK_450_CONFIG;
+                                din_temp = 'h4F;
+                                send_async = 1;
+                                ack = 1; 
+                            end
+                            
+                        else if (req && RX_OUT == 'h3E) //SET CLK to 325 MHz
+                            begin
+                                ns = CLK_325_CONFIG;
+                                din_temp = 'h50;
+                                send_async = 1;
+                                ack = 1; 
+                            end
+                            
+                        else if (req && RX_OUT == 'h39) //PORT SELECT
+                            begin
+                                ns = BYTE_0;
+                                ack = 1; 
+                            end
+                        else if (RX_OUT == 'h3A) //LENGTH SELECT
+                            begin
+                                ns = LENGTH_SET;
+                                ack = 1; 
                             end
                         else
                             ns = cs;
@@ -417,33 +505,322 @@ module TX_RX(
                         else
                             ns = CHECK;
                     end
-            endcase
-            
-            if (req)
-                begin
-                if ((RX_OUT == 'h39 || port_select) && !length_select) //Port Select
+                    
+                ////////////////////////////////////////////////////////////////////////////////    
+                    
+
+                BYTE_0:
                     begin
-                        enable_port_select = 1;
-                        if (port_select)
+                        if (req)
                             begin
-                                if (bytes_received < 4)
-                                    begin
-                                        bytes_received_inc = 1;
-                                    end
+                                port_mask_set = 1;
+                                ns = BYTE_0_WAIT;
                             end
+                        else
+                            ns = cs;
                     end
-                else if (RX_OUT == 'h3A || length_select) //axi_len
+                BYTE_0_WAIT:
                     begin
-                        enable_length_select = 1;
-                        if (length_select)
+                        ack = 1; 
+                        if (!req)
+                            ns = BYTE_1;
+                        else
+                            ns = cs;
+                    end 
+                BYTE_1:
+                    begin
+                        if (req)
+                            begin
+                                port_mask_set = 1;
+                                ns = BYTE_1_WAIT;
+                            end
+                        else
+                            ns = cs;
+                    end
+                BYTE_1_WAIT:
+                    begin
+                        ack = 1; 
+                        if (!req)
+                            ns = BYTE_2;
+                        else
+                            ns = cs;
+                    end 
+                BYTE_2:
+                    begin
+                        if (req)
+                            begin
+                                port_mask_set = 1;
+                                ns = BYTE_2_WAIT;
+                            end
+                        else
+                            ns = cs;
+                    end
+                BYTE_2_WAIT:
+                    begin
+                        ack = 1; 
+                        if (!req)
+                            ns = BYTE_3;
+                        else
+                            ns = cs;
+                    end 
+                BYTE_3:
+                    begin
+                        if (req)
+                            begin
+                                port_mask_set = 1;
+                                ns = BYTE_3_WAIT;
+                            end
+                        else
+                            ns = cs;
+                    end
+                BYTE_3_WAIT:
+                    begin
+                        ack = 1; 
+                        if (!req)
+                            ns = SET_PORTS;
+                        else
+                            ns = cs;
+                    end 
+                SET_PORTS:
+                    begin
+                        din_temp = 'h4A;
+                        send_async = 1;
+                        ns = WAIT;
+                        output_port_mask = 1;
+                    end
+                    
+                    
+                ////////////////////////////////////////////////////////////////////////////
+                
+
+                CLK_650_CONFIG:
+                    begin
+                        clk_650_config = 1;
+                        ns = CLK0_0;
+                    end
+                CLK_450_CONFIG:
+                    begin
+                        clk_450_config = 1;
+                        ns = CLK0_0;
+                    end
+                CLK_325_CONFIG:
+                    begin
+                        clk_325_config = 1;
+                        ns = CLK0_0;
+                    end
+                CLK0_0:
+                    begin
+                        clk_addr = 'h304;
+                        clk_data = clk0_0;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = CLK0_1;
+                            end
+                        else
+                            ns = cs;
+                    end
+                CLK0_1:
+                    begin
+                        clk_addr = 'h308;
+                        clk_data = clk0_1;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = CLK1_0;
+                            end
+                        else
+                            ns = cs;
+                    end
+                CLK1_0:
+                    begin
+                        clk_addr = 'h30C;
+                        clk_data = clk1_0;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = CLK1_1;
+                            end
+                        else
+                            ns = cs;
+                    end
+                CLK1_1:
+                    begin
+                        clk_addr = 'h310;
+                        clk_data = clk1_1;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = DIV_CLK;
+                            end
+                        else
+                            ns = cs;
+                    end
+                DIV_CLK:
+                    begin
+                        clk_addr = 'h33C;
+                        clk_data = div_clk;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = CLKFB_1;
+                            end
+                        else
+                            ns = cs;
+                    end
+                CLKFB_1:
+                    begin
+                        clk_addr = 'h340;
+                        clk_data = clkfb_1;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = CLKFB_2;
+                            end
+                        else
+                            ns = cs;
+                    end
+                CLKFB_2:
+                    begin
+                        clk_addr = 'h344;
+                        clk_data = clkfb_2;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = LOCK_1;
+                            end
+                        else
+                            ns = cs;
+                    end
+                LOCK_1:
+                    begin
+                        clk_addr = 'h348;
+                        clk_data = lock_1;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = LOCK_2;
+                            end
+                        else
+                            ns = cs;
+                    end
+                LOCK_2:
+                    begin
+                        clk_addr = 'h34C;
+                        clk_data = lock_2;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = LOCK_3;
+                            end
+                        else
+                            ns = cs;
+                    end
+                LOCK_3:
+                    begin
+                        clk_addr = 'h350;
+                        clk_data = lock_3;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = FILTER_1;
+                            end
+                        else
+                            ns = cs;
+                    end
+                FILTER_1:
+                    begin
+                        clk_addr = 'h354;
+                        clk_data = filter_1;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = FILTER_2;
+                            end
+                        else
+                            ns = cs;
+                    end
+                FILTER_2:
+                    begin
+                        clk_addr = 'h358;
+                        clk_data = filter_2;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = RECONFIG;
+                            end
+                        else
+                            ns = cs;
+                    end
+                RECONFIG:
+                    begin
+                        clk_addr = 'h35C;
+                        clk_data = 'h0003;
+                        transact = 1;
+                        
+                        if (transaction_complete)
+                            begin
+                                transact = 0;
+                                ns = LOCK_WAIT;
+                            end 
+                        else
+                            ns = cs;
+                    end
+                LOCK_WAIT:
+                    begin
+                        if (clk_locked)
+                            begin
+                                ns = WAIT;
+                            end
+                        else
+                            ns = cs;
+                    end
+                    
+                ///////////////////////////////////////////////////////////////
+                    
+                LENGTH_SET:
+                    begin
+                        if (req)
                             begin
                                 output_length = 1;
                                 din_temp = 'h4C;
                                 send_async = 1;
-                                disable_length_select = 1;
+                                ack = 1; 
+                                ns = WAIT; 
                             end
+                        else
+                            ns = cs;
                     end
-                else if (RX_OUT == 'h40) //RESET
+            endcase
+            
+            
+            if (req && !fsm_active)
+                begin
+                if (RX_OUT == 'h40) //RESET
                     begin
                         reset_state_machine = 1;
                         din_temp = 'h4B;
@@ -473,12 +850,6 @@ module TX_RX(
                         send_async = 1;
                         read_async = 1;
                     end 
-                else if (RX_OUT == 'h34) //READ / WRITE Command
-                    begin
-                        din_temp = 'h45;
-                        send_async = 1;
-                        rw_async = 1;
-                    end
                 else if (RX_OUT == 'h35) //Queued Read
                     begin
                         din_temp = 'h46;
@@ -502,25 +873,9 @@ module TX_RX(
                         din_temp = 'h49;
                         send_async = 1;
                         address_static_async = 1;
-                    end
-//                else if (RX_OUT == 'h3B) //Get Throughput
-//                    begin
-//                        din_temp = 'h4D;
-//                        send_async = 1;
-//                        sample_start_async = 1;
-//                    end
+                    end  
+                    
                 ack = 1;      
-                end
-            else
-                begin
-                    if (bytes_received == 4)
-                       begin
-                            din_temp = 'h4A;
-                            enable_port_select = 0;
-                            disable_port_select = 1;
-                            send_async = 1;
-                            output_port_mask = 1;
-                        end
                 end
         end
     

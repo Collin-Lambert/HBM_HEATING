@@ -43,9 +43,6 @@ create_clock -period 10.000 -name SYS_CLK3_P [get_ports SYS_CLK3_P]
 set_property PACKAGE_PIN F30 [get_ports clk_450]
 set_property IOSTANDARD LVCMOS18 [get_ports clk_450]
 
-set_property PACKAGE_PIN G30 [get_ports sr_out]
-set_property IOSTANDARD LVCMOS18 [get_ports sr_out]
-
 set_clock_groups -name TX_RX -asynchronous -group clk_out1_top_clk_wiz_1_0
 
 
