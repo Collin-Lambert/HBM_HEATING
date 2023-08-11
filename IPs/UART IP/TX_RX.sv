@@ -25,7 +25,9 @@ typedef enum logic [6:0] {WAIT, SAMPLE_INIT, SAMPLE, TX_1, TX_2, TX_3, TX_4, CHE
                          
                          BYTE_0, BYTE_0_WAIT, BYTE_1, BYTE_1_WAIT, BYTE_2, BYTE_2_WAIT, BYTE_3, BYTE_3_WAIT, SET_PORTS,
                          
-                         LENGTH_RECEIVE, LENGTH_SET} sample_state;
+                         LENGTH_RECEIVE, LENGTH_SET,
+                         
+                         TEMPERATURE_SEND} state;
 
 
 
@@ -72,6 +74,8 @@ module TX_RX(
     input wire clk_locked,
     input wire transaction_complete,
     
+    input wire [6:0] hbm_temperature,
+    
     output logic USB_UART_TX,
     output logic [2:0] read_write,
     output logic address_inc,
@@ -84,7 +88,7 @@ module TX_RX(
     output logic [31:0] clk_data
     );
     
-    sample_state ns, cs;
+    state ns, cs;
     
     
     
@@ -417,10 +421,15 @@ module TX_RX(
                                 ns = BYTE_0;
                                 ack = 1; 
                             end
-                        else if (RX_OUT == 'h3A) //LENGTH SELECT
+                        else if (req && RX_OUT == 'h3A) //LENGTH SELECT
                             begin
                                 ns = LENGTH_SET;
                                 ack = 1; 
+                            end
+                        else if (req && RX_OUT == 'h2F) //POLL TEMPERATURE
+                            begin
+                                ns = TEMPERATURE_SEND;
+                                ack = 1;
                             end
                         else
                             ns = cs;
@@ -814,6 +823,16 @@ module TX_RX(
                             end
                         else
                             ns = cs;
+                    end
+                
+                
+                ///////////////////////////////////////////////////////////////
+                
+                TEMPERATURE_SEND:
+                    begin
+                        din_temp = {1'b0, hbm_temperature};
+                        send_async = 1;
+                        ns = WAIT;
                     end
             endcase
             

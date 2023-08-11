@@ -143,14 +143,29 @@
           "USER_HBM_DENSITY": {
             "value": "8GB"
           },
-          "USER_MC0_EN_SBREF": {
+          "USER_MC0_BG_INTERLEAVE_EN": {
             "value": "true"
           },
-          "USER_MC0_LOOKAHEAD_SBRF": {
+          "USER_MC0_CLOSE_PAGE_REORDER": {
+            "value": "false"
+          },
+          "USER_MC0_EN_SBREF": {
+            "value": "false"
+          },
+          "USER_MC0_LOOKAHEAD_ACT": {
+            "value": "true"
+          },
+          "USER_MC0_LOOKAHEAD_PCH": {
+            "value": "true"
+          },
+          "USER_MC0_MAINTAIN_COHERENCY": {
             "value": "true"
           },
           "USER_MC0_MANUAL_ADDR_MAP_SEL": {
             "value": "false"
+          },
+          "USER_MC0_POP_EN": {
+            "value": "true"
           },
           "USER_MC0_REF_TEMP_COMP": {
             "value": "false"
@@ -1563,7 +1578,7 @@
         }
       },
       "TX_RX_0": {
-        "vlnv": "user.org:user:TX_RX:3.1.1",
+        "vlnv": "user.org:user:TX_RX:3.2",
         "xci_name": "top_TX_RX_0_0",
         "xci_path": "ip/top_TX_RX_0_0/top_TX_RX_0_0.xci",
         "inst_hier_path": "TX_RX_0"
@@ -2295,6 +2310,12 @@
         "ports": [
           "clk_wiz_1/clk_out1",
           "TX_RX_0/clk"
+        ]
+      },
+      "hbm_0_DRAM_0_STAT_TEMP": {
+        "ports": [
+          "hbm_0/DRAM_0_STAT_TEMP",
+          "TX_RX_0/hbm_temperature"
         ]
       },
       "resetn_1": {

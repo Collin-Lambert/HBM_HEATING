@@ -1,0 +1,944 @@
+<?xml version="1.0"?>
+<Index Version="1" Minor="0">
+	<Repository value="/home/collinlambert/HBM_HEATING/HBM_HEATING/IPs">
+	</Repository>
+	<IP>
+		<VLNV value="user.org:user:AXI_LITE_MASTER:1.4.5">
+		</VLNV>
+		<DisplayName value="AXI_MASTER_v1_4.5">
+		</DisplayName>
+		<Description value="AXI_MASTER_v1_4.5">
+		</Description>
+		<CoreRevision value="1">
+		</CoreRevision>
+		<ComponentPath value="AXI_MASTER_IP/component.xml">
+		</ComponentPath>
+		<Families>
+			<Family name="aartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="akintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artixuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="aspartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="azynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qvirtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qzynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="spartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="versal">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus58g">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplushbm">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynquplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+		</Families>
+		<Taxonomies>
+			<Taxonomy value="/UserIP">
+			</Taxonomy>
+		</Taxonomies>
+		<UpgradesFrom>
+			<Upgrade value="user.org:user:AXI_MASTER:1.0">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_MASTER:1.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_MASTER:1.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_MASTER:1.2.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_MASTER:1.2.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_MASTER:1.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_LITE_MASTER:1.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_LITE_MASTER:1.4.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_LITE_MASTER:1.4.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_LITE_MASTER:1.4.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_LITE_MASTER:1.4.4">
+			</Upgrade>
+		</UpgradesFrom>
+		<LockPrevVersions value="false">
+		</LockPrevVersions>
+		<Interfaces>
+			<Interface value="AXI4">
+			</Interface>
+		</Interfaces>
+	</IP>
+	<IP>
+		<VLNV value="user.org:user:AXI_BLANK:1.2">
+		</VLNV>
+		<DisplayName value="AXI_BLANK_v1_2">
+		</DisplayName>
+		<Description value="AXI_BLANK_v1_2">
+		</Description>
+		<CoreRevision value="1">
+		</CoreRevision>
+		<ComponentPath value="AXI_BLANK/component.xml">
+		</ComponentPath>
+		<Families>
+			<Family name="aartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="akintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artixuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="aspartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="azynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qvirtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qzynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="spartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="versal">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus58g">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplushbm">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynquplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+		</Families>
+		<Taxonomies>
+			<Taxonomy value="/UserIP">
+			</Taxonomy>
+		</Taxonomies>
+		<UpgradesFrom>
+			<Upgrade value="user.org:user:AXI_BLANK:1.0">
+			</Upgrade>
+			<Upgrade value="user.org:user:AXI_BLANK:1.1">
+			</Upgrade>
+		</UpgradesFrom>
+		<LockPrevVersions value="false">
+		</LockPrevVersions>
+		<Interfaces>
+			<Interface value="AXI4">
+			</Interface>
+		</Interfaces>
+	</IP>
+	<IP>
+		<VLNV value="user.org:user:TX_RX_LITE:1.0">
+		</VLNV>
+		<DisplayName value="TX_RX_LITE_v1_0">
+		</DisplayName>
+		<Description value="TX_RX_LITE_v1_0">
+		</Description>
+		<ManuallyDisabled value="true">
+		</ManuallyDisabled>
+		<CoreRevision value="2">
+		</CoreRevision>
+		<ComponentPath value="TX_RX_LITE/component.xml">
+		</ComponentPath>
+		<Families>
+			<Family name="aartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="akintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artixuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="aspartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="azynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qvirtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qzynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="spartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="versal">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus58g">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplushbm">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynquplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+		</Families>
+		<Taxonomies>
+			<Taxonomy value="/UserIP">
+			</Taxonomy>
+		</Taxonomies>
+		<UpgradesFrom>
+			<Upgrade value="user.org:user:TX_RX:1.0">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.7">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.8">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.9">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.10">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.10.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.11">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.13">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.7">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.8">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.16">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.7">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.0">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.2.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.2.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.2.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:3.0">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:3.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:3.1.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:3.2">
+			</Upgrade>
+		</UpgradesFrom>
+		<LockPrevVersions value="false">
+		</LockPrevVersions>
+	</IP>
+	<IP>
+		<VLNV value="user.org:user:TX_RX:3.2">
+		</VLNV>
+		<DisplayName value="TX_RX_v3_2">
+		</DisplayName>
+		<Description value="TX_RX_v3_2">
+		</Description>
+		<CoreRevision value="1">
+		</CoreRevision>
+		<ComponentPath value="UART IP/component.xml">
+		</ComponentPath>
+		<Families>
+			<Family name="aartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="akintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artixuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="aspartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="azynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qvirtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qzynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="spartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="versal">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus58g">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplushbm">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynquplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+		</Families>
+		<Taxonomies>
+			<Taxonomy value="/UserIP">
+			</Taxonomy>
+		</Taxonomies>
+		<UpgradesFrom>
+			<Upgrade value="user.org:user:TX_RX:1.0">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.7">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.8">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.9">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.10">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.10.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.11">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.13">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.7">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.15.8">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.16">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.17.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:1.18.7">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.0">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.1.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.2.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.2.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.2.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.3.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:2.4.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:3.0">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:3.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TX_RX:3.1.1">
+			</Upgrade>
+		</UpgradesFrom>
+		<LockPrevVersions value="false">
+		</LockPrevVersions>
+	</IP>
+	<IP>
+		<VLNV value="user.org:user:TRAFFIC_GEN:21.4.1">
+		</VLNV>
+		<DisplayName value="TRAFFIC_GEN_v1_21.4.1">
+		</DisplayName>
+		<Description value="TRAFFIC_GEN_v1_21.4.1">
+		</Description>
+		<CoreRevision value="1">
+		</CoreRevision>
+		<ComponentPath value="TRAFFIC_GEN_IP/component.xml">
+		</ComponentPath>
+		<Families>
+			<Family name="aartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="akintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artix7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="artixuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="aspartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="azynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="kintexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qartix7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qkintex7l">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qvirtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="qzynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="spartan7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="versal">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtex7">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexu">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus58g">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="virtexuplushbm">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynq">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+			<Family name="zynquplus">
+				<Part status="Production" name="ALL">
+				</Part>
+			</Family>
+		</Families>
+		<Taxonomies>
+			<Taxonomy value="/UserIP">
+			</Taxonomy>
+		</Taxonomies>
+		<UpgradesFrom>
+			<Upgrade value="user.org:user:BIST:1.0">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:17.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:17.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:17.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:17.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:17.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:18">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:18.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:18.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:18.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:18.4">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:18.5">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:18.6">
+			</Upgrade>
+			<Upgrade value="user.org:user:BIST:19">
+			</Upgrade>
+			<Upgrade value="user.org:user:TRAFFIC_GEN:20">
+			</Upgrade>
+			<Upgrade value="user.org:user:TRAFFIC_GEN:20.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TRAFFIC_GEN:21">
+			</Upgrade>
+			<Upgrade value="user.org:user:TRAFFIC_GEN:21.1">
+			</Upgrade>
+			<Upgrade value="user.org:user:TRAFFIC_GEN:21.2">
+			</Upgrade>
+			<Upgrade value="user.org:user:TRAFFIC_GEN:21.3">
+			</Upgrade>
+			<Upgrade value="user.org:user:TRAFFIC_GEN:21.4">
+			</Upgrade>
+		</UpgradesFrom>
+		<LockPrevVersions value="false">
+		</LockPrevVersions>
+		<Interfaces>
+			<Interface value="AXI4">
+			</Interface>
+		</Interfaces>
+	</IP>
+</Index>
+

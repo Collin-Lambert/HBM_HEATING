@@ -14,9 +14,6 @@
 #include <bitset>
 #include <iomanip>
 
-// Yes, I did have chatGPT make the basic UART interface for me
-
-// Function to open the serial port
 int openSerialPort(const char *port)
 {
     int fd = open(port, O_RDWR | O_NOCTTY | O_NDELAY);
@@ -28,7 +25,6 @@ int openSerialPort(const char *port)
     return fd;
 }
 
-// Function to configure the serial port
 void configureSerialPort(int fd, speed_t baudRate)
 {
     struct termios options;
@@ -60,12 +56,12 @@ void configureSerialPort(int fd, speed_t baudRate)
     tcsetattr(fd, TCSANOW, &options);
 }
 
-// Function to write data to the serial port
 void writeSerialPort(int fd, const std::string &data)
 {
     write(fd, data.c_str(), data.length());
 }
 
+// convert binary number string to hex string
 std::string binaryToHex(const std::string &binary)
 {
     if (binary.length() % 4 != 0)
@@ -133,11 +129,6 @@ std::string readSerialPort(int fd, bool printErrors = true)
     {
 
         int bytesRead = read(fd, buffer, bufferSize - 1);
-        // Experimental
-        // if (buffer[bytesRead - 1] == '\377')
-        // {
-        //     bytesRead -= 1;
-        // }
         if (bytesRead > 0)
         {
             buffer[bytesRead] = '\0';
@@ -147,7 +138,7 @@ std::string readSerialPort(int fd, bool printErrors = true)
     }
     if (data != "A" && data != "B" && data != "C" && data != "D" && data != "E" && data != "F" && data != "G" &&
         data != "H" && data != "I" && data != "J" && data != "L" && data != "K" && data != "M" && data != "N" &&
-        data != "O" && data != "P" && printErrors)
+        data != "O" && data != "P" && data != "Q" && data != "R" && printErrors)
     {
         for (int j = 0; j < data.length(); ++j)
         {
@@ -180,67 +171,118 @@ void PrintHelp()
     std::cout << "\t port_select            - 32 bit hex number for which ports to enable" << std::endl;
     std::cout << "\t transaction_length_set - 4 bit hex number for length of transaction" << std::endl
               << std::endl;
-    std::cout << "\t sample" << std::endl;
-    std::cout << "\t clk_set_650" << std::endl;
-    std::cout << "\t clk_set_450" << std::endl;
-    std::cout << "\t clk_set_325" << std::endl;
-    std::cout << "\t exit                   - to exit" << std::endl;
+    std::cout << "\t sample       - sample data rate from each axi port" << std::endl;
+    std::cout << "\t clk_set_650  - set clock speed to 650 MHz" << std::endl;
+    std::cout << "\t clk_set_450  - set clock speed to 450 MHz" << std::endl;
+    std::cout << "\t clk_set_325  - set clock speed to 325 MHz" << std::endl;
+    std::cout << "\t poll_temp    - get time stamped readout of HBM temps" << std::endl
+              << std::endl;
+    std::cout << "\t exit - to exit" << std::endl;
 }
 
-std::string encodeInstruction(std::string input)
+void PrintROHelp()
 {
-    if (input == "start")
+    std::cout << "Commands:" << std::endl;
+    std::cout << "\t help               - displays this list" << std::endl;
+    std::cout << "\t start              - enables reading / writing test" << std::endl;
+    std::cout << "\t stop               - halts reading / writing test" << std::endl;
+    std::cout << "\t poll_temp    - get time stamped readout of HBM temps" << std::endl
+              << std::endl;
+    std::cout << "\t exit - to exit" << std::endl;
+}
+
+// Encode instruction to form that is readable by the UART
+std::string encodeInstruction(std::string input, std::string mode = "HBM")
+{
+    if (mode == "HBM")
     {
-        return "0";
-    }
-    else if (input == "stop")
-    {
-        return "1";
-    }
-    else if (input == "address_inc_set")
-    {
-        return "7";
-    }
-    else if (input == "address_static_set")
-    {
-        return "8";
-    }
-    else if (input == "reset_uart")
-    {
-        return "@";
-    }
-    else if (input == "port_select")
-    {
-        return "9";
-    }
-    else if (input == "transaction_length_set")
-    {
-        return ":";
-    }
-    else if (input == "clk_set_650")
-    {
-        return "<";
-    }
-    else if (input == "clk_set_450")
-    {
-        return "=";
-    }
-    else if (input == "clk_set_325")
-    {
-        return ">";
+        if (input == "start")
+        {
+            return "0";
+        }
+        else if (input == "stop")
+        {
+            return "1";
+        }
+        else if (input == "address_inc_set")
+        {
+            return "7";
+        }
+        else if (input == "address_static_set")
+        {
+            return "8";
+        }
+        else if (input == "reset_uart")
+        {
+            return "@";
+        }
+        else if (input == "port_select")
+        {
+            return "9";
+        }
+        else if (input == "transaction_length_set")
+        {
+            return ":";
+        }
+        else if (input == "clk_set_650")
+        {
+            return "<";
+        }
+        else if (input == "clk_set_450")
+        {
+            return "=";
+        }
+        else if (input == "clk_set_325")
+        {
+            return ">";
+        }
+        else if (input == "poll_temp")
+        {
+            return "/";
+        }
+        else
+        {
+            if (input != "help")
+            {
+                std::cout << std::endl
+                          << "Invalid Command!" << std::endl;
+            }
+            PrintHelp();
+            return "";
+        }
     }
     else
     {
-        if (input != "help")
+        if (input == "start")
         {
-            std::cout << std::endl
-                      << "Invalid Command!" << std::endl;
+            return "0";
         }
-        PrintHelp();
-        return "";
+        else if (input == "stop")
+        {
+            return "1";
+        }
+        else if (input == "reset_uart")
+        {
+            return "@";
+        }
+        else if (input == "poll_temp")
+        {
+            return "/";
+        }
+        else
+        {
+            if (input != "help")
+            {
+                std::cout << std::endl
+                          << "Invalid Command!" << std::endl;
+            }
+            PrintROHelp();
+            return "";
+        }
     }
 }
 
+// Decode response from UART to something a little more readable
 std::string decodeResponse(std::string response)
 {
     if (response == "A")
@@ -311,6 +353,10 @@ std::string decodeResponse(std::string response)
     {
         return "Locked";
     }
+    else if (response == "R")
+    {
+        return "RO mode enabled";
+    }
     else if (response == "?")
         return "[ERROR : ?]";
     else
@@ -319,6 +365,7 @@ std::string decodeResponse(std::string response)
     }
 }
 
+// Convert Hex String to Ascii String. This is necessary because of the way the WriteSerialPort() function works
 std::string hexToAscii(const std::string &hexString)
 {
     std::stringstream ss;
@@ -343,6 +390,7 @@ long int hexToInt(const std::string &hex)
     return value;
 }
 
+// Returns vector of arguments for command
 std::vector<std::string> ParseArgs(std::string input)
 {
     std::stringstream argStream(input);
@@ -377,8 +425,8 @@ void PortSelect(int fd, std::string ports = "")
 
     writeSerialPort(fd, asciiConversion);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    // Read and display response
+    // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    //  Read and display response
     std::string response = readSerialPort(fd);
     std::cout << " - " << decodeResponse(response) << std::endl
               << std::endl;
@@ -402,6 +450,144 @@ void LengthSelect(int fd, std::string length = "")
     // Read and display response
     std::string response = readSerialPort(fd);
     std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+}
+
+int StringToInt(std::string str)
+{
+    int output = 0;
+    for (int j = 0; j < str.length(); ++j)
+    {
+        output += (j + 1) * static_cast<int>(str.at(j));
+    }
+    return output;
+}
+
+void Poll_Temp(int fd)
+{
+    std::ofstream temperatures;
+    temperatures.open("temperatures.csv");
+    temperatures << "Time,Temperature" << std::endl;
+
+    double timeMs = -2000;
+    double displayTime;
+    int idleTemp;
+    int finalTemp;
+    std::string response;
+    std::string poll_duration;
+
+    std::cout << "Poll Duration in seconds: ";
+
+    std::getline(std::cin, poll_duration);
+
+    int poll_cycles = stoi(poll_duration) * 2 + 1;
+
+    std::cout << std::endl
+              << "Time Relative to Start  |  Temperature (C)" << std::endl;
+
+    // Pre Start
+    for (int i = 0; i < 4; ++i)
+    {
+        // Send command to the device
+        displayTime = timeMs / 1000.0;
+        writeSerialPort(fd, "/"); // Poll
+        response = readSerialPort(fd, false);
+        std::cout << std::fixed << std::setw(22) << std::setprecision(1);
+        std::cout << displayTime << " ->  " << StringToInt(response) << std::endl;
+
+        temperatures << displayTime << "," << StringToInt(response) << std::endl;
+
+        if (i == 0)
+        {
+            idleTemp = StringToInt(response);
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        timeMs += 500;
+    }
+
+    std::cout << std::fixed << std::setw(22) << std::setprecision(1);
+    std::cout << std::endl
+              << "Start" << std::endl
+              << std::endl;
+
+    writeSerialPort(fd, "0"); // Start
+    response = readSerialPort(fd, false);
+
+    for (int i = 0; i < poll_cycles; ++i)
+    {
+        // Send command to the device
+        displayTime = timeMs / 1000.0;
+        writeSerialPort(fd, "/"); // Poll
+        response = readSerialPort(fd, false);
+        std::cout << std::fixed << std::setw(22) << std::setprecision(1);
+        std::cout << displayTime << " ->  " << StringToInt(response) << std::endl;
+
+        temperatures << displayTime << "," << StringToInt(response) << std::endl;
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        timeMs += 500;
+
+        if (i == (poll_cycles - 1))
+        {
+            finalTemp = StringToInt(response);
+        }
+    }
+
+    std::cout << "Idle Temp:  " << idleTemp << std::endl;
+    std::cout << "Final Temp: " << finalTemp << std::endl;
+    std::cout << "Difference: " << finalTemp - idleTemp << std::endl;
+
+    writeSerialPort(fd, "1"); // Stop
+    response = readSerialPort(fd, false);
+
+    temperatures.close();
+}
+
+void Sample(int fd)
+{
+    writeSerialPort(fd, ";");
+
+    std::string response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::deque<std::string> throughput = readRawSerialPort(fd);
+    std::string hexConversion;
+    long int decimalConversion;
+    double throughputCalc;
+    double totalThroughput = 0;
+    double stack1Throughput = 0;
+    double stack2Throughput = 0;
+
+    std::cout << "AXI port  |  Transactions (0x)  |  Transactions (0d) |  Throughput" << std::endl;
+
+    for (int i = 0; i < throughput.size(); ++i)
+    {
+        hexConversion = binaryToHex(throughput[i]);
+        decimalConversion = hexToInt(hexConversion);
+        throughputCalc = (decimalConversion * 32.0 * 16.0 * 1000) / (1000000000.0);
+        std::cout << std::fixed << std::setw(13) << std::left << i
+                  << std::setw(17) << hexConversion << " ->  "
+                  << std::setw(16) << decimalConversion << " ->  "
+                  << std::setw(7) << std::setprecision(2) << throughputCalc << " GB/s" << std::endl;
+
+        totalThroughput += throughputCalc;
+
+        if (i < 16)
+        {
+            stack1Throughput += throughputCalc;
+        }
+        else
+        {
+            stack2Throughput += throughputCalc;
+        }
+    }
+    std::cout << std::endl
+              << "Stack 1 Throughput -> " << stack1Throughput << " GB/s" << std::endl
+              << "Stack 2 Throughput -> " << stack2Throughput << " GB/s" << std::endl
+              << std::endl
+              << "Total Throughput -> " << totalThroughput << " GB/s" << std::endl
               << std::endl;
 }
 
@@ -432,6 +618,8 @@ int main()
     const char *serialPort = "/dev/ttyUSB2"; // 4 for other port. 2 for main
     speed_t baudRate = B19200;
 
+    std::string mode = "HBM";
+
     // Open the serial port
     int fd = openSerialPort(serialPort);
 
@@ -446,15 +634,28 @@ int main()
     std::cout << " - " << decodeResponse(response) << std::endl
               << std::endl;
 
+    if (decodeResponse(response) == "RO mode enabled")
+    {
+        mode = "RO";
+    }
+
     std::vector<std::string> args;
 
     // Main loop
     while (true)
     {
-
         // Read user input
-        std::cout << "\033[33mHBM "
-                  << "\033[39m> ";
+        if (mode == "HBM") // HBM heater
+        {
+
+            std::cout << "\033[33mHBM "
+                      << "\033[39m> ";
+        }
+        else // Ring oscillator heater
+        {
+            std::cout << "\033[33mRO "
+                      << "\033[39m> ";
+        }
         std::getline(std::cin, userInput);
 
         // Check for exit condition
@@ -464,127 +665,119 @@ int main()
         }
 
         args = ParseArgs(userInput);
-
-        if (args[0] == "queued_read_set" || args[0] == "queued_write_set" || args[0] == "read_set" || args[0] == "write_set")
+        if (mode == "HBM")
         {
-            if (args[0] == "queued_read_set")
+            if (args[0] == "queued_read_set" || args[0] == "queued_write_set" || args[0] == "read_set" || args[0] == "write_set")
             {
-                writeSerialPort(fd, "5");
-            }
-            else if (args[0] == "queued_write_set")
-            {
-                writeSerialPort(fd, "6");
-            }
-            else if (args[0] == "read_set")
-            {
-                writeSerialPort(fd, "3");
-            }
-            else if (args[0] == "write_set")
-            {
-                writeSerialPort(fd, "2");
-            }
+                if (args[0] == "queued_read_set")
+                {
+                    writeSerialPort(fd, "5");
+                }
+                else if (args[0] == "queued_write_set")
+                {
+                    writeSerialPort(fd, "6");
+                }
+                else if (args[0] == "read_set")
+                {
+                    writeSerialPort(fd, "3");
+                }
+                else if (args[0] == "write_set")
+                {
+                    writeSerialPort(fd, "2");
+                }
 
-            std::string response = readSerialPort(fd);
-            std::cout << " - " << decodeResponse(response) << std::endl
-                      << std::endl;
+                std::string response = readSerialPort(fd);
+                std::cout << " - " << decodeResponse(response) << std::endl
+                          << std::endl;
 
-            for (int i = 1; i < args.size(); ++i)
+                for (int i = 1; i < args.size(); ++i)
+                {
+                    if (args[i] == "-ports")
+                    {
+                        PortSelect(fd, args[i + 1]);
+                        ++i;
+                    }
+                    else if (args[i] == "-mode")
+                    {
+                        AddressingMode(fd, args[i + 1]);
+                        ++i;
+                    }
+                    else if (args[i] == "-length")
+                    {
+                        LengthSelect(fd, args[i + 1]);
+                        ++i;
+                    }
+                    else
+                    {
+                        std::cout << std::endl
+                                  << "Invalid Command!" << std::endl;
+                        PrintHelp();
+                    }
+                }
+            }
+            else if (args[0] == "sample")
             {
-                if (args[i] == "-ports")
+                Sample(fd);
+            }
+            else if (args[0] == "clk_set_650" || args[0] == "clk_set_450" || args[0] == "clk_set_325")
+            {
+                std::string encodedInstruction = encodeInstruction(args[0]);
+
+                // Send command to the device
+                writeSerialPort(fd, encodedInstruction);
+
+                // Read and display response
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                std::string response = readSerialPort(fd);
+                std::cout << " - " << decodeResponse(response) << std::endl
+                          << std::endl;
+            }
+            else if (args[0] == "poll_temp")
+            {
+                Poll_Temp(fd);
+            }
+            else
+            {
+                std::string encodedInstruction = encodeInstruction(args[0], mode);
+
+                if (!encodedInstruction.empty())
                 {
-                    PortSelect(fd, args[i + 1]);
-                    ++i;
-                }
-                else if (args[i] == "-mode")
-                {
-                    AddressingMode(fd, args[i + 1]);
-                    ++i;
-                }
-                else if (args[i] == "-length")
-                {
-                    LengthSelect(fd, args[i + 1]);
-                    ++i;
-                }
-                else
-                {
-                    std::cout << std::endl
-                              << "Invalid Command!" << std::endl;
-                    PrintHelp();
+                    if (encodedInstruction == "9" && mode == "HBM") // Port Select
+                    {
+                        PortSelect(fd);
+                    }
+                    else if (encodedInstruction == ":" && mode == "HBM") // Length Select
+                    {
+                        LengthSelect(fd);
+                    }
+                    else
+                    {
+                        // Send command to the device
+                        writeSerialPort(fd, encodedInstruction);
+
+                        // Read and display response
+                        std::string response = readSerialPort(fd);
+                        std::cout << " - " << decodeResponse(response) << std::endl
+                                  << std::endl;
+                    }
                 }
             }
         }
-        else if (args[0] == "sample")
+        else if (args[0] == "poll_temp")
         {
-            writeSerialPort(fd, ";");
-
-            std::string response = readSerialPort(fd);
-            std::cout << " - " << decodeResponse(response) << std::endl
-                      << std::endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-            std::deque<std::string> throughput = readRawSerialPort(fd);
-            std::string hexConversion;
-            long int decimalConversion;
-            double throughputCalc;
-            double totalThroughput = 0;
-            double stack1Throughput = 0;
-            double stack2Throughput = 0;
-
-            std::cout << "AXI port  |  Transactions (0x)  |  Transactions (0d) |  Throughput" << std::endl;
-
-            for (int i = 0; i < throughput.size(); ++i)
-            {
-                hexConversion = binaryToHex(throughput[i]);
-                decimalConversion = hexToInt(hexConversion);
-                throughputCalc = (decimalConversion * 32.0 * 16.0 * 1000) / (1000000000.0);
-                std::cout << std::fixed << std::setw(13) << std::left << i
-                          << std::setw(17) << hexConversion << " ->  "
-                          << std::setw(16) << decimalConversion << " ->  "
-                          << std::setw(7) << std::setprecision(2) << throughputCalc << " GB/s" << std::endl;
-
-                totalThroughput += throughputCalc;
-
-                if (i < 16)
-                {
-                    stack1Throughput += throughputCalc;
-                }
-                else
-                {
-                    stack2Throughput += throughputCalc;
-                }
-            }
-            std::cout << std::endl
-                      << "Stack 1 Throughput -> " << stack1Throughput << " GB/s" << std::endl
-                      << "Stack 2 Throughput -> " << stack2Throughput << " GB/s" << std::endl
-                      << std::endl
-                      << "Total Throughput -> " << totalThroughput << " GB/s" << std::endl
-                      << std::endl;
-            close(fd);
-            fd = openSerialPort(serialPort);
-        }
-        else if (args[0] == "clk_set_650" || args[0] == "clk_set_450" || args[0] == "clk_set_325")
-        {
-            std::string encodedInstruction = encodeInstruction(args[0]);
-
-            // Send command to the device
-            writeSerialPort(fd, encodedInstruction);
-
-            // Read and display response
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            std::string response = readSerialPort(fd);
-            std::cout << " - " << decodeResponse(response) << std::endl
-                      << std::endl;
+            Poll_Temp(fd);
         }
         else
         {
-            std::string encodedInstruction = encodeInstruction(args[0]);
+            std::string encodedInstruction = encodeInstruction(args[0], mode);
 
             if (!encodedInstruction.empty())
             {
-                if (encodedInstruction == "9") // Port Select
+                if (encodedInstruction == "9" && mode == "HBM") // Port Select
                 {
                     PortSelect(fd);
                 }
-                else if (encodedInstruction == ":") // Length Select
+                else if (encodedInstruction == ":" && mode == "HBM") // Length Select
                 {
                     LengthSelect(fd);
                 }
