@@ -1,0 +1,151 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_Layers":"",
+   "Default View_ScaleFactor":"0.119276",
+   "Default View_TopLeft":"-2381,1844",
+   "ExpandedHierarchyInLayout":"",
+   "PinnedPorts":"",
+   "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
+#  -string -flagsOSRD
+preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 6000 -defaultsOSRD
+preplace port port-id_resetn -pg 1 -lvl 0 -x 0 -y 6210 -defaultsOSRD
+preplace port port-id_clk_uart -pg 1 -lvl 0 -x 0 -y 6160 -defaultsOSRD
+preplace port port-id_clk_450 -pg 1 -lvl 0 -x 0 -y 6190 -defaultsOSRD -left
+preplace port port-id_USB_UART_RX -pg 1 -lvl 0 -x 0 -y 5360 -defaultsOSRD
+preplace port port-id_USB_UART_TX -pg 1 -lvl 8 -x 3260 -y 5550 -defaultsOSRD
+preplace inst hbm_0 -pg 1 -lvl 6 -x 2320 -y 4530 -defaultsOSRD
+preplace inst clk_wiz_0 -pg 1 -lvl 3 -x 700 -y 6060 -defaultsOSRD
+preplace inst proc_sys_reset_0 -pg 1 -lvl 4 -x 1030 -y 6160 -defaultsOSRD
+preplace inst proc_sys_reset_1 -pg 1 -lvl 5 -x 1510 -y 6080 -defaultsOSRD
+preplace inst TG_0 -pg 1 -lvl 5 -x 1510 -y 2050 -defaultsOSRD
+preplace inst TG_10 -pg 1 -lvl 5 -x 1510 -y 1810 -defaultsOSRD
+preplace inst TG_11 -pg 1 -lvl 5 -x 1510 -y 2530 -defaultsOSRD
+preplace inst TG_12 -pg 1 -lvl 5 -x 1510 -y 3250 -defaultsOSRD
+preplace inst TG_13 -pg 1 -lvl 5 -x 1510 -y 3010 -defaultsOSRD
+preplace inst TG_14 -pg 1 -lvl 5 -x 1510 -y 3490 -defaultsOSRD
+preplace inst TG_15 -pg 1 -lvl 5 -x 1510 -y 3740 -defaultsOSRD -resize 328 234
+preplace inst TG_16 -pg 1 -lvl 5 -x 1510 -y 3990 -defaultsOSRD
+preplace inst TG_17 -pg 1 -lvl 5 -x 1510 -y 4470 -defaultsOSRD
+preplace inst TG_18 -pg 1 -lvl 5 -x 1510 -y 4230 -defaultsOSRD
+preplace inst TG_19 -pg 1 -lvl 5 -x 1510 -y 4710 -defaultsOSRD
+preplace inst TG_1 -pg 1 -lvl 5 -x 1510 -y 2290 -defaultsOSRD
+preplace inst TG_20 -pg 1 -lvl 5 -x 1510 -y 4950 -defaultsOSRD
+preplace inst TG_21 -pg 1 -lvl 5 -x 1510 -y 5220 -defaultsOSRD
+preplace inst TG_22 -pg 1 -lvl 5 -x 1510 -y 6310 -defaultsOSRD
+preplace inst TG_23 -pg 1 -lvl 5 -x 1510 -y 5760 -defaultsOSRD
+preplace inst TG_24 -pg 1 -lvl 5 -x 1510 -y 5490 -defaultsOSRD
+preplace inst TG_25 -pg 1 -lvl 5 -x 1510 -y 6550 -defaultsOSRD
+preplace inst TG_26 -pg 1 -lvl 5 -x 1510 -y 6790 -defaultsOSRD
+preplace inst TG_27 -pg 1 -lvl 5 -x 1510 -y 7030 -defaultsOSRD
+preplace inst TG_28 -pg 1 -lvl 5 -x 1510 -y 7270 -defaultsOSRD
+preplace inst TG_29 -pg 1 -lvl 5 -x 1510 -y 7510 -defaultsOSRD
+preplace inst TG_2 -pg 1 -lvl 5 -x 1510 -y 2770 -defaultsOSRD
+preplace inst TG_30 -pg 1 -lvl 5 -x 1510 -y 7750 -defaultsOSRD
+preplace inst TG_31 -pg 1 -lvl 5 -x 1510 -y 7990 -defaultsOSRD
+preplace inst TG_3 -pg 1 -lvl 5 -x 1510 -y 1330 -defaultsOSRD
+preplace inst TG_4 -pg 1 -lvl 5 -x 1510 -y 1570 -defaultsOSRD
+preplace inst TG_5 -pg 1 -lvl 5 -x 1510 -y 610 -defaultsOSRD
+preplace inst TG_6 -pg 1 -lvl 5 -x 1510 -y 850 -defaultsOSRD
+preplace inst TG_7 -pg 1 -lvl 5 -x 1510 -y 130 -defaultsOSRD
+preplace inst TG_8 -pg 1 -lvl 5 -x 1510 -y 370 -defaultsOSRD
+preplace inst TG_9 -pg 1 -lvl 5 -x 1510 -y 1090 -defaultsOSRD
+preplace inst HIGH -pg 1 -lvl 1 -x 100 -y 6060 -defaultsOSRD
+preplace inst AXI_LITE_MASTER_0 -pg 1 -lvl 2 -x 390 -y 6050 -defaultsOSRD
+preplace inst clk_wiz_1 -pg 1 -lvl 6 -x 2320 -y 6190 -defaultsOSRD
+preplace inst TX_RX_0 -pg 1 -lvl 7 -x 2990 -y 5640 -defaultsOSRD
+preplace netloc AXI_LITE_MASTER_0_transaction_complete 1 2 5 560J 5960 NJ 5960 NJ 5960 1760J 5980 N
+preplace netloc Net 1 4 4 1250 5940 1780J 5970 2580J 5190 3200
+preplace netloc Net1 1 5 1 1970 5820n
+preplace netloc Net2 1 4 4 1260 5930 1800J 5960 2600J 5220 3180
+preplace netloc Net3 1 4 4 1270 5900 1730J 6090 NJ 6090 3220
+preplace netloc Net4 1 4 4 1290 5950 1700J 6100 NJ 6100 3210
+preplace netloc TG_0_transaction_inc_out 1 5 2 NJ 2060 2770
+preplace netloc TG_10_transaction_inc_out 1 5 2 NJ 1820 2700
+preplace netloc TG_11_transaction_inc_out 1 5 2 NJ 2540 2670
+preplace netloc TG_12_transaction_inc_out 1 5 2 1710J 3130 2630
+preplace netloc TG_13_transaction_inc_out 1 5 2 NJ 3020 2650
+preplace netloc TG_14_transaction_inc_out 1 5 2 1700J 3110 2640
+preplace netloc TG_15_transaction_inc_out 1 5 2 1720J 3120 2620
+preplace netloc TG_16_transaction_inc_out 1 5 2 1740J 3140 2590
+preplace netloc TG_17_transaction_inc_out 1 5 2 1930J 5920 2590
+preplace netloc TG_18_transaction_inc_out 1 5 2 1900J 5990 2620
+preplace netloc TG_19_transaction_inc_out 1 5 2 1860J 6000 2560
+preplace netloc TG_1_transaction_inc_out 1 5 2 NJ 2300 2730
+preplace netloc TG_20_transaction_inc_out 1 5 2 1830J 6010 2690
+preplace netloc TG_21_transaction_inc_out 1 5 2 1810 6020 2700J
+preplace netloc TG_22_transaction_inc_out 1 5 2 1990 6250 2720J
+preplace netloc TG_23_transaction_inc_out 1 5 2 1770 6030 2710J
+preplace netloc TG_24_transaction_inc_out 1 5 2 1890 5930 2670J
+preplace netloc TG_25_transaction_inc_out 1 5 2 2010 6260 2730J
+preplace netloc TG_26_transaction_inc_out 1 5 2 2030 6270 2740J
+preplace netloc TG_27_transaction_inc_out 1 5 2 2050 6280 2760J
+preplace netloc TG_28_transaction_inc_out 1 5 2 2060 6290 2770J
+preplace netloc TG_29_transaction_inc_out 1 5 2 2070 6300 2780J
+preplace netloc TG_2_transaction_inc_out 1 5 2 NJ 2780 2710
+preplace netloc TG_30_transaction_inc_out 1 5 2 2080 6310 2790J
+preplace netloc TG_31_transaction_inc_out 1 5 2 2090 6320 2800J
+preplace netloc TG_3_transaction_inc_out 1 5 2 NJ 1340 2780
+preplace netloc TG_4_transaction_inc_out 1 5 2 NJ 1580 2740
+preplace netloc TG_5_transaction_inc_out 1 5 2 NJ 620 2790
+preplace netloc TG_6_transaction_inc_out 1 5 2 NJ 860 2750
+preplace netloc TG_7_transaction_inc_out 1 5 2 NJ 140 2800
+preplace netloc TG_8_transaction_inc_out 1 5 2 NJ 380 2760
+preplace netloc TG_9_transaction_inc_out 1 5 2 NJ 1100 2720
+preplace netloc TX_RX_0_USB_UART_TX 1 7 1 N 5550
+preplace netloc TX_RX_0_clk_addr 1 1 7 200 5080 NJ 5080 NJ 5080 NJ 5080 1790J 6070 NJ 6070 3190
+preplace netloc TX_RX_0_clk_data 1 1 7 210 5920 NJ 5920 NJ 5920 NJ 5920 1740J 6060 NJ 6060 3180
+preplace netloc TX_RX_0_length 1 4 4 1280 5910 1820J 5940 2550J 5200 3210
+preplace netloc TX_RX_0_transact 1 1 7 220 5620 NJ 5620 NJ 5620 NJ 5620 1750J 6080 NJ 6080 3200
+preplace netloc USB_UART_RX_0_1 1 0 7 NJ 5360 NJ 5360 NJ 5360 NJ 5360 NJ 5360 1870J 5950 2610J
+preplace netloc clk_in1_0_1 1 0 6 NJ 6000 180 5930 580 5890 NJ 5890 NJ 5890 1960
+preplace netloc clk_uart_1 1 0 6 NJ 6160 NJ 6160 NJ 6160 820J 6260 1230J 6180 1710J
+preplace netloc clk_wiz_0_MHz_100 1 3 3 840J 6040 1230 5630 1920
+preplace netloc clk_wiz_0_MHz_450 1 0 6 NJ 6190 NJ 6190 NJ 6190 830 6050 1210 5090 2080
+preplace netloc clk_wiz_0_locked 1 3 4 820J 5980 NJ 5980 1710J 6040 2750
+preplace netloc clk_wiz_1_clk_out1 1 6 1 2680J 5280n
+preplace netloc hbm_0_DRAM_0_STAT_TEMP 1 6 1 2570 4860n
+preplace netloc resetn_1 1 4 2 1220 5350 2090
+preplace netloc resetn_2 1 0 5 20J 6180 NJ 6180 NJ 6180 850 6060 N
+preplace netloc xlconstant_0_dout 1 4 4 1240 5970 1720J 6050 2660J 5210 3190
+preplace netloc xlconstant_0_dout1 1 1 2 190 5940 570J
+preplace netloc AXI_LITE_MASTER_0_axi 1 2 1 N 6030
+preplace netloc BIST_0_axi 1 5 1 2060 2040n
+preplace netloc BIST_10_axi 1 5 1 1940 1800n
+preplace netloc BIST_11_axi 1 5 1 1850 2520n
+preplace netloc BIST_12_axi 1 5 1 1750 3240n
+preplace netloc BIST_13_axi 1 5 1 1840 3000n
+preplace netloc BIST_14_axi 1 5 1 N 3480
+preplace netloc BIST_15_axi 1 5 1 1730 3500n
+preplace netloc BIST_16_axi 1 5 1 1750 3520n
+preplace netloc BIST_17_axi 1 5 1 1760 3540n
+preplace netloc BIST_18_axi 1 5 1 1770 3560n
+preplace netloc BIST_19_axi 1 5 1 1790 3580n
+preplace netloc BIST_1_axi 1 5 1 1980 2280n
+preplace netloc BIST_20_axi 1 5 1 1800 3600n
+preplace netloc BIST_21_axi 1 5 1 1810 3620n
+preplace netloc BIST_22_axi 1 5 1 1880 3640n
+preplace netloc BIST_23_axi 1 5 1 1850 3660n
+preplace netloc BIST_24_axi 1 5 1 1840 3680n
+preplace netloc BIST_25_axi 1 5 1 1910 3700n
+preplace netloc BIST_26_axi 1 5 1 1940 3720n
+preplace netloc BIST_27_axi 1 5 1 1950 3740n
+preplace netloc BIST_28_axi 1 5 1 1980 3760n
+preplace netloc BIST_29_axi 1 5 1 2000 3780n
+preplace netloc BIST_2_axi 1 5 1 1950 2760n
+preplace netloc BIST_30_axi 1 5 1 2020 3800n
+preplace netloc BIST_31_axi 1 5 1 2040 3820n
+preplace netloc BIST_3_axi 1 5 1 2070 1320n
+preplace netloc BIST_4_axi 1 5 1 2000 1560n
+preplace netloc BIST_5_axi 1 5 1 2080 600n
+preplace netloc BIST_6_axi 1 5 1 2020 840n
+preplace netloc BIST_7_axi 1 5 1 2090 120n
+preplace netloc BIST_8_axi 1 5 1 2040 360n
+preplace netloc BIST_9_axi 1 5 1 1970 1080n
+levelinfo -pg 1 0 100 390 700 1030 1510 2320 2990 3260
+pagesize -pg 1 -db -bbox -sgen -160 0 3410 8120
+"
+}
+{
+   "da_board_cnt":"9",
+   "da_clkrst_cnt":"21"
+}

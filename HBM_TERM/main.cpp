@@ -2,10 +2,6 @@
 #include <fstream>
 #include <string>
 #include <cstring>
-#include <cstdlib>
-#include <unistd.h>
-#include <fcntl.h>
-#include <termios.h>
 #include <chrono>
 #include <thread>
 #include <deque>
@@ -13,6 +9,13 @@
 #include <sstream>
 #include <bitset>
 #include <iomanip>
+#include <cstdlib>
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
+
+#define MINUTE_AMOUNT 120
+#define ADDRESS_OFFSET 4
 
 int openSerialPort(const char *port)
 {
@@ -167,15 +170,20 @@ void PrintHelp()
               << std::endl;
     std::cout << "\t address_inc_set        - enables address incrementing" << std::endl;
     std::cout << "\t address_static_set     - disables address incrementing" << std::endl;
-    std::cout << "\t reset_uart             - resets the uart" << std::endl;
+    std::cout << "\t reset                  - resets" << std::endl;
     std::cout << "\t port_select            - 32 bit hex number for which ports to enable" << std::endl;
     std::cout << "\t transaction_length_set - 4 bit hex number for length of transaction" << std::endl
               << std::endl;
-    std::cout << "\t sample       - sample data rate from each axi port" << std::endl;
     std::cout << "\t clk_set_650  - set clock speed to 650 MHz" << std::endl;
     std::cout << "\t clk_set_450  - set clock speed to 450 MHz" << std::endl;
-    std::cout << "\t clk_set_325  - set clock speed to 325 MHz" << std::endl;
-    std::cout << "\t poll_temp    - get time stamped readout of HBM temps" << std::endl
+    std::cout << "\t clk_set_325  - set clock speed to 325 MHz" << std::endl
+              << std::endl;
+    std::cout << "\t sample             - sample data rate from each axi port" << std::endl;
+    std::cout << "\t poll_temp          - get time stamped readout of HBM temps" << std::endl;
+    std::cout << "\t poll_temp_once     - get current temperature" << std::endl;
+    std::cout << "\t run_tests          - polls temp for all configurations" << std::endl
+              << std::endl;
+    std::cout << "\t load_defaults - initializes system with default settings" << std::endl
               << std::endl;
     std::cout << "\t exit - to exit" << std::endl;
 }
@@ -186,7 +194,8 @@ void PrintROHelp()
     std::cout << "\t help               - displays this list" << std::endl;
     std::cout << "\t start              - enables reading / writing test" << std::endl;
     std::cout << "\t stop               - halts reading / writing test" << std::endl;
-    std::cout << "\t poll_temp    - get time stamped readout of HBM temps" << std::endl
+    std::cout << "\t poll_temp          - get time stamped readout of HBM temps" << std::endl;
+    std::cout << "\t poll_temp_once     - get current temperature" << std::endl
               << std::endl;
     std::cout << "\t exit - to exit" << std::endl;
 }
@@ -212,7 +221,7 @@ std::string encodeInstruction(std::string input, std::string mode = "HBM")
         {
             return "8";
         }
-        else if (input == "reset_uart")
+        else if (input == "reset")
         {
             return "@";
         }
@@ -236,7 +245,7 @@ std::string encodeInstruction(std::string input, std::string mode = "HBM")
         {
             return ">";
         }
-        else if (input == "poll_temp")
+        else if (input == "poll_temp" || input == "poll_temp_once")
         {
             return "/";
         }
@@ -261,7 +270,7 @@ std::string encodeInstruction(std::string input, std::string mode = "HBM")
         {
             return "1";
         }
-        else if (input == "reset_uart")
+        else if (input == "reset")
         {
             return "@";
         }
@@ -327,7 +336,7 @@ std::string decodeResponse(std::string response)
     }
     else if (response == "K")
     {
-        return "Reset UART";
+        return "Reset";
     }
     else if (response == "L")
     {
@@ -463,10 +472,19 @@ int StringToInt(std::string str)
     return output;
 }
 
-void Poll_Temp(int fd)
+void PollTempOnce(int fd)
 {
+    std::string response;
+    writeSerialPort(fd, "/"); // Poll
+    response = readSerialPort(fd, false);
+    std::cout << "\t" << StringToInt(response) << " °C" << std::endl;
+}
+
+void PollTemp(int fd, int poll_duration, std::string suffix = "")
+{
+    std::vector<double> rawTemperatureList;
     std::ofstream temperatures;
-    temperatures.open("temperatures.csv");
+    temperatures.open("rawTemperatures" + suffix + ".csv");
     temperatures << "Time,Temperature" << std::endl;
 
     double timeMs = -2000;
@@ -474,16 +492,11 @@ void Poll_Temp(int fd)
     int idleTemp;
     int finalTemp;
     std::string response;
-    std::string poll_duration;
 
-    std::cout << "Poll Duration in seconds: ";
-
-    std::getline(std::cin, poll_duration);
-
-    int poll_cycles = stoi(poll_duration) * 2 + 1;
+    int poll_cycles = poll_duration * 2 + 1;
 
     std::cout << std::endl
-              << "Time Relative to Start  |  Temperature (C)" << std::endl;
+              << "Time Relative to Start  |  Temperature (°C)" << std::endl;
 
     // Pre Start
     for (int i = 0; i < 4; ++i)
@@ -493,7 +506,8 @@ void Poll_Temp(int fd)
         writeSerialPort(fd, "/"); // Poll
         response = readSerialPort(fd, false);
         std::cout << std::fixed << std::setw(22) << std::setprecision(1);
-        std::cout << displayTime << " ->  " << StringToInt(response) << std::endl;
+        std::cout << displayTime << " ->  " << StringToInt(response) << " °C" << std::endl;
+        rawTemperatureList.push_back(StringToInt(response));
 
         temperatures << displayTime << "," << StringToInt(response) << std::endl;
 
@@ -520,8 +534,12 @@ void Poll_Temp(int fd)
         displayTime = timeMs / 1000.0;
         writeSerialPort(fd, "/"); // Poll
         response = readSerialPort(fd, false);
+
+        // Output formatted temperatures
         std::cout << std::fixed << std::setw(22) << std::setprecision(1);
-        std::cout << displayTime << " ->  " << StringToInt(response) << std::endl;
+        std::cout << displayTime << " ->  " << StringToInt(response) << " °C" << std::endl;
+
+        rawTemperatureList.push_back(StringToInt(response));
 
         temperatures << displayTime << "," << StringToInt(response) << std::endl;
 
@@ -534,14 +552,136 @@ void Poll_Temp(int fd)
         }
     }
 
-    std::cout << "Idle Temp:  " << idleTemp << std::endl;
-    std::cout << "Final Temp: " << finalTemp << std::endl;
-    std::cout << "Difference: " << finalTemp - idleTemp << std::endl;
+    std::ofstream dataSummary;
+    dataSummary.open("data_summary" + suffix + ".txt");
+
+    std::cout << "Idle Temp:  " << idleTemp << " °C" << std::endl;
+    std::cout << "Final Temp: " << finalTemp << " °C" << std::endl;
+    std::cout << "Difference: " << finalTemp - idleTemp << " °C" << std::endl
+              << std::endl;
+
+    dataSummary << "Idle Temp:  " << idleTemp << " °C" << std::endl;
+    dataSummary << "Final Temp: " << finalTemp << " °C" << std::endl;
+    dataSummary << "Difference: " << finalTemp - idleTemp << " °C" << std::endl
+                << std::endl;
 
     writeSerialPort(fd, "1"); // Stop
     response = readSerialPort(fd, false);
 
     temperatures.close();
+
+    // Report average degrees per minute and average degrees per second per minute
+
+    int degreesPerMinute;
+
+    if (poll_duration >= 60)
+    {
+        int numCompleteMinutes = (poll_duration - (poll_duration % 60)) / 60;
+
+        for (int i = 0; i < numCompleteMinutes; ++i)
+        {
+            degreesPerMinute = rawTemperatureList[((MINUTE_AMOUNT * (i + 1)) - 2 + ADDRESS_OFFSET)] - rawTemperatureList[((MINUTE_AMOUNT * i) + ADDRESS_OFFSET)];
+            std::cout << std::fixed << std::setprecision(3) << "°C per Minute in Minute: " << i + 1 << "  ->  " << degreesPerMinute << std::endl;
+            std::cout << std::fixed << std::setprecision(3) << "°C per Second in Minute: " << i + 1 << "  ->  " << degreesPerMinute / 60.0 << std::endl
+                      << std::endl;
+
+            dataSummary << std::fixed << std::setprecision(3) << "°C per Minute in Minute: " << i + 1 << "  ->  " << degreesPerMinute << std::endl;
+            dataSummary << std::fixed << std::setprecision(3) << "°C per Second in Minute: " << i + 1 << "  ->  " << degreesPerMinute / 60.0 << std::endl
+                        << std::endl;
+        }
+    }
+
+    dataSummary.close();
+
+    // Create Smoothed Temperature List
+
+    std::vector<double> smoothTemperatureList;
+
+    // Used to keep track of where in rawTemperatureList changes occur
+    std::vector<int> changeIndicies;
+
+    // The following two push_backs are to prevent the idle temps from affecting the active temps during smoothing
+    changeIndicies.push_back(0);
+    changeIndicies.push_back(4);
+
+    int previousRawTemp = rawTemperatureList[5];
+    int currentRawTemp;
+
+    // Find all positive changes in rawTemperatureList and mark them
+    for (int i = 4; i < rawTemperatureList.size(); ++i)
+    {
+        currentRawTemp = rawTemperatureList[i];
+        if (currentRawTemp > previousRawTemp)
+        {
+            changeIndicies.push_back(i);
+        }
+        previousRawTemp = currentRawTemp;
+    }
+    changeIndicies.push_back(rawTemperatureList.size() - 1);
+
+    int previousChangeIndex = changeIndicies[0];
+    int currentChangeIndex;
+    int indexDiff;
+
+    double temperatureIncVal;
+
+    // Create Smooth Values inbetween changes
+    for (int i = 1; i < changeIndicies.size(); ++i)
+    {
+        currentChangeIndex = changeIndicies[i];
+        indexDiff = currentChangeIndex - previousChangeIndex;
+        temperatureIncVal = (rawTemperatureList[currentChangeIndex] - rawTemperatureList[previousChangeIndex]) / static_cast<double>(indexDiff);
+
+        for (int j = 0; j < indexDiff; ++j)
+        {
+            smoothTemperatureList.push_back((rawTemperatureList[previousChangeIndex]) + (temperatureIncVal * j));
+        }
+        previousChangeIndex = currentChangeIndex;
+    }
+    // Add final raw tempurature to the smooth temperatures
+    smoothTemperatureList.push_back(rawTemperatureList[rawTemperatureList.size() - 1]);
+
+    // Create smoothTemperatures.csv
+    std::ofstream smoothTemperaturesCsv;
+    smoothTemperaturesCsv.open("smoothTemperatures" + suffix + ".csv");
+    smoothTemperaturesCsv << "Time,Temperature" << std::endl;
+
+    double listedTime = -2.0;
+
+    for (int i = 0; i < smoothTemperatureList.size(); ++i)
+    {
+        smoothTemperaturesCsv << listedTime << "," << smoothTemperatureList[i] << std::endl;
+        listedTime += 0.5;
+    }
+    smoothTemperaturesCsv.close();
+
+    // Create Rate of Change List
+
+    std::vector<double> rocList;
+
+    double rocPreviousTemp = smoothTemperatureList[0];
+    double rocCurrentTemp;
+    for (int i = 1; i < smoothTemperatureList.size(); ++i)
+    {
+        rocCurrentTemp = smoothTemperatureList[i];
+        rocList.push_back(((rocCurrentTemp - rocPreviousTemp) / 0.5));
+        rocPreviousTemp = rocCurrentTemp;
+    }
+
+    // Create smoothTemperaturesRate.csv
+
+    std::ofstream smoothTemperaturesRate;
+    smoothTemperaturesRate.open("smoothTemperaturesRate" + suffix + ".csv");
+    smoothTemperaturesRate << "Time,Rate" << std::endl;
+
+    listedTime = -2.0;
+    for (int i = 0; i < rocList.size(); ++i)
+    {
+        smoothTemperaturesRate << listedTime << "," << rocList[i] << std::endl;
+        listedTime += 0.5;
+    }
+
+    smoothTemperaturesRate.close();
 }
 
 void Sample(int fd)
@@ -613,6 +753,230 @@ void AddressingMode(int fd, std::string mode)
               << std::endl;
 }
 
+void LoadDefaults(int fd)
+{
+    // queued_read_set
+    writeSerialPort(fd, "5");
+
+    std::string response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+
+    // port_select
+    PortSelect(fd, "FFFFFFFF");
+
+    // address_inc_set
+    AddressingMode(fd, "inc");
+
+    // clk_set_650
+    writeSerialPort(fd, "<");
+
+    // Read and display response
+    response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+}
+
+void Cooldown(int fd)
+{
+    std::string temperatureString;
+    int temperature;
+    writeSerialPort(fd, "/"); // Poll
+    temperatureString = readSerialPort(fd, false);
+    temperature = StringToInt(temperatureString);
+
+    std::cout << std::endl
+              << "Cooling Down..." << std::endl
+              << std::endl;
+
+    while (temperature > 34)
+    {
+        writeSerialPort(fd, "/"); // Poll
+        temperatureString = readSerialPort(fd, false);
+        temperature = StringToInt(temperatureString);
+        std::cout << "\t Current Temp: " << temperature << " °C" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(20000));
+    }
+
+    writeSerialPort(fd, "/"); // Poll
+    temperatureString = readSerialPort(fd, false);
+    temperature = StringToInt(temperatureString);
+
+    std::cout << std::endl
+              << "Verifying Cooldown..." << std::endl;
+
+    while (temperature > 34)
+    {
+        writeSerialPort(fd, "/"); // Poll
+        temperatureString = readSerialPort(fd, false);
+        temperature = StringToInt(temperatureString);
+        std::cout << "\t Current Temp: " << temperature << " °C" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+    }
+
+    std::cout << std::endl
+              << "Cooldown Complete" << std::endl
+              << std::endl;
+}
+
+void RunTests(int fd)
+{
+    std::string clkRate;
+    std::string addressingMode;
+    std::string configuration;
+    std::string testNum;
+    std::string suffix;
+    int pollDuration = 300;
+
+    std::cout << "Test Configuration [HBM, RO, RO_+_HBM]: ";
+    std::getline(std::cin, configuration);
+
+    std::cout << "Test Number: ";
+    std::getline(std::cin, testNum);
+
+    std::cout << "Starting Tests..." << std::endl
+              << std::endl;
+
+    // Initialize
+    //  queued_read_set
+    writeSerialPort(fd, "5");
+
+    std::string response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+
+    // port_select
+    PortSelect(fd, "FFFFFFFF");
+
+    //-----------------------------------------------------------------------
+    // TEST: 325 inc
+    std::cout << "Starting Test: 325 MHz, INC" << std::endl
+              << std::endl;
+
+    // address_inc_set
+    AddressingMode(fd, "inc");
+
+    // clk_set_325
+    writeSerialPort(fd, ">");
+
+    // Read and display response
+    response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+
+    suffix = "325_inc_" + configuration + "_" + testNum;
+    PollTemp(fd, pollDuration, suffix);
+
+    Cooldown(fd);
+
+    //-----------------------------------------------------------------------
+    // TEST: 325 static
+    std::cout << "Starting Test: 325 MHz, STATIC" << std::endl
+              << std::endl;
+
+    // address_inc_set
+    AddressingMode(fd, "static");
+
+    // clk_set_325
+    writeSerialPort(fd, ">");
+
+    // Read and display response
+    response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+
+    suffix = "325_static_" + configuration + "_" + testNum;
+    PollTemp(fd, pollDuration, suffix);
+
+    Cooldown(fd);
+
+    //-----------------------------------------------------------------------
+    // TEST: 450 inc
+    std::cout << "Starting Test: 450 MHz, INC" << std::endl
+              << std::endl;
+
+    // address_inc_set
+    AddressingMode(fd, "inc");
+
+    // clk_set_450
+    writeSerialPort(fd, "=");
+
+    // Read and display response
+    response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+
+    suffix = "450_inc_" + configuration + "_" + testNum;
+    PollTemp(fd, pollDuration, suffix);
+
+    Cooldown(fd);
+
+    //-----------------------------------------------------------------------
+    // TEST: 450 static
+    std::cout << "Starting Test: 450 MHz, STATIC" << std::endl
+              << std::endl;
+
+    // address_inc_set
+    AddressingMode(fd, "static");
+
+    // clk_set_450
+    writeSerialPort(fd, "=");
+
+    // Read and display response
+    response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+
+    suffix = "450_static_" + configuration + "_" + testNum;
+    PollTemp(fd, pollDuration, suffix);
+
+    Cooldown(fd);
+
+    //-----------------------------------------------------------------------
+    // TEST: 650 inc
+    std::cout << "Starting Test: 450 MHz, INC" << std::endl
+              << std::endl;
+
+    // address_inc_set
+    AddressingMode(fd, "inc");
+
+    // clk_set_650
+    writeSerialPort(fd, "<");
+
+    // Read and display response
+    response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+
+    suffix = "650_inc_" + configuration + "_" + testNum;
+    PollTemp(fd, pollDuration, suffix);
+
+    Cooldown(fd);
+
+    //-----------------------------------------------------------------------
+    // TEST: 650 static
+    std::cout << "Starting Test: 450 MHz, STATIC" << std::endl
+              << std::endl;
+
+    // address_inc_set
+    AddressingMode(fd, "static");
+
+    // clk_set_650
+    writeSerialPort(fd, "<");
+
+    // Read and display response
+    response = readSerialPort(fd);
+    std::cout << " - " << decodeResponse(response) << std::endl
+              << std::endl;
+
+    suffix = "650_static_" + configuration + "_" + testNum;
+    PollTemp(fd, pollDuration, suffix);
+
+    std::cout << std::endl
+              << "Tests Complete." << std::endl
+              << std::endl;
+}
+
 int main()
 {
     const char *serialPort = "/dev/ttyUSB2"; // 4 for other port. 2 for main
@@ -627,7 +991,7 @@ int main()
     configureSerialPort(fd, baudRate);
     std::string userInput;
 
-    // Reset UART
+    // Reset
     writeSerialPort(fd, "@");
 
     std::string response = readSerialPort(fd);
@@ -727,14 +1091,29 @@ int main()
                 writeSerialPort(fd, encodedInstruction);
 
                 // Read and display response
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 std::string response = readSerialPort(fd);
                 std::cout << " - " << decodeResponse(response) << std::endl
                           << std::endl;
             }
             else if (args[0] == "poll_temp")
             {
-                Poll_Temp(fd);
+                std::string poll_duration;
+                std::cout << "Poll Duration in seconds: ";
+                std::getline(std::cin, poll_duration);
+
+                PollTemp(fd, stoi(poll_duration));
+            }
+            else if (args[0] == "poll_temp_once")
+            {
+                PollTempOnce(fd);
+            }
+            else if (args[0] == "load_defaults")
+            {
+                LoadDefaults(fd);
+            }
+            else if (args[0] == "run_tests")
+            {
+                RunTests(fd);
             }
             else
             {
@@ -765,7 +1144,15 @@ int main()
         }
         else if (args[0] == "poll_temp")
         {
-            Poll_Temp(fd);
+            std::string poll_duration;
+            std::cout << "Poll Duration in seconds: ";
+            std::getline(std::cin, poll_duration);
+
+            PollTemp(fd, stoi(poll_duration));
+        }
+        else if (args[0] == "poll_temp_once")
+        {
+            PollTempOnce(fd);
         }
         else
         {

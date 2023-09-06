@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/collinlambert/HBM_HEATING/HBM_HEATING/HBM_TERM/build",
+  "command": "/usr/bin/c++ -g -std=gnu++11 -o CMakeFiles/HBM_TERM.dir/main.cpp.o -c /home/collinlambert/HBM_HEATING/HBM_HEATING/HBM_TERM/main.cpp",
+  "file": "/home/collinlambert/HBM_HEATING/HBM_HEATING/HBM_TERM/main.cpp"
+}
+]

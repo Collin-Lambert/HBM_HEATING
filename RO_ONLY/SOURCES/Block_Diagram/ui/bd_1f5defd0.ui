@@ -1,0 +1,38 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"0.638492",
+   "Default View_TopLeft":"-150,-177",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
+#  -string -flagsOSRD
+preplace port port-id_clk -pg 1 -lvl 0 -x 0 -y 230 -defaultsOSRD
+preplace port port-id_resetn -pg 1 -lvl 0 -x 0 -y 450 -defaultsOSRD
+preplace port port-id_USB_UART_RX -pg 1 -lvl 0 -x 0 -y 430 -defaultsOSRD
+preplace port port-id_USB_UART_TX -pg 1 -lvl 5 -x 1450 -y 420 -defaultsOSRD
+preplace port port-id_start -pg 1 -lvl 5 -x 1450 -y 440 -defaultsOSRD
+preplace inst hbm_0 -pg 1 -lvl 3 -x 870 -y 185 -defaultsOSRD -resize 423 327
+preplace inst clk_wiz_0 -pg 1 -lvl 1 -x 120 -y 230 -defaultsOSRD
+preplace inst proc_sys_reset_0 -pg 1 -lvl 2 -x 410 -y 530 -defaultsOSRD
+preplace inst proc_sys_reset_1 -pg 1 -lvl 2 -x 410 -y 330 -defaultsOSRD
+preplace inst TX_RX_LITE_0 -pg 1 -lvl 4 -x 1270 -y 430 -defaultsOSRD
+preplace inst AXI_BLANK_0 -pg 1 -lvl 2 -x 410 -y 60 -defaultsOSRD
+preplace inst AXI_BLANK_1 -pg 1 -lvl 2 -x 410 -y 160 -defaultsOSRD
+preplace netloc Net 1 1 3 210 230 600 410 NJ
+preplace netloc Net1 1 1 2 220 220 590
+preplace netloc Net2 1 2 1 620 271n
+preplace netloc Net3 1 2 1 610 155n
+preplace netloc TX_RX_LITE_0_USB_UART_TX 1 4 1 NJ 420
+preplace netloc TX_RX_LITE_0_start 1 4 1 NJ 440
+preplace netloc USB_UART_RX_1 1 0 4 NJ 430 NJ 430 NJ 430 NJ
+preplace netloc clk_100MHz_1 1 0 1 NJ 230
+preplace netloc hbm_0_DRAM_0_STAT_TEMP 1 3 1 1110 214n
+preplace netloc resetn_1 1 0 2 NJ 450 220
+preplace netloc AXI_BLANK_0_axi 1 2 1 NJ 60
+preplace netloc AXI_BLANK_1_axi 1 2 1 580J 79n
+levelinfo -pg 1 0 120 410 870 1270 1450
+pagesize -pg 1 -db -bbox -sgen -130 0 1580 630
+"
+}
+{
+   "da_board_cnt":"2"
+}

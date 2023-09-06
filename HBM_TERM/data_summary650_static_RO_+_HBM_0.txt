@@ -1,0 +1,19 @@
+Idle Temp:  34 °C
+Final Temp: 84 °C
+Difference: 50 °C
+
+°C per Minute in Minute: 1  ->  41
+°C per Second in Minute: 1  ->  0.683
+
+°C per Minute in Minute: 2  ->  7
+°C per Second in Minute: 2  ->  0.117
+
+°C per Minute in Minute: 3  ->  1
+°C per Second in Minute: 3  ->  0.017
+
+°C per Minute in Minute: 4  ->  2
+°C per Second in Minute: 4  ->  0.033
+
+°C per Minute in Minute: 5  ->  -2
+°C per Second in Minute: 5  ->  -0.033
+
