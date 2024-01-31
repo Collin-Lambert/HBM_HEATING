@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>user.org</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>TX_RX_LITE</spirit:name>
+  <spirit:version>1.1</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>clk</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave>
+        <spirit:memoryMapRef spirit:memoryMapRef="clk"/>
+      </spirit:slave>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>clk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:memoryMaps>
+    <spirit:memoryMap>
+      <spirit:name>clk</spirit:name>
+    </spirit:memoryMap>
+  </spirit:memoryMaps>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>TX_RX_LITE</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>f1f1ec82</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>TX_RX_LITE</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>f1f1ec82</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>f92e9879</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>clk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>USB_UART_RX</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>temperature_transaction_complete</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>hbm_temperature</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">6</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>fpga_temperature</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>USB_UART_TX</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>temperature_transact</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>start</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+  </spirit:model>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>BaudTimer.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>BitCounter.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>BitCounter_RX.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>rx.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>tx.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>TX_RX.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_e785722d</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>BaudTimer.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>BitCounter.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>BitCounter_RX.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>rx.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>tx.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>TX_RX.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/TX_RX_LITE_v1_1.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_f92e9879</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>TX_RX_LITE_v1_1</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">TX_RX_v1_0</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">versal</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artixuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>TX_RX_LITE_v1_1</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:upgrades>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.0</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.5</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.6</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.7</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.8</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.9</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.10</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.10.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.11</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.13</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.5</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.6</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.7</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.15.8</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.16</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.17</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.17.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.17.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.17.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.17.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.18</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.18.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.18.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.18.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.18.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.18.5</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.18.6</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:1.18.7</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.0</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.1.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.1.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.1.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.1.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.1.5</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.1.6</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.2.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.2.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.2.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.3.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.3.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.3.3</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.3.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.4.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.4.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.4.4</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.4.5</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:2.4.6</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:3.0</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:3.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:3.1.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX:3.2</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TX_RX_LITE:1.0</xilinx:canUpgradeFrom>
+      </xilinx:upgrades>
+      <xilinx:coreCreationDateTime>2023-11-28T21:11:14Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="nopcore"/>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@561e7291_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72c56b26_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7db21694_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@568c5adf_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74cf1e0a_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63053194_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e5d83e3_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e325ce_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a8f6ebc_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@542e60ef_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@37a81284_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7bc9a102_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@65fa4854_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5145b70e_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@241ef9fa_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75203aca_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26f4cd1e_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@35775cb1_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3fb43a13_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e5637c7_ARCHIVE_LOCATION">/home/collinlambert/HBM_HEATING-OCT-20/HBM_HEATING-main/RO_ONLY/RO_IPs/TX_RX_LITE</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="9e68ecf6"/>
+      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="e178f9e6"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="e3276ec5"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="6fb1ff1a"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="85d7f697"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>

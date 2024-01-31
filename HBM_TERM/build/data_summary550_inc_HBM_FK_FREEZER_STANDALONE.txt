@@ -1,0 +1,68 @@
+FGPA Idle Temp:  -33.4076 °C
+FPGA Final Temp: -1.57544 °C
+FPGA Difference: 31.8321 °C
+
+HBM Idle Temp:  0 °C
+HBM Final Temp: 5 °C
+HBM Difference: 5 °C
+
+FPGA °C per Minute in Minute: 1  ->  5
+FPGA °C per Second in Minute: 1  ->  0.083
+
+HBM °C per Minute in Minute: 1  ->  0
+HBM °C per Second in Minute: 1  ->  0.000
+
+FPGA °C per Minute in Minute: 2  ->  3
+FPGA °C per Second in Minute: 2  ->  0.050
+
+HBM °C per Minute in Minute: 2  ->  0
+HBM °C per Second in Minute: 2  ->  0.000
+
+FPGA °C per Minute in Minute: 3  ->  4
+FPGA °C per Second in Minute: 3  ->  0.067
+
+HBM °C per Minute in Minute: 3  ->  0
+HBM °C per Second in Minute: 3  ->  0.000
+
+FPGA °C per Minute in Minute: 4  ->  4
+FPGA °C per Second in Minute: 4  ->  0.067
+
+HBM °C per Minute in Minute: 4  ->  0
+HBM °C per Second in Minute: 4  ->  0.000
+
+FPGA °C per Minute in Minute: 5  ->  1
+FPGA °C per Second in Minute: 5  ->  0.017
+
+HBM °C per Minute in Minute: 5  ->  0
+HBM °C per Second in Minute: 5  ->  0.000
+
+FPGA °C per Minute in Minute: 6  ->  3
+FPGA °C per Second in Minute: 6  ->  0.050
+
+HBM °C per Minute in Minute: 6  ->  0
+HBM °C per Second in Minute: 6  ->  0.000
+
+FPGA °C per Minute in Minute: 7  ->  1
+FPGA °C per Second in Minute: 7  ->  0.017
+
+HBM °C per Minute in Minute: 7  ->  0
+HBM °C per Second in Minute: 7  ->  0.000
+
+FPGA °C per Minute in Minute: 8  ->  1
+FPGA °C per Second in Minute: 8  ->  0.017
+
+HBM °C per Minute in Minute: 8  ->  2
+HBM °C per Second in Minute: 8  ->  0.033
+
+FPGA °C per Minute in Minute: 9  ->  2
+FPGA °C per Second in Minute: 9  ->  0.033
+
+HBM °C per Minute in Minute: 9  ->  2
+HBM °C per Second in Minute: 9  ->  0.033
+
+FPGA °C per Minute in Minute: 10  ->  2
+FPGA °C per Second in Minute: 10  ->  0.033
+
+HBM °C per Minute in Minute: 10  ->  2
+HBM °C per Second in Minute: 10  ->  0.033
+

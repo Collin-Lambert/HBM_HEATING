@@ -1,0 +1,8 @@
+FGPA Idle Temp:  27.1015 °C
+FPGA Final Temp: 26.6196 °C
+FPGA Difference: -0.481834 °C
+
+HBM Idle Temp:  27 °C
+HBM Final Temp: 27 °C
+HBM Difference: 0 °C
+

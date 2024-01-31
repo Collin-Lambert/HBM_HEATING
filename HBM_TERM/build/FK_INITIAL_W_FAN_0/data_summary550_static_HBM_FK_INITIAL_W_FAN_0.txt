@@ -1,0 +1,38 @@
+FGPA Idle Temp:  32.184 °C
+FPGA Final Temp: 33.9715 °C
+FPGA Difference: 1.78745 °C
+
+HBM Idle Temp:  32 °C
+HBM Final Temp: 43 °C
+HBM Difference: 11 °C
+
+°C per Minute in Minute: 1  ->  0
+°C per Second in Minute: 1  ->  0.000
+
+°C per Minute in Minute: 1  ->  9
+°C per Second in Minute: 1  ->  0.150
+
+°C per Minute in Minute: 2  ->  -6
+°C per Second in Minute: 2  ->  -0.100
+
+°C per Minute in Minute: 2  ->  0
+°C per Second in Minute: 2  ->  0.000
+
+°C per Minute in Minute: 3  ->  -9
+°C per Second in Minute: 3  ->  -0.150
+
+°C per Minute in Minute: 3  ->  1
+°C per Second in Minute: 3  ->  0.017
+
+°C per Minute in Minute: 4  ->  -7
+°C per Second in Minute: 4  ->  -0.117
+
+°C per Minute in Minute: 4  ->  1
+°C per Second in Minute: 4  ->  0.017
+
+°C per Minute in Minute: 5  ->  -7
+°C per Second in Minute: 5  ->  -0.117
+
+°C per Minute in Minute: 5  ->  1
+°C per Second in Minute: 5  ->  0.017
+
